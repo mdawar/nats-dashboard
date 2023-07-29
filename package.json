@@ -1,0 +1,16 @@
+{
+  "name": "natsdashboard",
+  "version": "1.0.0",
+  "description": "NATS Web Dashboard",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "author": "Pierre Mdawar <pierre@mdawar.dev>",
+  "license": "MIT",
+  "dependencies": {
+    "astro": "^2.9.6"
+  }
+}
