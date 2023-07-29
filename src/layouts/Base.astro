@@ -1,0 +1,19 @@
+---
+import '~/styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NATS Web Dashboard</title>
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="bg-slate-100 text-gray-700 dark:bg-slate-900 dark:text-slate-300">
+    <div class="container mx-auto">
+      <main>
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
