@@ -6,11 +6,18 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "prebuild": "astro check && tsc --noEmit",
+    "preview": "astro preview",
+    "format": "prettier --write \"./src\""
   },
   "author": "Pierre Mdawar <pierre@mdawar.dev>",
   "license": "MIT",
   "dependencies": {
     "astro": "^2.9.6"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "prettier-plugin-astro": "^0.11.0",
+    "typescript": "^5.1.6"
   }
 }
