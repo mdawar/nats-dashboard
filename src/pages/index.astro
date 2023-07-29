@@ -1,0 +1,12 @@
+---
+import Hello from '~/components/Hello.astro';
+import Counter from '~/components/Counter';
+---
+
+<html>
+  <body>
+    <h1>NATS Dashboard</h1>
+    <Hello name="Astro" />
+    <Counter client:visible />
+  </body>
+</html>

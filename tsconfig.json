@@ -5,6 +5,9 @@
     "paths": {
       "~/*": ["src/*"]
     },
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    // Solid.js config
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }
