@@ -4,6 +4,12 @@ import solid from '@astrojs/solid-js';
 
 // https://astro.build/config
 export default defineConfig({
+  build: {
+    // Generate an HTML file for each page.
+    format: 'file',
+    // Directory name of the Astro generated assets (JS and CSS)
+    assets: 'assets',
+  },
   integrations: [
     solid(),
     tailwind({
