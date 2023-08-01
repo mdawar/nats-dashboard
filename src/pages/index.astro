@@ -1,11 +1,12 @@
 ---
 import Layout from '~/layouts/Base.astro';
-import Hello from '~/components/Hello.astro';
-import Counter from '~/components/Counter';
+import Navigation from '~/components/Navigation';
+import MainInfo from '~/components/MainInfo';
+import Stats from '~/components/Stats';
 ---
 
 <Layout>
-  <h1>NATS Dashboard</h1>
-  <Hello name="Astro" />
-  <Counter client:visible />
+  <Navigation />
+  <MainInfo />
+  <Stats />
 </Layout>

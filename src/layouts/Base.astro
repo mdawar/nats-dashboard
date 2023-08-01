@@ -1,19 +1,28 @@
 ---
 import '~/styles/global.css';
+import Sidebar from '~/components/Sidebar';
+import InputHeader from '~/components/InputHeader';
 ---
 
-<html lang="en">
+<html lang="en" class="h-full dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NATS Web Dashboard</title>
     <meta name="generator" content={Astro.generator} />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
   </head>
-  <body class="bg-slate-100 text-gray-700 dark:bg-slate-900 dark:text-slate-300">
-    <div class="container mx-auto">
-      <main>
-        <slot />
-      </main>
+  <body class="h-full bg-white dark:bg-gray-900">
+    <div>
+      <Sidebar client:visible />
+
+      <div class="lg:pl-72">
+        <InputHeader />
+
+        <main>
+          <slot />
+        </main>
+      </div>
     </div>
   </body>
 </html>
