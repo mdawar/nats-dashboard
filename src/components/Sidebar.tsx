@@ -10,14 +10,6 @@ export default function Sidebar() {
   );
 }
 
-// TODO: check if dark theme is already applied
-const [darkMode, setDarkMode] = createSignal(false);
-
-const toggleTheme = () => {
-  document.documentElement.classList.toggle('dark');
-  setDarkMode((d) => !d);
-};
-
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
 function MobileSidebar() {
   const [display, setDisplay] = useDisplayMobileMenu();
@@ -104,6 +96,14 @@ function DesktopSidebar() {
 }
 
 function Menu() {
+  // TODO: check if dark theme is already applied
+  const [darkMode, setDarkMode] = createSignal(false);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle('dark');
+    setDarkMode((d) => !d);
+  };
+
   return (
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white dark:border-none dark:bg-black/10 dark:ring-1 dark:ring-white/5 px-6 pb-4">
       <div class="flex h-16 shrink-0 items-center">
