@@ -1,5 +1,7 @@
 import { Show, createSignal } from 'solid-js';
 import { useDisplayMobileMenu } from '~/lib/state';
+import natsIconBlack from '~/assets/nats-icon-black.svg';
+import natsIconWhite from '~/assets/nats-icon-white.svg';
 
 export default function Sidebar() {
   return (
@@ -106,18 +108,15 @@ function Menu() {
 
   return (
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white dark:border-none dark:bg-black/10 dark:ring-1 dark:ring-white/5 px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center">
-        <img
-          class="h-8 w-auto dark:hidden"
-          src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=600"
-          alt="NATS Dashboard"
-        />
+      <a href="/" class="flex gap-4 h-16 shrink-0 items-center">
+        <img class="h-8 w-auto dark:hidden" src={natsIconBlack} alt="NATS" />
         <img
           class="h-8 w-auto hidden dark:block"
-          src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=500"
-          alt="NATS Dashboard"
+          src={natsIconWhite}
+          alt="NATS"
         />
-      </div>
+        <h1 class="text-gray-900 dark:text-white font-bold">Dashboard</h1>
+      </a>
 
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
