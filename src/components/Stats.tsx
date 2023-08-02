@@ -1,4 +1,8 @@
+import { useServerInfo } from '~/lib/state';
+
 export default function Stats() {
+  const [info] = useServerInfo();
+
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color
   return (
@@ -11,7 +15,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                3%
+                {info().cpu}%
               </span>
             </p>
           </div>
@@ -23,7 +27,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                21.3
+                {info().mem}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">MiB</span>
             </p>
@@ -36,7 +40,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                32
+                {info().connections}
               </span>
             </p>
           </div>
@@ -48,7 +52,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                293,218
+                {info().total_connections}
               </span>
             </p>
           </div>
@@ -60,7 +64,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                227
+                {info().subscriptions}
               </span>
             </p>
           </div>
@@ -72,7 +76,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                9
+                {info().slow_consumers}
               </span>
             </p>
           </div>
