@@ -1,13 +1,26 @@
 import { createSignal } from 'solid-js';
 import { useDisplayMobileMenu } from '~/lib/state';
+import { jsonp, FetchError, TimeoutError } from '~/lib/jsonp';
 
 export default function InputHeader() {
   const [serverURL, setServerURL] = createSignal('');
   const [_, setDisplay] = useDisplayMobileMenu();
 
-  const onSubmit = (e: Event) => {
+  const onSubmit = async (e: Event) => {
     e.preventDefault();
-    console.log(serverURL());
+
+    try {
+      const response = await jsonp(serverURL() + '/varz');
+      console.log(response);
+    } catch (error: unknown) {
+      if (error instanceof FetchError) {
+        console.log('Fetch error:', error);
+      } else if (error instanceof TimeoutError) {
+        console.log('Timeout error:', error);
+      } else {
+        console.log('Other error:', error);
+      }
+    }
   };
 
   return (
