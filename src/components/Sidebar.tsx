@@ -1,4 +1,5 @@
 import { Show, createSignal } from 'solid-js';
+import { useDisplayMobileMenu } from '~/lib/state';
 
 export default function Sidebar() {
   return (
@@ -19,9 +20,15 @@ const toggleTheme = () => {
 
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
 function MobileSidebar() {
-  // TODO: remove hidden and add state for the menu
+  const [display, setDisplay] = useDisplayMobileMenu();
+
   return (
-    <div class="hidden relative z-50 lg:hidden" role="dialog" aria-modal="true">
+    <div
+      class="relative z-50 lg:hidden"
+      classList={{ hidden: !display() }}
+      role="dialog"
+      aria-modal="true"
+    >
       {/*
       Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -58,7 +65,11 @@ function MobileSidebar() {
               To: "opacity-0"
             */}
           <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-            <button type="button" class="-m-2.5 p-2.5">
+            <button
+              type="button"
+              class="-m-2.5 p-2.5"
+              onClick={() => setDisplay(false)}
+            >
               <span class="sr-only">Close sidebar</span>
               <svg
                 class="h-6 w-6 text-white"

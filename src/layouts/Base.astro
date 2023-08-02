@@ -14,10 +14,10 @@ import InputHeader from '~/components/InputHeader';
   </head>
   <body class="h-full bg-white dark:bg-gray-900">
     <div>
-      <Sidebar client:visible />
+      <Sidebar client:load />
 
       <div class="lg:pl-72">
-        <InputHeader />
+        <InputHeader client:visible />
 
         <main>
           <slot />

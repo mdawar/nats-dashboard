@@ -1,9 +1,14 @@
+import { useDisplayMobileMenu } from '~/lib/state';
+
 export default function InputHeader() {
+  const [_, setDisplay] = useDisplayMobileMenu();
+
   return (
     <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white dark:border-white/5 dark:bg-gray-900 px-4 sm:gap-x-6 sm:px-6 lg:px-8">
       <button
         type="button"
         class="-m-2.5 p-2.5 text-gray-700 dark:text-white lg:hidden"
+        onClick={() => setDisplay(true)}
       >
         <span class="sr-only">Open sidebar</span>
         <svg
