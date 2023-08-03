@@ -52,3 +52,9 @@ export function abbreviateNum(n: number): AbbreviatedNumber {
     unit: suffixes[suffixNum],
   };
 }
+
+/** Format the server uptime string (adds spaces after the letters). */
+export function formatUptime(uptime: string): string {
+  const parts = uptime.match(/\d+\D+/g);
+  return parts ? parts.join(' ') : '';
+}

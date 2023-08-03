@@ -1,4 +1,5 @@
 import { useServerStats } from '~/lib/state';
+import { formatUptime } from '~/lib/utils';
 
 export default function MainInfo() {
   const [stats] = useServerStats();
@@ -17,7 +18,7 @@ export default function MainInfo() {
             </span>
             <span class="text-gray-600">/</span>
             <span class="font-semibold text-gray-900 dark:text-white">
-              {stats().varz?.uptime}
+              {formatUptime(stats().varz?.uptime ?? '')}
             </span>
           </h1>
         </div>
