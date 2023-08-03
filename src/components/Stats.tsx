@@ -1,10 +1,19 @@
+import { Show } from 'solid-js';
 import { useServerStats } from '~/lib/state';
-import { formatBytes } from '~/lib/utils';
+import { formatBytes, abbreviateNum } from '~/lib/utils';
 
 export default function Stats() {
   const [info] = useServerStats();
 
-  const memory = () => formatBytes(info().mem);
+  const memory = () => formatBytes(info().mem ?? 0);
+  const conns = () => abbreviateNum(info().connections ?? 0);
+  const totalConns = () => abbreviateNum(info().total_connections ?? 0);
+  const subs = () => abbreviateNum(info().subscriptions ?? 0);
+  const slowCons = () => abbreviateNum(info().slow_consumers ?? 0);
+  const inMsgs = () => abbreviateNum(info().in_msgs ?? 0);
+  const outMsgs = () => abbreviateNum(info().out_msgs ?? 0);
+  const inBytes = () => formatBytes(info().in_bytes ?? 0);
+  const outBytes = () => formatBytes(info().out_bytes ?? 0);
 
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color
@@ -45,8 +54,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {info().connections}
+                {conns().str}
               </span>
+              <Show when={conns().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {conns().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -57,8 +71,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {info().total_connections}
+                {totalConns().str}
               </span>
+              <Show when={totalConns().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {totalConns().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -69,8 +88,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {info().subscriptions}
+                {subs().str}
               </span>
+              <Show when={subs().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {subs().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -81,8 +105,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {info().slow_consumers}
+                {slowCons().str}
               </span>
+              <Show when={slowCons().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {slowCons().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -96,9 +125,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                512.59
+                {inMsgs().str}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">M</span>
+              <Show when={inMsgs().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {inMsgs().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -109,9 +142,13 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                418.42
+                {outMsgs().str}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">K</span>
+              <Show when={outMsgs().unit}>
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  {outMsgs().unit}
+                </span>
+              </Show>
             </p>
           </div>
         </div>
@@ -122,9 +159,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                12.34
+                {inBytes().str}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">GiB</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {inBytes().unit}
+              </span>
             </p>
           </div>
         </div>
@@ -135,9 +174,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                11.12
+                {outBytes().str}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">GiB</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {outBytes().unit}
+              </span>
             </p>
           </div>
         </div>
