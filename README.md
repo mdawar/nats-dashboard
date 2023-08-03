@@ -4,6 +4,7 @@ A web dashboard to display the NATS monitoring metrics.
 
 ## TODO
 
+- [ ] Encapsulate last server stats cache
 - [ ] Customize the polling time
 - [ ] Display raw numbers/bytes
 - [ ] Add empty state when no server URL is set

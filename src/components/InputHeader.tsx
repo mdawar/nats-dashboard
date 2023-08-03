@@ -15,8 +15,8 @@ export default function InputHeader() {
     if (!monitor()) return;
 
     try {
-      const { varz } = await fetchStats(serverURL());
-      setServerStats(varz);
+      const stats = await fetchStats(serverURL());
+      setServerStats(stats);
       timeoutID = setTimeout(startMonitoring, 1000); // Schedule next call.
     } catch (error: unknown) {
       // TODO: should not stop on first error (Maybe user defined option).

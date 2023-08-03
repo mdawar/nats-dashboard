@@ -5,7 +5,12 @@ export interface ServerStats {
   responseTime: number;
   // General server information.
   varz: any;
+  // Previous request's data.
+  lastVarz?: any;
 }
+
+// TODO: temporary
+const cache = new Map<string, any>();
 
 /** Fetch NATS server stats. */
 export async function fetchStats(url: string): Promise<ServerStats> {
@@ -13,10 +18,13 @@ export async function fetchStats(url: string): Promise<ServerStats> {
   const varz = await jsonp(`${url}/varz`);
   const end = performance.now();
 
-  const responseTime = end - start;
-
-  return {
-    responseTime,
+  const stats = {
+    responseTime: end - start,
     varz,
+    lastVarz: cache.get(url) ?? {},
   };
+
+  cache.set(url, varz);
+
+  return stats;
 }
