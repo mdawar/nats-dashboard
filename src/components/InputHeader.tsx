@@ -8,32 +8,40 @@ export default function InputHeader() {
   const [_, setServerInfo] = useServerInfo();
   const [__, setDisplay] = useDisplayMobileMenu();
 
-  let intervalID: number;
+  let timeoutID: number;
+
+  const startMonitoring = async () => {
+    if (!monitor()) return;
+
+    try {
+      const response = await jsonp(`${serverURL()}/varz`);
+      setServerInfo(response);
+      timeoutID = setTimeout(startMonitoring, 1000); // Schedule next call.
+    } catch (error: unknown) {
+      // TODO: should not stop on first error (Maybe user defined option).
+      setMonitor(false);
+
+      if (error instanceof FetchError) {
+        console.log('Fetch error:', error);
+      } else if (error instanceof TimeoutError) {
+        console.log('Timeout error:', error);
+      } else {
+        console.log('Other error:', error);
+      }
+    }
+  };
+
+  const stopMonitoring = () => clearTimeout(timeoutID);
 
   createEffect(() => {
     if (monitor()) {
-      intervalID = setInterval(async () => {
-        try {
-          const response = await jsonp(`${serverURL()}/varz`);
-          setServerInfo(response);
-        } catch (error: unknown) {
-          setMonitor(false);
-
-          if (error instanceof FetchError) {
-            console.log('Fetch error:', error);
-          } else if (error instanceof TimeoutError) {
-            console.log('Timeout error:', error);
-          } else {
-            console.log('Other error:', error);
-          }
-        }
-      }, 1000);
+      startMonitoring();
     } else {
-      clearInterval(intervalID);
+      stopMonitoring();
     }
   });
 
-  onCleanup(() => clearInterval(intervalID));
+  onCleanup(stopMonitoring);
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
