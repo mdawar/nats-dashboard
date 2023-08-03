@@ -1,11 +1,12 @@
 import { Show, createEffect, createSignal, onCleanup } from 'solid-js';
-import { useDisplayMobileMenu, useServerInfo } from '~/lib/state';
-import { jsonp, FetchError, TimeoutError } from '~/lib/jsonp';
+import { useDisplayMobileMenu, useServerStats } from '~/lib/state';
+import { FetchError, TimeoutError } from '~/lib/jsonp';
+import { fetchStats } from '~/lib/stats';
 
 export default function InputHeader() {
   const [monitor, setMonitor] = createSignal(false);
   const [serverURL, setServerURL] = createSignal('');
-  const [_, setServerInfo] = useServerInfo();
+  const [_, setServerStats] = useServerStats();
   const [__, setDisplay] = useDisplayMobileMenu();
 
   let timeoutID: number;
@@ -14,8 +15,8 @@ export default function InputHeader() {
     if (!monitor()) return;
 
     try {
-      const response = await jsonp(`${serverURL()}/varz`);
-      setServerInfo(response);
+      const { varz } = await fetchStats(serverURL());
+      setServerStats(varz);
       timeoutID = setTimeout(startMonitoring, 1000); // Schedule next call.
     } catch (error: unknown) {
       // TODO: should not stop on first error (Maybe user defined option).

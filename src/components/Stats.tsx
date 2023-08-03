@@ -1,7 +1,7 @@
-import { useServerInfo } from '~/lib/state';
+import { useServerStats } from '~/lib/state';
 
 export default function Stats() {
-  const [info] = useServerInfo();
+  const [info] = useServerStats();
 
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color

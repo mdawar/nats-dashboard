@@ -6,8 +6,9 @@ export function useDisplayMobileMenu() {
   return mobileMenuSignal;
 }
 
-const serverInfo = createSignal<any>({});
+// TODO: use types
+const serverStats = createSignal<any>({});
 
-export function useServerInfo() {
-  return serverInfo;
+export function useServerStats() {
+  return serverStats;
 }

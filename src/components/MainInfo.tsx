@@ -1,7 +1,7 @@
-import { useServerInfo } from '~/lib/state';
+import { useServerStats } from '~/lib/state';
 
 export default function MainInfo() {
-  const [info] = useServerInfo();
+  const [info] = useServerStats();
 
   return (
     <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
@@ -22,8 +22,10 @@ export default function MainInfo() {
           </h1>
         </div>
         <p class="mt-2 text-xs leading-6 text-gray-500 dark:text-gray-400">
-          <span class="font-semibold">Server ID</span>:
-          <span class="break-all ml-1">{info().server_id}</span>
+          <span class="font-semibold text-gray-900 dark:text-white">
+            Server ID
+          </span>
+          :<span class="break-all ml-1">{info().server_id}</span>
         </p>
       </div>
 
