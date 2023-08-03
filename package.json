@@ -15,13 +15,13 @@
   "dependencies": {
     "@astrojs/solid-js": "^2.2.0",
     "@astrojs/tailwind": "^4.0.0",
-    "astro": "^2.9.7",
+    "astro": "^2.10.0",
     "solid-js": "^1.7.8",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.4",
-    "prettier": "^3.0.0",
+    "prettier": "^3.0.1",
     "prettier-plugin-astro": "^0.11.0",
     "typescript": "^5.1.6"
   }
