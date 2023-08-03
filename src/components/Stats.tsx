@@ -1,7 +1,10 @@
 import { useServerStats } from '~/lib/state';
+import { formatBytes } from '~/lib/utils';
 
 export default function Stats() {
   const [info] = useServerStats();
+
+  const memory = () => formatBytes(info().mem);
 
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color
@@ -27,9 +30,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {info().mem}
+                {memory().str}
               </span>
-              <span class="text-sm text-gray-500 dark:text-gray-400">MiB</span>
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {memory().unit}
+              </span>
             </p>
           </div>
         </div>
