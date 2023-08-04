@@ -1,4 +1,4 @@
-import { Show, createEffect } from 'solid-js';
+import { Show } from 'solid-js';
 import { useServerStats } from '~/lib/state';
 import { formatBytes, abbreviateNum } from '~/lib/utils';
 
