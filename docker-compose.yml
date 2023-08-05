@@ -1,0 +1,11 @@
+services:
+  server:
+    image: nats:latest
+    command: -n local-demo-server -m 8222
+    ports:
+      - target: 4222
+        published: 4222
+        protocol: tcp
+      - target: 8222
+        published: 8222
+        protocol: tcp

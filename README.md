@@ -12,6 +12,30 @@ A web dashboard to display the NATS monitoring metrics.
 - [ ] Save theme preference
 - [ ] Check if dark mode is already set
 
+## Development
+
+#### Run a local NATS server
+
+```sh
+# Start a NATS server using Docker compose
+make server
+# Remove containers and volumes
+make clean
+```
+
+#### Run the web app in dev mode
+
+```sh
+npm start
+```
+
+## Build the Web App
+
+```sh
+# Build a static web app to ./dist
+npm run build
+```
+
 ## Credits
 
 - [Astro](https://astro.build/): Web Framework
