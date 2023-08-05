@@ -85,28 +85,28 @@ export function formatStats(stats: any): FormattedStats {
     lastVarz?.in_msgs !== undefined ? varz.in_msgs - lastVarz?.in_msgs : 0;
 
   const inMsgsRate = abbreviateNum(
-    timeDeltaSec > 0 ? inMsgsDelta / timeDeltaSec : 0
+    timeDeltaSec > 0 ? Math.max(inMsgsDelta, 0) / timeDeltaSec : 0
   );
 
   const outMsgsDelta =
     lastVarz?.out_msgs !== undefined ? varz.out_msgs - lastVarz.out_msgs : 0;
 
   const outMsgsRate = abbreviateNum(
-    timeDeltaSec > 0 ? outMsgsDelta / timeDeltaSec : 0
+    timeDeltaSec > 0 ? Math.max(outMsgsDelta, 0) / timeDeltaSec : 0
   );
 
   const inBytesDelta =
     lastVarz?.in_bytes !== undefined ? varz.in_bytes - lastVarz.in_bytes : 0;
 
   const inBytesRate = formatBytes(
-    timeDeltaSec > 0 ? inBytesDelta / timeDeltaSec : 0
+    timeDeltaSec > 0 ? Math.max(inBytesDelta, 0) / timeDeltaSec : 0
   );
 
   const outBytesDelta =
     lastVarz?.out_bytes !== undefined ? varz.out_bytes - lastVarz.out_bytes : 0;
 
   const outBytesRate = formatBytes(
-    timeDeltaSec > 0 ? outBytesDelta / timeDeltaSec : 0
+    timeDeltaSec > 0 ? Math.max(outBytesDelta, 0) / timeDeltaSec : 0
   );
 
   return {
