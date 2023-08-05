@@ -72,62 +72,54 @@ export interface FormattedStats {
 
 // TODO: use Varz type
 export function formatStats(stats: any): FormattedStats {
+  const { varz, lastVarz } = stats;
+
   // Time delta between the current and previous request in milliseconds.
   // Using the server reported time instead of request time.
-  const timeDeltaMs = stats.lastVarz?.now
-    ? msTimeDiff(stats.varz.now, stats.lastVarz.now)
-    : 0;
+  const timeDeltaMs = lastVarz?.now ? msTimeDiff(varz.now, lastVarz.now) : 0;
 
   // Time delta in seconds.
   const timeDeltaSec = timeDeltaMs / 1000;
 
   const inMsgsDelta =
-    stats.lastVarz?.in_msgs !== undefined
-      ? stats.varz.in_msgs - stats.lastVarz?.in_msgs
-      : 0;
+    lastVarz?.in_msgs !== undefined ? varz.in_msgs - lastVarz?.in_msgs : 0;
 
   const inMsgsRate = abbreviateNum(
     timeDeltaSec > 0 ? inMsgsDelta / timeDeltaSec : 0
   );
 
   const outMsgsDelta =
-    stats.lastVarz?.out_msgs !== undefined
-      ? stats.varz.out_msgs - stats.lastVarz.out_msgs
-      : 0;
+    lastVarz?.out_msgs !== undefined ? varz.out_msgs - lastVarz.out_msgs : 0;
 
   const outMsgsRate = abbreviateNum(
     timeDeltaSec > 0 ? outMsgsDelta / timeDeltaSec : 0
   );
 
   const inBytesDelta =
-    stats.lastVarz?.in_bytes !== undefined
-      ? stats.varz.in_bytes - stats.lastVarz.in_bytes
-      : 0;
+    lastVarz?.in_bytes !== undefined ? varz.in_bytes - lastVarz.in_bytes : 0;
 
   const inBytesRate = formatBytes(
     timeDeltaSec > 0 ? inBytesDelta / timeDeltaSec : 0
   );
 
   const outBytesDelta =
-    stats.lastVarz?.out_bytes !== undefined
-      ? stats.varz.out_bytes - stats.lastVarz.out_bytes
-      : 0;
+    lastVarz?.out_bytes !== undefined ? varz.out_bytes - lastVarz.out_bytes : 0;
 
   const outBytesRate = formatBytes(
     timeDeltaSec > 0 ? outBytesDelta / timeDeltaSec : 0
   );
 
   return {
-    cpu: stats.varz?.cpu ?? 0,
-    memory: formatBytes(stats.varz?.mem ?? 0),
-    conns: abbreviateNum(stats.varz?.connections ?? 0),
-    totalConns: abbreviateNum(stats.varz?.total_connections ?? 0),
-    subs: abbreviateNum(stats.varz?.subscriptions ?? 0),
-    slowCons: abbreviateNum(stats.varz?.slow_consumers ?? 0),
-    inMsgs: abbreviateNum(stats.varz?.in_msgs ?? 0),
-    outMsgs: abbreviateNum(stats.varz?.out_msgs ?? 0),
-    inBytes: formatBytes(stats.varz?.in_bytes ?? 0),
-    outBytes: formatBytes(stats.varz?.out_bytes ?? 0),
+    cpu: varz?.cpu ?? 0,
+    memory: formatBytes(varz?.mem ?? 0),
+    conns: abbreviateNum(varz?.connections ?? 0),
+    totalConns: abbreviateNum(varz?.total_connections ?? 0),
+    subs: abbreviateNum(varz?.subscriptions ?? 0),
+    slowCons: abbreviateNum(varz?.slow_consumers ?? 0),
+    inMsgs: abbreviateNum(varz?.in_msgs ?? 0),
+    outMsgs: abbreviateNum(varz?.out_msgs ?? 0),
+    inBytes: formatBytes(varz?.in_bytes ?? 0),
+    outBytes: formatBytes(varz?.out_bytes ?? 0),
     timeDelta: timeDeltaMs,
     inMsgsRate,
     outMsgsRate,
