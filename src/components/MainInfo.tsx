@@ -5,7 +5,7 @@ export default function MainInfo() {
   const [stats] = useServerStats();
 
   return (
-    <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
+    <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8 tabular-nums">
       <div>
         <div class="flex items-center gap-x-3">
           <div class="flex-none rounded-full bg-emerald-500/20 text-emerald-500 dark:bg-green-400/10 dark:text-green-400 p-1">
