@@ -1,4 +1,4 @@
-interface FormattedBytes {
+export interface FormattedBytes {
   str: string;
   unit: string;
 }
@@ -29,7 +29,7 @@ export function formatBytes(bytes: number): FormattedBytes {
   };
 }
 
-interface AbbreviatedNumber {
+export interface AbbreviatedNumber {
   str: string;
   unit: string | undefined;
 }

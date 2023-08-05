@@ -1,81 +1,11 @@
 import { Show } from 'solid-js';
 import { useServerStats } from '~/lib/state';
+import { formatStats } from '~/lib/stats';
 import { formatBytes, abbreviateNum, msTimeDiff } from '~/lib/utils';
 
 export default function Stats() {
-  const [stats] = useServerStats();
-
-  const memory = () => formatBytes(stats().varz?.mem ?? 0);
-  const conns = () => abbreviateNum(stats().varz?.connections ?? 0);
-  const totalConns = () => abbreviateNum(stats().varz?.total_connections ?? 0);
-  const subs = () => abbreviateNum(stats().varz?.subscriptions ?? 0);
-  const slowCons = () => abbreviateNum(stats().varz?.slow_consumers ?? 0);
-  const inMsgs = () => abbreviateNum(stats().varz?.in_msgs ?? 0);
-  const outMsgs = () => abbreviateNum(stats().varz?.out_msgs ?? 0);
-  const inBytes = () => formatBytes(stats().varz?.in_bytes ?? 0);
-  const outBytes = () => formatBytes(stats().varz?.out_bytes ?? 0);
-
-  // Time delta between the current and previous request in milliseconds.
-  // Using the server reported time instead of request time.
-  const timeDelta = () => {
-    if (stats().lastVarz?.now) {
-      return msTimeDiff(stats().varz.now, stats().lastVarz.now);
-    }
-
-    return 0;
-  };
-
-  const inMsgsDelta = () => {
-    if (stats().lastVarz?.in_msgs !== undefined) {
-      return stats().varz.in_msgs - stats().lastVarz.in_msgs;
-    }
-
-    return 0;
-  };
-
-  const inMsgsRate = () => {
-    const rate = timeDelta() > 0 ? inMsgsDelta() / (timeDelta() / 1000) : 0;
-    return abbreviateNum(rate);
-  };
-
-  const outMsgsDelta = () => {
-    if (stats().lastVarz?.out_msgs !== undefined) {
-      return stats().varz.out_msgs - stats().lastVarz.out_msgs;
-    }
-
-    return 0;
-  };
-
-  const outMsgsRate = () => {
-    const rate = timeDelta() > 0 ? outMsgsDelta() / (timeDelta() / 1000) : 0;
-    return abbreviateNum(rate);
-  };
-
-  const inBytesDelta = () => {
-    if (stats().lastVarz?.in_bytes !== undefined) {
-      return stats().varz.in_bytes - stats().lastVarz.in_bytes;
-    }
-
-    return 0;
-  };
-
-  const inBytesRate = () => {
-    const rate = timeDelta() > 0 ? inBytesDelta() / (timeDelta() / 1000) : 0;
-    return formatBytes(rate);
-  };
-
-  const outBytesDelta = () => {
-    if (stats().lastVarz?.out_bytes !== undefined) {
-      return stats().varz.out_bytes - stats().lastVarz.out_bytes;
-    }
-
-    return 0;
-  };
-
-  const outBytesRate = () => {
-    const rate = timeDelta() > 0 ? outBytesDelta() / (timeDelta() / 1000) : 0;
-    return formatBytes(rate);
-  };
+  const [rawStats] = useServerStats();
+  const stats = () => formatStats(rawStats());
 
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color
@@ -89,7 +19,7 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {stats().varz?.cpu}%
+                {stats().cpu}%
               </span>
             </p>
           </div>
@@ -101,10 +31,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {memory().str}
+                {stats().memory.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {memory().unit}
+                {stats().memory.unit}
               </span>
             </p>
           </div>
@@ -116,11 +46,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {conns().str}
+                {stats().conns.str}
               </span>
-              <Show when={conns().unit}>
+              <Show when={stats().conns.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {conns().unit}
+                  {stats().conns.unit}
                 </span>
               </Show>
             </p>
@@ -133,11 +63,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {totalConns().str}
+                {stats().totalConns.str}
               </span>
-              <Show when={totalConns().unit}>
+              <Show when={stats().totalConns.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {totalConns().unit}
+                  {stats().totalConns.unit}
                 </span>
               </Show>
             </p>
@@ -150,11 +80,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {subs().str}
+                {stats().subs.str}
               </span>
-              <Show when={subs().unit}>
+              <Show when={stats().subs.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {subs().unit}
+                  {stats().subs.unit}
                 </span>
               </Show>
             </p>
@@ -167,11 +97,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {slowCons().str}
+                {stats().slowCons.str}
               </span>
-              <Show when={slowCons().unit}>
+              <Show when={stats().slowCons.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {slowCons().unit}
+                  {stats().slowCons.unit}
                 </span>
               </Show>
             </p>
@@ -187,11 +117,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {inMsgs().str}
+                {stats().inMsgs.str}
               </span>
-              <Show when={inMsgs().unit}>
+              <Show when={stats().inMsgs.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {inMsgs().unit}
+                  {stats().inMsgs.unit}
                 </span>
               </Show>
             </p>
@@ -204,11 +134,11 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {outMsgs().str}
+                {stats().outMsgs.str}
               </span>
-              <Show when={outMsgs().unit}>
+              <Show when={stats().outMsgs.unit}>
                 <span class="text-sm text-gray-500 dark:text-gray-400">
-                  {outMsgs().unit}
+                  {stats().outMsgs.unit}
                 </span>
               </Show>
             </p>
@@ -221,10 +151,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {inBytes().str}
+                {stats().inBytes.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {inBytes().unit}
+                {stats().inBytes.unit}
               </span>
             </p>
           </div>
@@ -236,10 +166,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {outBytes().str}
+                {stats().outBytes.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {outBytes().unit}
+                {stats().outBytes.unit}
               </span>
             </p>
           </div>
@@ -251,10 +181,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {inMsgsRate().str}
+                {stats().inMsgsRate.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {inMsgsRate().unit}/s
+                {stats().inMsgsRate.unit}/s
               </span>
             </p>
           </div>
@@ -266,10 +196,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {outMsgsRate().str}
+                {stats().outMsgsRate.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {outMsgsRate().unit}/s
+                {stats().outMsgsRate.unit}/s
               </span>
             </p>
           </div>
@@ -281,10 +211,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {inBytesRate().str}
+                {stats().inBytesRate.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {inBytesRate().unit}/s
+                {stats().inBytesRate.unit}/s
               </span>
             </p>
           </div>
@@ -296,10 +226,10 @@ export default function Stats() {
             </p>
             <p class="mt-2 flex items-baseline gap-x-2">
               <span class="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {outBytesRate().str}
+                {stats().outBytesRate.str}
               </span>
               <span class="text-sm text-gray-500 dark:text-gray-400">
-                {outBytesRate().unit}/s
+                {stats().outBytesRate.unit}/s
               </span>
             </p>
           </div>
