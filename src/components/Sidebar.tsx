@@ -1,4 +1,10 @@
-import { Show, createSignal } from 'solid-js';
+import {
+  Show,
+  createSignal,
+  type ParentProps,
+  type ComponentProps,
+  splitProps,
+} from 'solid-js';
 import { useDisplayMobileMenu } from '~/lib/state';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
@@ -119,41 +125,28 @@ function Menu() {
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <li>
-                {/* Current: "bg-gray-50 text-cyan-600 dark:bg-gray-800 dark:text-white", Default: "text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800" */}
-                <a
-                  href="#"
-                  class="bg-gray-50 text-cyan-600 dark:bg-gray-800 dark:text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
+                <MenuItem href="/" active={true}>
                   <ChartBarSquareIcon class="h-6 w-6 shrink-0 text-cyan-600 dark:text-white" />
                   Dashboard
-                </a>
+                </MenuItem>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
+                <MenuItem href="#" active={false}>
                   <SignalIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-cyan-600 dark:group-hover:text-white" />
                   Connect
-                </a>
+                </MenuItem>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
+                <MenuItem href="#" active={false}>
                   <ChatBubbleIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-cyan-600 dark:group-hover:text-white" />
                   FAQ
-                </a>
+                </MenuItem>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
+                <MenuItem href="#" active={false}>
                   <InfoCircleIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-cyan-600 dark:group-hover:text-white" />
                   About
-                </a>
+                </MenuItem>
               </li>
             </ul>
           </li>
@@ -163,38 +156,23 @@ function Menu() {
             </div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
               <li>
-                <a
+                <SecondaryMenuItem
                   href="https://github.com/mdawar/natsdashboard"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                  letter="G"
+                  target="_blank"
                 >
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-cyan-600 group-hover:text-cyan-600 dark:border-gray-700 dark:bg-gray-800 dark:group-hover:border-gray-700 dark:group-hover:text-white">
-                    G
-                  </span>
-                  <span class="truncate">GitHub</span>
-                </a>
+                  GitHub
+                </SecondaryMenuItem>
               </li>
               <li>
-                {/* Current: "bg-gray-50 text-cyan-600 dark:bg-gray-800 dark:text-white", Default: "text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800" */}
-                <a
-                  href="https://nats.io/"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-cyan-600 group-hover:text-cyan-600 dark:border-gray-700 dark:bg-gray-800 dark:group-hover:border-gray-700 dark:group-hover:text-white">
-                    N
-                  </span>
-                  <span class="truncate">NATS.io</span>
-                </a>
+                <SecondaryMenuItem href="https://nats.io/" letter="N">
+                  NATS.io
+                </SecondaryMenuItem>
               </li>
               <li>
-                <a
-                  href="https://docs.nats.io/"
-                  class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                >
-                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-cyan-600 group-hover:text-cyan-600 dark:border-gray-700 dark:bg-gray-800 dark:group-hover:border-gray-700 dark:group-hover:text-white">
-                    D
-                  </span>
-                  <span class="truncate">NATS Docs</span>
-                </a>
+                <SecondaryMenuItem href="https://docs.nats.io/" letter="D">
+                  NATS Docs
+                </SecondaryMenuItem>
               </li>
             </ul>
           </li>
@@ -217,5 +195,52 @@ function Menu() {
         </ul>
       </nav>
     </div>
+  );
+}
+
+interface MenuItemProps extends ComponentProps<'a'> {
+  href: string;
+  active: boolean;
+}
+
+function MenuItem(props: ParentProps<MenuItemProps>) {
+  const [local, rest] = splitProps(props, ['href', 'active', 'children']);
+
+  return (
+    <a
+      href={local.href}
+      class="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+      classList={{
+        'bg-gray-50 text-cyan-600 dark:bg-gray-800 dark:text-white':
+          local.active,
+        'text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800':
+          !local.active,
+      }}
+      {...rest}
+    >
+      {local.children}
+    </a>
+  );
+}
+
+interface SecondaryMenuItemProps extends ComponentProps<'a'> {
+  href: string;
+  letter: string;
+}
+
+function SecondaryMenuItem(props: ParentProps<SecondaryMenuItemProps>) {
+  const [local, rest] = splitProps(props, ['href', 'letter', 'children']);
+
+  return (
+    <a
+      href={local.href}
+      class="text-gray-700 hover:text-cyan-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+      {...rest}
+    >
+      <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white text-gray-400 border-gray-200 group-hover:border-cyan-600 group-hover:text-cyan-600 dark:border-gray-700 dark:bg-gray-800 dark:group-hover:border-gray-700 dark:group-hover:text-white">
+        {local.letter}
+      </span>
+      <span class="truncate">{local.children}</span>
+    </a>
   );
 }
