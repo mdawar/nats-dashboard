@@ -1,7 +1,6 @@
 import { Show } from 'solid-js';
 import { useServerStats } from '~/lib/state';
 import { formatStats } from '~/lib/stats';
-import { formatBytes, abbreviateNum, msTimeDiff } from '~/lib/utils';
 
 export default function Stats() {
   const [rawStats] = useServerStats();

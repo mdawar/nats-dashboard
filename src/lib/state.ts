@@ -1,4 +1,5 @@
 import { createSignal } from 'solid-js';
+import type { PartialServerStats } from '~/lib/stats';
 
 const mobileMenuSignal = createSignal(false);
 
@@ -6,8 +7,7 @@ export function useDisplayMobileMenu() {
   return mobileMenuSignal;
 }
 
-// TODO: use types
-const serverStats = createSignal<any>({});
+const serverStats = createSignal<PartialServerStats>({});
 
 export function useServerStats() {
   return serverStats;

@@ -11,7 +11,7 @@ export interface JSONPOptions {
  *
  * The promise will resolve with the response or reject with a `FetchError` or a `TimeoutError`.
  */
-export async function jsonp(url: string, opts?: JSONPOptions): Promise<any> {
+export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
   return new Promise((resolve, reject) => {
     const timeout = opts?.timeout ?? 5000; // 5s
     const name = opts?.callback ?? 'callback';
