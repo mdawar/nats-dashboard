@@ -14,13 +14,13 @@ A web dashboard to display the NATS monitoring metrics.
 
 ## About
 
-This is a **static web app** that was inspired by [`nats-top`](https://github.com/nats-io/nats-top), it uses a similar way to fetch the monitoring stats of a NATS server but in the browser instead of the CLI.
+This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it uses a similar way to fetch the monitoring stats of a [NATS server](https://nats.io/) but in the browser instead of the CLI.
 
 Since this is a static web app, it **can be deployed anywhere** and can also **run locally** on your machine.
 
 There's **no backend** involved, the requests are made directly from the browser, so you can monitor a **local NATS server** (http://localhost:8222) even when the app is not running locally.
 
-There's **no data retention**, so no historical stats can be displayed, you will only be able to view the live server stats, if you need this feature you should use a Prometheus exporter with Grafana and set an appropriate retention policy.
+There's **no data retention**, so no historical stats can be displayed, you will only be able to view the live server stats, if you need this feature you should use a Prometheus exporter with Grafana and set an appropriate data retention policy.
 
 ## Development
 
@@ -54,9 +54,9 @@ This is a workaround until NATS starts supporting CORS (Server HTTP headers requ
 
 ## Alternatives
 
-- [`nats-top`](https://github.com/nats-io/nats-top): A top-like tool for monitoring NATS servers.
-- [`prometheus-nats-exporter`](https://github.com/nats-io/prometheus-nats-exporter): A Prometheus exporter for NATS metrics.
-- [`nats-surveyor`](https://github.com/nats-io/nats-surveyor): Another Prometheus exporter
+- [nats-top](https://github.com/nats-io/nats-top): A top-like tool for monitoring NATS servers.
+- [prometheus-nats-exporter](https://github.com/nats-io/prometheus-nats-exporter): A Prometheus exporter for NATS metrics.
+- [nats-surveyor](https://github.com/nats-io/nats-surveyor): Another Prometheus exporter.
 
 ## Credits
 
