@@ -1,10 +1,6 @@
 import { Show } from 'solid-js';
 import { useServerStats } from '~/lib/state';
-import { formatBytes, abbreviateNum } from '~/lib/utils';
-
-function dateDiff(d1: string, d2: string): number {
-  return new Date(d1).getTime() - new Date(d2).getTime();
-}
+import { formatBytes, abbreviateNum, msTimeDiff } from '~/lib/utils';
 
 export default function Stats() {
   const [stats] = useServerStats();
@@ -23,7 +19,7 @@ export default function Stats() {
   // Using the server reported time instead of request time.
   const timeDelta = () => {
     if (stats().lastVarz?.now) {
-      return dateDiff(stats().varz.now, stats().lastVarz.now);
+      return msTimeDiff(stats().varz.now, stats().lastVarz.now);
     }
 
     return 0;

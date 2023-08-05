@@ -58,3 +58,8 @@ export function formatUptime(uptime: string): string {
   const parts = uptime.match(/\d+\D+/g);
   return parts ? parts.join(' ') : '';
 }
+
+/** Get the time difference in milliseconds from 2 ISO 8601 date-time strings. */
+export function msTimeDiff(d1: string, d2: string): number {
+  return new Date(d1).getTime() - new Date(d2).getTime();
+}
