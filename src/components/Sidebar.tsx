@@ -1,9 +1,9 @@
 import {
   Show,
   createSignal,
+  splitProps,
   type ParentProps,
   type ComponentProps,
-  splitProps,
 } from 'solid-js';
 import { useDisplayMobileMenu } from '~/lib/state';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
@@ -17,11 +17,18 @@ import {
   SunIcon,
   MoonIcon,
 } from '~/components/icons';
+// @ts-expect-error (use:clickOutside not recognized as a reference)
+import { clickOutside } from '~/lib/directives';
 
 export default function Sidebar() {
+  const [display] = useDisplayMobileMenu();
+
   return (
     <>
-      <MobileSidebar />
+      <Show when={display()}>
+        <MobileSidebar />
+      </Show>
+
       <DesktopSidebar />
     </>
   );
@@ -29,15 +36,10 @@ export default function Sidebar() {
 
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
 function MobileSidebar() {
-  const [display, setDisplay] = useDisplayMobileMenu();
+  const [_, setDisplay] = useDisplayMobileMenu();
 
   return (
-    <div
-      class="relative z-50 lg:hidden"
-      classList={{ hidden: !display() }}
-      role="dialog"
-      aria-modal="true"
-    >
+    <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true">
       {/*
       Off-canvas menu backdrop, show/hide based on off-canvas menu state.
 
@@ -62,7 +64,10 @@ function MobileSidebar() {
             To: "-translate-x-full"
           */}
         {/* Note: added dark bg for consistency with the desktop menu bg color (Using bg-black/10 on top) */}
-        <div class="relative mr-16 flex w-full max-w-xs flex-1 dark:bg-gray-900">
+        <div
+          class="relative mr-16 flex w-full max-w-xs flex-1 dark:bg-gray-900"
+          use:clickOutside={() => setDisplay(false)}
+        >
           {/*
             Close button, show/hide based on off-canvas menu state.
 
