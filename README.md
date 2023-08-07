@@ -1,16 +1,6 @@
 # NATS Web Dashboard
 
-A web dashboard to display the NATS monitoring metrics.
-
-## TODO
-
-- [ ] Encapsulate last server stats cache
-- [ ] Customize the polling time
-- [ ] Display raw numbers/bytes
-- [ ] Add empty state when no server URL is set
-- [ ] Add the mobile menu transition effects
-- [ ] Save theme preference
-- [ ] Check if dark mode is already set
+A web dashboard to display live [NATS server](https://nats.io/) monitoring metrics.
 
 ## About
 
