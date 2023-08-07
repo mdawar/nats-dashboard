@@ -1,8 +1,9 @@
 import { Show, createEffect, createSignal, onCleanup } from 'solid-js';
+import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useDisplayMobileMenu, useServerStats } from '~/lib/state';
 import { FetchError, TimeoutError } from '~/lib/jsonp';
 import { fetchStats } from '~/lib/stats';
-import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
+import { createPoller } from '~/lib/poller';
 
 export default function InputHeader() {
   const [monitor, setMonitor] = createSignal(false);
@@ -10,19 +11,15 @@ export default function InputHeader() {
   const [_, setServerStats] = useServerStats();
   const [__, setDisplay] = useDisplayMobileMenu();
 
-  let timeoutID: number;
-
-  const startMonitoring = async () => {
-    if (!monitor()) return;
-
-    try {
-      const stats = await fetchStats(serverURL());
+  const poller = createPoller({
+    fn: () => fetchStats(serverURL()),
+    interval: 1000,
+    onSuccess: (stats) => {
       setServerStats(stats);
-      timeoutID = setTimeout(startMonitoring, 1000); // Schedule next call.
-    } catch (error: unknown) {
+    },
+    onError: (error) => {
       // TODO: should not stop on first error (Maybe user defined option).
       setMonitor(false);
-
       if (error instanceof FetchError) {
         console.log('Fetch error:', error);
       } else if (error instanceof TimeoutError) {
@@ -30,20 +27,18 @@ export default function InputHeader() {
       } else {
         console.log('Other error:', error);
       }
-    }
-  };
-
-  const stopMonitoring = () => clearTimeout(timeoutID);
+    },
+  });
 
   createEffect(() => {
     if (monitor()) {
-      startMonitoring();
+      poller.start();
     } else {
-      stopMonitoring();
+      poller.stop();
     }
   });
 
-  onCleanup(stopMonitoring);
+  onCleanup(poller.stop);
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
