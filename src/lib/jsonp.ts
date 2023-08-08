@@ -1,8 +1,10 @@
+import { addQueryParams } from '~/lib/utils';
+
 /** JSONP fetch request options. */
 export interface JSONPOptions {
-  // JSONP callback name.
+  /** JSONP callback name. */
   callback?: string;
-  // Timeout in milliseconds.
+  /** Timeout in milliseconds */
   timeout?: number;
 }
 
@@ -75,14 +77,4 @@ function randomID(): string {
   return `${Date.now().toString()}_${Math.floor(
     Math.random() * 1_000_000_000
   )}`;
-}
-
-/** Add query parameters to a URL object (Preserves the existing query params). */
-function addQueryParams(url: URL, params: Record<string, string>): URL {
-  const newParams = new URLSearchParams([
-    ...Array.from(url.searchParams.entries()),
-    ...Object.entries(params),
-  ]).toString();
-
-  return new URL(`${url.origin}${url.pathname}?${newParams}`);
 }

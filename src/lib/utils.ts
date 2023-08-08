@@ -63,3 +63,13 @@ export function formatUptime(uptime: string): string {
 export function msTimeDiff(d1: string, d2: string): number {
   return new Date(d1).getTime() - new Date(d2).getTime();
 }
+
+/** Add query parameters to a URL object (Preserves the existing query params). */
+export function addQueryParams(url: URL, params: Record<string, string>): URL {
+  const newParams = new URLSearchParams([
+    ...Array.from(url.searchParams.entries()),
+    ...Object.entries(params),
+  ]).toString();
+
+  return new URL(`${url.origin}${url.pathname}?${newParams}`);
+}
