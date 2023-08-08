@@ -10,8 +10,7 @@ export default function InputHeader() {
   const [store, actions] = useStore();
   const [__, setDisplay] = useDisplayMobileMenu();
 
-  const poller = createPoller({
-    fn: () => fetchStats(store.url),
+  const poller = createPoller(() => fetchStats(store.url), {
     interval: 1000,
     onSuccess: (stats) => {
       actions.setServerStats(stats);
