@@ -1,25 +1,24 @@
-import { Show, createEffect, createSignal, onCleanup } from 'solid-js';
+import { Show, createEffect, onCleanup } from 'solid-js';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
-import { useDisplayMobileMenu, useServerStats } from '~/lib/state';
+import { useStore } from '~/lib/store';
+import { useDisplayMobileMenu } from '~/lib/state';
 import { FetchError, TimeoutError } from '~/lib/jsonp';
 import { fetchStats } from '~/lib/stats';
 import { createPoller } from '~/lib/poller';
 
 export default function InputHeader() {
-  const [monitor, setMonitor] = createSignal(false);
-  const [serverURL, setServerURL] = createSignal('');
-  const [_, setServerStats] = useServerStats();
+  const [store, actions] = useStore();
   const [__, setDisplay] = useDisplayMobileMenu();
 
   const poller = createPoller({
-    fn: () => fetchStats(serverURL()),
+    fn: () => fetchStats(store.url),
     interval: 1000,
     onSuccess: (stats) => {
-      setServerStats(stats);
+      actions.setServerStats(stats);
     },
     onError: (error) => {
       // TODO: should not stop on first error (Maybe user defined option).
-      setMonitor(false);
+      actions.setActive(false);
       if (error instanceof FetchError) {
         console.log('Fetch error:', error);
       } else if (error instanceof TimeoutError) {
@@ -31,7 +30,7 @@ export default function InputHeader() {
   });
 
   createEffect(() => {
-    if (monitor()) {
+    if (store.active) {
       poller.start();
     } else {
       poller.stop();
@@ -43,8 +42,8 @@ export default function InputHeader() {
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
 
-    if (serverURL().trim() !== '') {
-      setMonitor((m) => !m);
+    if (store.url.trim() !== '') {
+      actions.toggleActive();
     }
   };
 
@@ -74,14 +73,14 @@ export default function InputHeader() {
           <input
             id="nats-url"
             class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 dark:bg-transparent dark:text-white dark:placeholder:text-gray-500 focus:ring-0 sm:text-sm disabled:cursor-not-allowed disabled:text-gray-500"
-            disabled={monitor()}
+            disabled={store.active}
             placeholder="Server URL"
             type="url"
             spellcheck={false}
             list="url-list"
-            value={serverURL()}
+            value={store.url}
             onInput={(e) => {
-              setServerURL(e.target.value);
+              actions.setURL(e.target.value);
             }}
           />
           <datalist id="url-list">
@@ -97,11 +96,11 @@ export default function InputHeader() {
             class="rounded-full bg-cyan-600 p-1 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
             classList={{
               'bg-gray-600 hover:bg-gray-500 focus-visible:outline-gray-600':
-                monitor(),
+                store.active,
             }}
             onClick={toggleMonitor}
           >
-            <Show when={monitor()} fallback={<PlayIcon class="h-5 w-5" />}>
+            <Show when={store.active} fallback={<PlayIcon class="h-5 w-5" />}>
               <StopIcon class="h-5 w-5" />
             </Show>
           </button>

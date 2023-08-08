@@ -1,8 +1,8 @@
-import { useServerStats } from '~/lib/state';
+import { useStore } from '~/lib/store';
 import { formatUptime } from '~/lib/utils';
 
 export default function MainInfo() {
-  const [stats] = useServerStats();
+  const [store] = useStore();
 
   return (
     <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8 tabular-nums">
@@ -14,11 +14,11 @@ export default function MainInfo() {
 
           <h1 class="flex gap-x-3 text-base leading-7">
             <span class="font-semibold text-gray-900 dark:text-white">
-              {stats().varz?.server_name}
+              {store.stats.varz?.server_name}
             </span>
             <span class="text-gray-600">/</span>
             <span class="font-semibold text-gray-900 dark:text-white">
-              {formatUptime(stats().varz?.uptime ?? '')}
+              {formatUptime(store.stats.varz?.uptime ?? '')}
             </span>
           </h1>
         </div>
@@ -26,12 +26,12 @@ export default function MainInfo() {
           <span class="font-semibold text-gray-900 dark:text-white">
             Server ID
           </span>
-          :<span class="break-all ml-1">{stats().varz?.server_id}</span>
+          :<span class="break-all ml-1">{store.stats.varz?.server_id}</span>
         </p>
       </div>
 
       <div class="order-first flex-none rounded-full bg-cyan-50 text-cyan-700 ring-cyan-700/10 dark:bg-cyan-400/10 px-2 py-1 text-xs font-medium dark:text-cyan-400 ring-1 ring-inset dark:ring-cyan-400/30 sm:order-none">
-        v{stats().varz?.version}
+        v{store.stats.varz?.version}
       </div>
     </div>
   );

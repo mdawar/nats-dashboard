@@ -1,10 +1,10 @@
-import { useServerStats } from '~/lib/state';
+import { useStore } from '~/lib/store';
 import { formatStats } from '~/lib/stats';
 import StatCell from '~/components/StatCell';
 
 export default function Stats() {
-  const [rawStats] = useServerStats();
-  const stats = () => formatStats(rawStats());
+  const [store] = useStore();
+  const stats = () => formatStats(store.stats);
 
   // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
   // also the multiple div layers are intentional, used for the dark mode color
