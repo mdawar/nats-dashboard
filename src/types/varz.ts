@@ -1,3 +1,5 @@
+import type { JWTClaimsData, JWTGenericFields } from './common';
+
 /** NATS server general information. */
 export interface Varz {
   server_id: string;
@@ -213,40 +215,15 @@ interface PeerInfo {
 }
 
 /** The data for an operator JWT. */
-interface OperatorClaims extends ClaimsData {
+interface OperatorClaims extends JWTClaimsData {
   nats?: Operator;
 }
 
-interface ClaimsData {
-  /** Audience */
-  aud?: string;
-  /** Expires */
-  exp?: number;
-  /** ID */
-  jti?: string;
-  /** IssuedAt */
-  iat?: number;
-  /** Issuer */
-  iss?: string;
-  /** Name */
-  name?: string;
-  /** NotBefore */
-  nbf?: number;
-  /** Subject */
-  sub?: string;
-}
-
-interface Operator extends GenericFields {
+interface Operator extends JWTGenericFields {
   signing_keys?: string[];
   account_server_url?: string;
   operator_service_urls?: string[];
   system_account?: string;
   assert_server_version?: string;
   strict_signing_key_usage?: boolean;
-}
-
-interface GenericFields {
-  tags?: string[];
-  type?: string;
-  version?: number;
 }

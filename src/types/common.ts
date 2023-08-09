@@ -72,3 +72,42 @@ interface TLSPeerCert {
   spki_sha256?: string;
   cert_sha256?: string;
 }
+
+/** Public stats for the sublist. */
+export interface SublistStats {
+  num_subscriptions: number;
+  num_cache: number;
+  num_inserts: number;
+  num_removes: number;
+  num_matches: number;
+  cache_hit_rate: number;
+  max_fanout: number;
+  avg_fanout: number;
+}
+
+/** jwt.ClaimsData. */
+export interface JWTClaimsData {
+  /** Audience */
+  aud?: string;
+  /** Expires */
+  exp?: number;
+  /** ID */
+  jti?: string;
+  /** IssuedAt */
+  iat?: number;
+  /** Issuer */
+  iss?: string;
+  /** Name */
+  name?: string;
+  /** NotBefore */
+  nbf?: number;
+  /** Subject */
+  sub?: string;
+}
+
+/** jwt.GenericFields. */
+export interface JWTGenericFields {
+  tags?: string[];
+  type?: string;
+  version?: number;
+}

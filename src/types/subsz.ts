@@ -1,4 +1,9 @@
-import type { SearchParams, BoolOrNumber, SubDetail } from './common';
+import type {
+  SearchParams,
+  BoolOrNumber,
+  SubDetail,
+  SublistStats,
+} from './common';
 
 /** Subscription routing information (subsz) options. */
 export interface SubszOptions extends SearchParams {
@@ -21,16 +26,4 @@ export interface Subsz extends SublistStats {
   offset: number;
   limit: number;
   subscriptions_list?: SubDetail[];
-}
-
-/** Public stats for the sublist. */
-interface SublistStats {
-  num_subscriptions: number;
-  num_cache: number;
-  num_inserts: number;
-  num_removes: number;
-  num_matches: number;
-  cache_hit_rate: number;
-  max_fanout: number;
-  avg_fanout: number;
 }
