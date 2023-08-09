@@ -1,4 +1,4 @@
-import type { Varz } from '~/lib/types';
+import type { Varz } from '~/types';
 import { jsonp } from '~/lib/jsonp';
 import {
   formatBytes,
