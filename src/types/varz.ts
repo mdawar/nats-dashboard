@@ -1,4 +1,4 @@
-/** NATS server information. */
+/** NATS server general information. */
 export interface Varz {
   server_id: string;
   server_name: string;
