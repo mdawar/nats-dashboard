@@ -1,23 +1,23 @@
 import { createStore } from 'solid-js/store';
-import type { PartialServerStats } from '~/lib/stats';
+import type { PartialInfoResponse } from '~/lib/info';
 
 interface StoreState {
   url: string;
   active: boolean;
-  stats: PartialServerStats;
+  varz: PartialInfoResponse<'varz'>;
 }
 
 interface StoreActions {
   setActive(active: boolean): void;
   toggleActive(): void;
   setURL(url: string): void;
-  setServerStats(stats: PartialServerStats): void;
+  setVarz(varz: PartialInfoResponse<'varz'>): void;
 }
 
 const defaultStore: StoreState = {
   url: '',
   active: false,
-  stats: {},
+  varz: {},
 };
 
 const store = createStore<StoreState>(defaultStore);
@@ -40,8 +40,8 @@ export function useStore(): StatsStore {
       setState('url', url);
     },
 
-    setServerStats(stats: PartialServerStats) {
-      setState('stats', stats);
+    setVarz(varz: PartialInfoResponse<'varz'>) {
+      setState('varz', varz);
     },
   };
 

@@ -14,11 +14,11 @@ export default function MainInfo() {
 
           <h1 class="flex gap-x-3 text-base leading-7">
             <span class="font-semibold text-gray-900 dark:text-white">
-              {store.stats.varz?.server_name}
+              {store.varz.current?.server_name}
             </span>
             <span class="text-gray-600">/</span>
             <span class="font-semibold text-gray-900 dark:text-white">
-              {formatUptime(store.stats.varz?.uptime ?? '')}
+              {formatUptime(store.varz.current?.uptime ?? '')}
             </span>
           </h1>
         </div>
@@ -26,12 +26,12 @@ export default function MainInfo() {
           <span class="font-semibold text-gray-900 dark:text-white">
             Server ID
           </span>
-          :<span class="break-all ml-1">{store.stats.varz?.server_id}</span>
+          :<span class="break-all ml-1">{store.varz.current?.server_id}</span>
         </p>
       </div>
 
       <div class="order-first flex-none rounded-full bg-cyan-50 text-cyan-700 ring-cyan-700/10 dark:bg-cyan-400/10 px-2 py-1 text-xs font-medium dark:text-cyan-400 ring-1 ring-inset dark:ring-cyan-400/30 sm:order-none">
-        v{store.stats.varz?.version}
+        v{store.varz.current?.version}
       </div>
     </div>
   );

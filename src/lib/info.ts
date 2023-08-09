@@ -7,14 +7,16 @@ import type {
 import { jsonp } from '~/lib/jsonp';
 
 /** NATS server information response. */
-interface InfoResponse<T extends Endpoint> {
+export interface InfoResponse<T extends Endpoint> {
   /** Fetch request round trip time in milliseconds. */
   rtt: number;
   /** API Response. */
-  data: EndpointResponse[T];
+  current: EndpointResponse[T];
   /** Previous API response. */
   previous: EndpointResponse[T] | undefined;
 }
+
+export type PartialInfoResponse<T extends Endpoint> = Partial<InfoResponse<T>>;
 
 // TODO: temporary
 const cache = new Map<string, MonitoringResponse>();
@@ -24,7 +26,7 @@ export async function fetchInfo<T extends Endpoint>(
   baseURL: string,
   endpoint: T,
   args?: EndpointOptions[T]
-): Promise<InfoResponse<T>> {
+): Promise<PartialInfoResponse<T>> {
   const url = new URL(endpoint, baseURL);
 
   if (args) {
@@ -33,16 +35,16 @@ export async function fetchInfo<T extends Endpoint>(
   }
 
   const start = performance.now();
-  const data = await jsonp<EndpointResponse[T]>(url.href);
+  const current = await jsonp<EndpointResponse[T]>(url.href);
   const end = performance.now();
 
   const response = {
     rtt: end - start,
-    data,
+    current,
     previous: cache.get(url.href) as EndpointResponse[T],
   };
 
-  cache.set(url.href, data);
+  cache.set(url.href, current);
 
   return response;
 }

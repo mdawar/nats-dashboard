@@ -2,18 +2,18 @@ import { Show, createEffect, onCleanup } from 'solid-js';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useStore } from '~/lib/store';
 import { useDisplayMobileMenu } from '~/lib/state';
-import { FetchError, TimeoutError } from '~/lib/jsonp';
-import { fetchStats } from '~/lib/stats';
 import { createPoller } from '~/lib/poller';
+import { fetchInfo } from '~/lib/info';
+import { FetchError, TimeoutError } from '~/lib/jsonp';
 
 export default function InputHeader() {
   const [store, actions] = useStore();
-  const [__, setDisplay] = useDisplayMobileMenu();
+  const [_, setDisplay] = useDisplayMobileMenu();
 
-  const poller = createPoller(() => fetchStats(store.url), {
+  const poller = createPoller(() => fetchInfo(store.url, 'varz'), {
     interval: 1000,
-    onSuccess: (stats) => {
-      actions.setServerStats(stats);
+    onSuccess: (varz) => {
+      actions.setVarz(varz);
     },
     onError: (error) => {
       // TODO: should not stop on first error (Maybe user defined option).

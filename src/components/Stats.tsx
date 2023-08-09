@@ -4,10 +4,8 @@ import StatCell from '~/components/StatCell';
 
 export default function Stats() {
   const [store] = useStore();
-  const stats = () => formatStats(store.stats);
+  const stats = () => formatStats(store.varz);
 
-  // Note: the bg colors with the gap are used to display a separator between the stats instead of using borders
-  // also the multiple div layers are intentional, used for the dark mode color
   return (
     <div class="bg-gray-200 dark:bg-gray-700/50 border-y border-gray-200 dark:border-gray-700/50 tabular-nums">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-px">
