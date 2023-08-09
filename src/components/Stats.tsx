@@ -14,27 +14,27 @@ export default function Stats() {
         <StatCell title="CPU Load" stat={stats().cpu} unit="%" />
         <StatCell
           title="Memory Usage"
-          stat={stats().memory.str}
+          stat={stats().memory.value}
           unit={stats().memory.unit}
         />
         <StatCell
           title="Connections"
-          stat={stats().conns.str}
+          stat={stats().conns.value}
           unit={stats().conns.unit}
         />
         <StatCell
           title="Total Connections"
-          stat={stats().totalConns.str}
+          stat={stats().totalConns.value}
           unit={stats().totalConns.unit}
         />
         <StatCell
           title="Subscriptions"
-          stat={stats().subs.str}
+          stat={stats().subs.value}
           unit={stats().subs.unit}
         />
         <StatCell
           title="Slow Consumers"
-          stat={stats().slowCons.str}
+          stat={stats().slowCons.value}
           unit={stats().slowCons.unit}
         />
       </div>
@@ -42,42 +42,42 @@ export default function Stats() {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px mt-px">
         <StatCell
           title="Total Messages Received"
-          stat={stats().inMsgs.str}
+          stat={stats().inMsgs.value}
           unit={stats().inMsgs.unit}
         />
         <StatCell
           title="Total Messages Sent"
-          stat={stats().outMsgs.str}
+          stat={stats().outMsgs.value}
           unit={stats().outMsgs.unit}
         />
         <StatCell
           title="Total Data Received"
-          stat={stats().inBytes.str}
+          stat={stats().inBytes.value}
           unit={stats().inBytes.unit}
         />
         <StatCell
           title="Total Data Sent"
-          stat={stats().outBytes.str}
+          stat={stats().outBytes.value}
           unit={stats().outBytes.unit}
         />
         <StatCell
           title="Messages Received Rate"
-          stat={stats().inMsgsRate.str}
+          stat={stats().inMsgsRate.value}
           unit={`${stats().inMsgsRate.unit}/s`}
         />
         <StatCell
           title="Messages Sent Rate"
-          stat={stats().outMsgsRate.str}
+          stat={stats().outMsgsRate.value}
           unit={`${stats().outMsgsRate.unit}/s`}
         />
         <StatCell
           title="Data Received Rate"
-          stat={stats().inBytesRate.str}
+          stat={stats().inBytesRate.value}
           unit={`${stats().inBytesRate.unit}/s`}
         />
         <StatCell
           title="Data Sent Rate"
-          stat={stats().outBytesRate.str}
+          stat={stats().outBytesRate.value}
           unit={`${stats().outBytesRate.unit}/s`}
         />
       </div>

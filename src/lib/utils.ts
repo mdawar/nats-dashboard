@@ -1,5 +1,5 @@
 export interface FormattedBytes {
-  str: string;
+  value: string;
   unit: string;
 }
 
@@ -10,7 +10,7 @@ export function formatBytes(bytes: number): FormattedBytes {
 
   if (bytes < factor) {
     return {
-      str: bytes.toFixed(2).replace(/\.0+$/, ''),
+      value: bytes.toFixed(2).replace(/\.0+$/, ''),
       unit: 'B',
     };
   }
@@ -24,13 +24,13 @@ export function formatBytes(bytes: number): FormattedBytes {
   }
 
   return {
-    str: (bytes / div).toFixed(2).replace(/\.0+$/, ''),
+    value: (bytes / div).toFixed(2).replace(/\.0+$/, ''),
     unit: `${units[exp]}iB`,
   };
 }
 
 export interface AbbreviatedNumber {
-  str: string;
+  value: string;
   unit: string | undefined;
 }
 
@@ -48,7 +48,7 @@ export function abbreviateNum(n: number): AbbreviatedNumber {
   }
 
   return {
-    str: n.toFixed(2).replace(/\.0+$/, ''),
+    value: n.toFixed(2).replace(/\.0+$/, ''),
     unit: suffixes[suffixNum],
   };
 }
