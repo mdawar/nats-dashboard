@@ -3,6 +3,7 @@ import type {
   BoolOrNumber,
   SubsOption,
   ConnState,
+  SubDetail,
 } from './common';
 
 /** Connection information (connz) options. */
@@ -112,15 +113,4 @@ interface TLSPeerCert {
   subject?: string;
   spki_sha256?: string;
   cert_sha256?: string;
-}
-
-/** Verbose subscription information. */
-interface SubDetail {
-  account?: string;
-  subject: string;
-  qgroup?: string;
-  sid: string;
-  msgs: number;
-  max?: number;
-  cid: number;
 }

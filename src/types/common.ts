@@ -13,3 +13,14 @@ export type SubsOption = BoolOrNumber | 'detail';
 
 /** Connection state. */
 export type ConnState = 'open' | 'closed' | 'any';
+
+/** Verbose subscription information. */
+export interface SubDetail {
+  account?: string;
+  subject: string;
+  qgroup?: string;
+  sid: string;
+  msgs: number;
+  max?: number;
+  cid: number;
+}
