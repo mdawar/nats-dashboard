@@ -6,5 +6,27 @@ export interface LeafzOptions extends SearchParams {
   subs?: BoolOrNumber;
 }
 
-/** NATS server leaf node information. */
-export interface Leafz {} // TODO
+/** NATS server leaf node detailed information. */
+export interface Leafz {
+  server_id: string;
+  /** time.Time */
+  now: string;
+  leafnodes: number;
+  leafs: LeafInfo[];
+}
+
+/** Detailed remote leaf node connection information. */
+interface LeafInfo {
+  name: string;
+  is_spoke: boolean;
+  account: string;
+  ip: string;
+  port: number;
+  rtt?: string;
+  in_msgs: number;
+  out_msgs: number;
+  in_bytes: number;
+  out_bytes: number;
+  subscriptions: number;
+  subscriptions_list?: string[];
+}
