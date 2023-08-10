@@ -5,7 +5,7 @@ import type { Gatewayz, GatewayzOptions } from './gatewayz';
 import type { Leafz, LeafzOptions } from './leafz';
 import type { Subsz, SubszOptions } from './subsz';
 import type { Accountz, AccountzOptions } from './accountz';
-import type { Accstatz, AccstatzOptions } from './accstatz';
+import type { AccountStatz, AccountStatzOptions } from './accstatz';
 import type { Jsz, JszOptions } from './jsz';
 import type { Healthz, HealthzOptions } from './healthz';
 
@@ -31,7 +31,7 @@ export type EndpointOptions = {
   leafz: LeafzOptions;
   subsz: SubszOptions;
   accountz: AccountzOptions;
-  accstatz: AccstatzOptions;
+  accstatz: AccountStatzOptions;
   jsz: JszOptions;
   healthz: HealthzOptions;
 };
@@ -45,7 +45,7 @@ export type EndpointResponse = {
   leafz: Leafz;
   subsz: Subsz;
   accountz: Accountz;
-  accstatz: Accstatz;
+  accstatz: AccountStatz;
   jsz: Jsz;
   healthz: Healthz;
 };
