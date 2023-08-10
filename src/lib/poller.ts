@@ -31,12 +31,16 @@ export function createPoller<T>(
 
   return {
     start() {
-      isActive = true;
-      poll();
+      if (!isActive) {
+        isActive = true;
+        poll();
+      }
     },
     stop() {
-      isActive = false;
-      clearTimeout(timeoutID);
+      if (isActive) {
+        isActive = false;
+        clearTimeout(timeoutID);
+      }
     },
   };
 }
