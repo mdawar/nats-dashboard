@@ -12,7 +12,7 @@ export function createPoller<T>(
   fn: () => Promise<T>,
   { interval, onSuccess, onError }: PollerOptions<T> = { interval: 1000 }
 ) {
-  let isStopped = true;
+  let isActive = false;
   let timeoutID: number;
 
   const poll = async () => {
@@ -22,7 +22,7 @@ export function createPoller<T>(
     } catch (error: unknown) {
       onError?.(error);
     } finally {
-      if (!isStopped) {
+      if (isActive) {
         // Schedule next call.
         timeoutID = setTimeout(poll, interval);
       }
@@ -31,11 +31,11 @@ export function createPoller<T>(
 
   return {
     start() {
-      isStopped = false;
+      isActive = true;
       poll();
     },
     stop() {
-      isStopped = true;
+      isActive = false;
       clearTimeout(timeoutID);
     },
   };
