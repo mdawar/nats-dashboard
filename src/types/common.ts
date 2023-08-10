@@ -111,3 +111,57 @@ export interface JWTGenericFields {
   type?: string;
   version?: number;
 }
+
+/** JetStream configuration for this server. */
+export interface JetStreamConfig {
+  max_memory: number;
+  max_storage: number;
+  store_dir?: string;
+  domain?: string;
+  compress_ok?: boolean;
+}
+
+/** Statistics about JetStream for this server. */
+export interface JetStreamStats {
+  memory: number;
+  storage: number;
+  reserved_memory: number;
+  reserved_storage: number;
+  accounts: number;
+  ha_assets: number;
+  api: JetStreamAPIStats;
+}
+
+interface JetStreamAPIStats {
+  total: number;
+  errors: number;
+  inflight?: number;
+}
+
+/** Information about the meta group. */
+export interface MetaClusterInfo {
+  name?: string;
+  leader?: string;
+  peer?: string;
+  replicas?: PeerInfo[];
+  cluster_size: number;
+}
+
+/** Information about the underlying set of servers that make up the stream or consumer. */
+export interface ClusterInfo {
+  name?: string;
+  leader?: string;
+  replicas?: PeerInfo[];
+}
+
+/** Information about all the peers in the cluster that are supporting the stream or consumer. */
+interface PeerInfo {
+  name: string;
+  current: boolean;
+  offline?: boolean;
+  /** time.Duration */
+  active: number;
+  lag?: number;
+  peer: string;
+  cluster: string;
+}

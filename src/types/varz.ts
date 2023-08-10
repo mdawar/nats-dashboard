@@ -1,4 +1,10 @@
-import type { JWTClaimsData, JWTGenericFields } from './common';
+import type {
+  JetStreamConfig,
+  JetStreamStats,
+  MetaClusterInfo,
+  JWTClaimsData,
+  JWTGenericFields,
+} from './common';
 
 /** NATS server general information. */
 export interface Varz {
@@ -165,53 +171,6 @@ interface JetStreamVarz {
   config?: JetStreamConfig;
   stats?: JetStreamStats;
   meta?: MetaClusterInfo;
-}
-
-/** JetStream configuration for this server. */
-interface JetStreamConfig {
-  max_memory: number;
-  max_storage: number;
-  store_dir?: string;
-  domain?: string;
-  compress_ok?: boolean;
-}
-
-/** Statistics about JetStream for this server. */
-interface JetStreamStats {
-  memory: number;
-  storage: number;
-  reserved_memory: number;
-  reserved_storage: number;
-  accounts: number;
-  ha_assets: number;
-  api: JetStreamAPIStats;
-}
-
-interface JetStreamAPIStats {
-  total: number;
-  errors: number;
-  inflight?: number;
-}
-
-/** Information about the meta group. */
-interface MetaClusterInfo {
-  name?: string;
-  leader?: string;
-  peer?: string;
-  replicas?: PeerInfo[];
-  cluster_size: number;
-}
-
-/** Information about all the peers in the cluster that are supporting the stream or consumer. */
-interface PeerInfo {
-  name: string;
-  current: boolean;
-  offline?: boolean;
-  /** time.Duration */
-  active: number;
-  lag?: number;
-  peer: string;
-  cluster: string;
 }
 
 /** The data for an operator JWT. */
