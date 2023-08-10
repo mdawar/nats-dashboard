@@ -7,6 +7,8 @@ import {
 
 export interface BagdeProps extends ComponentProps<'span'> {
   color?: BadgeColor;
+  type?: 'regular' | 'pill';
+  class?: string;
 }
 
 export type BadgeColor = keyof typeof badgeColors;
@@ -27,13 +29,22 @@ const badgeColors = {
 };
 
 export default function Badge(props: ParentProps<BagdeProps>) {
-  const defaults = { color: 'gray' };
-  const [local, rest] = splitProps(mergeProps(defaults, props), ['color']);
+  const defaults: BagdeProps = { color: 'gray', type: 'regular' };
+  const [local, rest] = splitProps(mergeProps(defaults, props), [
+    'class',
+    'color',
+    'type',
+  ]);
 
   return (
     <span
-      class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
-      classList={{ [badgeColors[local.color as BadgeColor]]: !!local.color }}
+      class="inline-flex items-center px-2 py-1 text-xs font-medium ring-1 ring-inset"
+      classList={{
+        [local.class!]: !!local.class,
+        [badgeColors[local.color as BadgeColor]]: !!local.color,
+        'rounded-md': local.type === 'regular',
+        'rounded-full': local.type === 'pill',
+      }}
       {...rest}
     />
   );
