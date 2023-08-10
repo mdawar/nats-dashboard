@@ -1,46 +1,19 @@
-import { Show, createEffect, onCleanup } from 'solid-js';
+import { Show } from 'solid-js';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useStore } from '~/lib/store';
 import { useDisplayMobileMenu } from '~/lib/state';
-import { createPoller } from '~/lib/poller';
-import { fetchInfo } from '~/lib/info';
-import { FetchError, TimeoutError } from '~/lib/jsonp';
+import { useMonitoringService } from '~/lib/service';
 
 export default function InputHeader() {
+  useMonitoringService();
+
   const [store, actions] = useStore();
   const [_, setDisplay] = useDisplayMobileMenu();
-
-  const poller = createPoller(() => fetchInfo(store.url, 'varz'), {
-    interval: 1000,
-    onSuccess: (varz) => {
-      actions.setVarz(varz);
-    },
-    onError: (error) => {
-      // TODO: should not stop on first error (Maybe user defined option).
-      actions.setActive(false);
-      if (error instanceof FetchError) {
-        console.log('Fetch error:', error);
-      } else if (error instanceof TimeoutError) {
-        console.log('Timeout error:', error);
-      } else {
-        console.log('Other error:', error);
-      }
-    },
-  });
-
-  createEffect(() => {
-    if (store.active) {
-      poller.start();
-    } else {
-      poller.stop();
-    }
-  });
-
-  onCleanup(poller.stop);
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
 
+    // TODO: show an error if there's no URL
     if (store.url.trim() !== '') {
       actions.toggleActive();
     }
