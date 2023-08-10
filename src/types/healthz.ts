@@ -9,4 +9,18 @@ export interface HealthzOptions extends SearchParams {
 }
 
 /** NATS server health. */
-export interface Healthz {} // TODO
+export type Healthz = StatusOK | StatusError | StatusUnavailable;
+
+interface StatusOK {
+  status: 'ok';
+}
+
+interface StatusError {
+  status: 'error';
+  error: string;
+}
+
+interface StatusUnavailable {
+  status: 'unavailable';
+  error: string;
+}
