@@ -20,30 +20,28 @@ const defaultStore: StoreState = {
   varz: {},
 };
 
-const store = createStore<StoreState>(defaultStore);
+const [store, setState] = createStore<StoreState>(defaultStore);
+
+const actions: StoreActions = {
+  setActive(active: boolean) {
+    setState('active', active);
+  },
+
+  toggleActive() {
+    setState('active', (a) => !a);
+  },
+
+  setURL(url: string) {
+    setState('url', url);
+  },
+
+  setVarz(varz: PartialInfoResponse<'varz'>) {
+    setState('varz', varz);
+  },
+};
 
 export type StatsStore = [state: StoreState, actions: StoreActions];
 
 export function useStore(): StatsStore {
-  const [state, setState] = store;
-
-  const actions: StoreActions = {
-    setActive(active: boolean) {
-      setState('active', active);
-    },
-
-    toggleActive() {
-      setState('active', (a) => !a);
-    },
-
-    setURL(url: string) {
-      setState('url', url);
-    },
-
-    setVarz(varz: PartialInfoResponse<'varz'>) {
-      setState('varz', varz);
-    },
-  };
-
-  return [state, actions];
+  return [store, actions];
 }
