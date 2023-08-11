@@ -1,12 +1,17 @@
 ---
 import Layout from '~/layouts/Base.astro';
+import InputHeader from '~/components/InputHeader';
 import Navigation from '~/components/Navigation';
 import MainInfo from '~/components/MainInfo';
 import Stats from '~/components/Stats';
 ---
 
 <Layout>
-  <Navigation />
-  <MainInfo client:load />
-  <Stats client:load />
+  <InputHeader client:load />
+
+  <main>
+    <Navigation />
+    <MainInfo client:load />
+    <Stats client:load />
+  </main>
 </Layout>

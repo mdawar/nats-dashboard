@@ -1,7 +1,6 @@
 ---
 import '~/styles/global.css';
 import Sidebar from '~/components/Sidebar';
-import InputHeader from '~/components/InputHeader';
 ---
 
 <html lang="en" class="h-full">
@@ -17,11 +16,7 @@ import InputHeader from '~/components/InputHeader';
       <Sidebar client:load />
 
       <div class="lg:pl-72">
-        <InputHeader client:load />
-
-        <main>
-          <slot />
-        </main>
+        <slot />
       </div>
     </div>
   </body>
