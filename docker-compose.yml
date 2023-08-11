@@ -1,4 +1,15 @@
 services:
+  dashboard:
+    image: mdawar/nats-dashboard
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: main
+    ports:
+      - target: 80
+        published: 8000
+        protocol: tcp
+
   server:
     image: nats:latest
     command: -n local-demo-server -m 8222

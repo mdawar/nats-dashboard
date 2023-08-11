@@ -14,26 +14,54 @@ There's **no data retention**, so no historical stats can be displayed, you will
 
 ## Development
 
-#### Run a local NATS server
-
-```sh
-# Start a NATS server using Docker compose
-make server
-# Remove containers and volumes
-make clean
-```
-
 #### Run the web app in dev mode
 
 ```sh
 npm start
 ```
 
+#### Run a local NATS server
+
+```sh
+# Start a local NATS server using Docker compose
+make server
+# Remove containers and volumes
+make clean
+```
+
 ## Build the App
+
+#### Build the Web App
 
 ```sh
 # Build a static web app to ./dist
 npm run build
+```
+
+#### Build Docker Image
+
+```sh
+make build
+# Same as
+docker compose build
+```
+
+Without using `docker compose`:
+
+```sh
+docker build -t nats-dashboard .
+```
+
+## Build and Preview
+
+```sh
+# Build the docker image and run on http://localhost:8000
+# Also runs a local NATS server on port 4222
+make preview
+# Same as
+docker compose up
+# Remove containers and volumes
+make clean
 ```
 
 ## Data Fetching
