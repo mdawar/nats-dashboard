@@ -1,0 +1,21 @@
+---
+import Layout from '~/layouts/Base.astro';
+import DashboardApp from '~/components/dashboard/App';
+
+export function getStaticPaths() {
+  // These routes are managed by Solid Router on the client side
+  // but need to be statically generated to be able to access them
+  // as regular pages.
+  return [
+    { params: { path: undefined } },
+    { params: { path: 'connections' } },
+    { params: { path: 'jetstream' } },
+  ];
+}
+
+const { path } = Astro.params;
+---
+
+<Layout>
+  <DashboardApp url={path ?? '/'} client:load />
+</Layout>

@@ -1,6 +1,6 @@
 import { useStore } from '~/lib/store';
 import { formatStats } from '~/lib/stats';
-import StatCell from '~/components/StatCell';
+import StatCell from '~/components/dashboard/StatCell';
 
 export default function Stats() {
   const [store] = useStore();

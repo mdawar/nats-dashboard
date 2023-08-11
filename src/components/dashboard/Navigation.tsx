@@ -1,3 +1,5 @@
+import { A, type AnchorProps } from '@solidjs/router';
+
 export default function Navigation() {
   return (
     <nav class="flex overflow-x-auto border-b border-gray-200 dark:border-white/10 py-4">
@@ -6,31 +8,27 @@ export default function Navigation() {
         class="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-500 dark:text-gray-400 sm:px-6 lg:px-8"
       >
         <li>
-          <a href="#" class="text-cyan-600 dark:text-cyan-400">
-            Overview
-          </a>
+          <Link href="/">Overview</Link>
         </li>
         <li>
-          <a href="#" class="">
-            JetStream
-          </a>
+          <Link href="/connections">Connections</Link>
         </li>
         <li>
-          <a href="#" class="">
-            Connections
-          </a>
+          <Link href="/jetstream">JetStream</Link>
         </li>
         <li>
-          <a href="#" class="">
-            Accounts
-          </a>
+          <Link href="/accounts">Accounts</Link>
         </li>
         <li>
-          <a href="#" class="">
-            Routes
-          </a>
+          <Link href="/routes">Routes</Link>
         </li>
       </ul>
     </nav>
+  );
+}
+
+function Link(props: AnchorProps) {
+  return (
+    <A activeClass="text-cyan-600 dark:text-cyan-400" end={true} {...props} />
   );
 }
