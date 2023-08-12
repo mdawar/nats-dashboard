@@ -80,6 +80,7 @@ This is a workaround until NATS starts supporting CORS (Server HTTP headers requ
 
 - [Astro](https://astro.build/): Web Framework
 - [Solid](https://www.solidjs.com/): UI Framework
+- [TanStack Query](https://tanstack.com/query/latest): Asynchronous state management
 - [Tailwind UI](https://tailwindui.com/): Tailwind CSS components
 - [Heroicons](https://heroicons.com/): SVG Icons
 - [CNCF Artwork](https://github.com/cncf/artwork): NATS logo
