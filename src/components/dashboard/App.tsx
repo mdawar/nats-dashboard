@@ -1,6 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
+import {
+  QueryClient,
+  QueryCache,
+  QueryClientProvider,
+} from '@tanstack/solid-query';
 import { Router, Routes, Route } from '@solidjs/router';
 
+import { FetchError, TimeoutError } from '~/lib/jsonp';
 import InputHeader from '~/components/dashboard/InputHeader';
 import Navigation from '~/components/dashboard/Navigation';
 import Overview from '~/components/dashboard/pages/Overview';
@@ -16,7 +21,22 @@ interface AppProps {
   url: string;
 }
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError(error, query) {
+      // TODO: use toast to display error
+      if (error instanceof FetchError) {
+        console.log('Fetch error:', error);
+      } else if (error instanceof TimeoutError) {
+        console.log('Timeout error:', error);
+      } else {
+        console.log('Other error:', error);
+      }
+
+      console.log('fetchFailureCount', query.state.fetchFailureCount);
+    },
+  }),
+});
 
 export default function App(props: AppProps) {
   return (
