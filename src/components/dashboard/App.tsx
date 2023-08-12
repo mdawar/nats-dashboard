@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/solid-query';
 import { Router, Routes, Route } from '@solidjs/router';
 
 import InputHeader from '~/components/dashboard/InputHeader';
@@ -15,22 +16,26 @@ interface AppProps {
   url: string;
 }
 
+const queryClient = new QueryClient();
+
 export default function App(props: AppProps) {
   return (
-    <div>
-      <InputHeader />
+    <QueryClientProvider client={queryClient}>
+      <div>
+        <InputHeader />
 
-      <main>
-        <Router url={props.url}>
-          <Navigation />
+        <main>
+          <Router url={props.url}>
+            <Navigation />
 
-          <Routes>
-            <Route path="/" component={Overview} />
-            <Route path="/connections" component={Connections} />
-            <Route path="/jetstream" component={JetStream} />
-          </Routes>
-        </Router>
-      </main>
-    </div>
+            <Routes>
+              <Route path="/" component={Overview} />
+              <Route path="/connections" component={Connections} />
+              <Route path="/jetstream" component={JetStream} />
+            </Routes>
+          </Router>
+        </main>
+      </div>
+    </QueryClientProvider>
   );
 }

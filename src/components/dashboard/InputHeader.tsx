@@ -1,14 +1,12 @@
 import { Show } from 'solid-js';
+
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useStore } from '~/lib/store';
 import { useDisplayMobileMenu } from '~/lib/state';
-import { useMonitoringService } from '~/lib/service';
 
 export default function InputHeader() {
-  useMonitoringService();
-
   const [store, actions] = useStore();
-  const [_, setDisplay] = useDisplayMobileMenu();
+  const [_, setDisplay] = useDisplayMobileMenu(); // TODO: move to global store
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
