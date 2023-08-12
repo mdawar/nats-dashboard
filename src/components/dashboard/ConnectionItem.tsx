@@ -1,5 +1,5 @@
 import { For, Show } from 'solid-js';
-import type { ConnectionInfo } from '~/lib/stats';
+import type { ConnectionInfo } from '~/lib/format';
 
 // TODO: .net, nats.deno, java
 const langColor: Record<string, string> = {

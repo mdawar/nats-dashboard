@@ -2,7 +2,7 @@ import { createQuery } from '@tanstack/solid-query';
 
 import { useStore } from '~/lib/store';
 import { fetchInfo } from '~/lib/info';
-import { formatVarz, formatConnz } from '~/lib/stats';
+import { formatVarz, formatConnz } from '~/lib/format';
 
 /** Start polling for general server information. */
 export function useVarz() {
