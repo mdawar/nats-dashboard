@@ -1,6 +1,7 @@
 export interface FormattedBytes {
   value: string;
   unit: string;
+  display: string;
 }
 
 /** Format bytes to a human readable number with a unit. */
@@ -9,9 +10,13 @@ export function formatBytes(bytes: number): FormattedBytes {
   const factor = 1024;
 
   if (bytes < factor) {
+    const value = bytes.toFixed(2).replace(/\.0+$/, '');
+    const unit = 'B';
+
     return {
-      value: bytes.toFixed(2).replace(/\.0+$/, ''),
-      unit: 'B',
+      value,
+      unit,
+      display: `${value} ${unit}`,
     };
   }
 
@@ -23,15 +28,20 @@ export function formatBytes(bytes: number): FormattedBytes {
     exp++;
   }
 
+  const value = (bytes / div).toFixed(2).replace(/\.0+$/, '');
+  const unit = `${units[exp]}iB`;
+
   return {
-    value: (bytes / div).toFixed(2).replace(/\.0+$/, ''),
-    unit: `${units[exp]}iB`,
+    value,
+    unit,
+    display: [value, unit].join(' '),
   };
 }
 
 export interface AbbreviatedNumber {
   value: string;
   unit: string | undefined;
+  display: string;
 }
 
 /** Abbreviate a large number.
@@ -47,9 +57,13 @@ export function abbreviateNum(n: number): AbbreviatedNumber {
     suffixNum++;
   }
 
+  const value = n.toFixed(2).replace(/\.0+$/, '');
+  const unit = suffixes[suffixNum];
+
   return {
-    value: n.toFixed(2).replace(/\.0+$/, ''),
-    unit: suffixes[suffixNum],
+    value,
+    unit,
+    display: [value, unit].join(' '),
   };
 }
 
