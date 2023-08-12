@@ -10,6 +10,7 @@ export function useVarz() {
   const query = createQuery(() => ({
     queryKey: [store.url, 'varz'],
     queryFn: () => fetchInfo(store.url, 'varz'),
+    placeholderData: {},
     enabled: store.active,
     refetchInterval: 1000,
     reconcile: false,
