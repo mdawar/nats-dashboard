@@ -2,7 +2,10 @@ import type { PartialInfoResponse } from '~/lib/info';
 import {
   formatBytes,
   abbreviateNum,
+  formatUptime,
+  formatLastActivity,
   msTimeDiff,
+  diffInSecondsToNow,
   type FormattedBytes,
   type AbbreviatedNumber,
 } from '~/lib/utils';
@@ -95,5 +98,62 @@ export function formatStats(
     outMsgsRate,
     inBytesRate,
     outBytesRate,
+  };
+}
+
+/** Formatted connections information. */
+interface FormattedConnz extends PartialInfoResponse<'connz'> {
+  /** Number of client connections. */
+  numConnections: number;
+  /** List of connections to the server. */
+  connections: ConnectionInfo[];
+}
+
+/** Single client connection information. */
+export interface ConnectionInfo {
+  cid: number;
+  /** Host and port of the client. */
+  host: string;
+  /** Client name. */
+  name?: string | undefined;
+  /** Client language. */
+  lang?: string | undefined;
+  /** Client version. */
+  version?: string | undefined;
+  /** Client information. */
+  info?: Record<string, string | number>;
+  /** Number of seconds since the client's last activity. */
+  lastActive: number;
+}
+
+/** Format the connections data for display. */
+export function formatConnz(
+  connz: PartialInfoResponse<'connz'>
+): FormattedConnz {
+  const { current } = connz;
+
+  const connections: ConnectionInfo[] =
+    current?.connections.map((conn) => ({
+      cid: conn.cid,
+      host: `${conn.ip}:${conn.port}`,
+      name: conn.name,
+      lang: conn.lang,
+      version: conn.version,
+      lastActive: diffInSecondsToNow(conn.last_activity),
+      info: {
+        Uptime: formatUptime(conn.uptime),
+        'Last activity': formatLastActivity(conn.last_activity),
+        Subs: conn.subscriptions,
+        Pending: formatBytes(conn.pending_bytes).display,
+        'Msgs. Sent': abbreviateNum(conn.in_msgs).display,
+        'Msgs. Received': abbreviateNum(conn.out_msgs).display,
+        'Data Sent': formatBytes(conn.in_bytes).display,
+        'Data Received': formatBytes(conn.out_bytes).display,
+      },
+    })) ?? [];
+
+  return {
+    numConnections: current?.num_connections ?? 0,
+    connections,
   };
 }
