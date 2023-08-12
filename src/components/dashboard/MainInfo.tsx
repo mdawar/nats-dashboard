@@ -1,4 +1,4 @@
-import { useVarz } from '~/lib/monitor';
+import { useVarz } from '~/lib/queries';
 
 export default function MainInfo() {
   const varz = useVarz();

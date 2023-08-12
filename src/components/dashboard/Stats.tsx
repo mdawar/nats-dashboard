@@ -1,4 +1,4 @@
-import { useVarz } from '~/lib/monitor';
+import { useVarz } from '~/lib/queries';
 import StatCell from '~/components/dashboard/StatCell';
 
 export default function Stats() {

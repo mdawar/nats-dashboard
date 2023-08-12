@@ -1,7 +1,7 @@
 import { For } from 'solid-js';
 
 import Badge from '~/components/Badge';
-import { useConnz } from '~/lib/monitor';
+import { useConnz } from '~/lib/queries';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 
 export default function ConnectionsList() {
