@@ -10,8 +10,16 @@ import {
   type AbbreviatedNumber,
 } from '~/lib/utils';
 
-/** Formatted server stats. */
-export interface FormattedStats {
+/** Formatted server information. */
+export interface FormattedVarz {
+  /** Server ID. */
+  serverID: string;
+  /** Server name. */
+  serverName: string;
+  /** Server version. */
+  version: string;
+  /** Server uptime. */
+  uptime: string;
   /** Server CPU usage in percentage. */
   cpu: number;
   /** Server memory usage. */
@@ -44,11 +52,9 @@ export interface FormattedStats {
   outBytesRate: FormattedBytes;
 }
 
-/** Format the server stats for display. */
-export function formatStats(
-  stats: PartialInfoResponse<'varz'>
-): FormattedStats {
-  const { current, previous } = stats;
+/** Format the server information for display. */
+export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
+  const { current, previous } = varz;
 
   // Time delta between the current and previous request in milliseconds.
   // Using the server reported time instead of request time.
@@ -83,6 +89,10 @@ export function formatStats(
   );
 
   return {
+    serverID: current?.server_id ?? '',
+    serverName: current?.server_name ?? '',
+    version: current?.version ?? '',
+    uptime: formatUptime(current?.uptime ?? ''),
     cpu: current?.cpu ?? 0,
     memory: formatBytes(current?.mem ?? 0),
     conns: abbreviateNum(current?.connections ?? 0),
