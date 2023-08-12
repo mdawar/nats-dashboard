@@ -1,10 +1,23 @@
-import { Show } from 'solid-js';
+import { onMount, createEffect, Show } from 'solid-js';
 
 import { useStore } from '~/lib/store';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
+import { useSearchParams } from '@solidjs/router';
 
 export default function InputHeader() {
   const [store, actions] = useStore();
+  const [params, setParams] = useSearchParams();
+
+  onMount(() => {
+    if (params.url) {
+      actions.setURL(params.url);
+      actions.setActive(true);
+    }
+  });
+
+  createEffect(() => {
+    setParams({ url: store.url });
+  });
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();

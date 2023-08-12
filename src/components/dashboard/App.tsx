@@ -42,10 +42,10 @@ export default function App(props: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <div>
-        <InputHeader />
+        <Router url={props.url}>
+          <InputHeader />
 
-        <main>
-          <Router url={props.url}>
+          <main>
             <Navigation />
 
             <Routes>
@@ -53,8 +53,8 @@ export default function App(props: AppProps) {
               <Route path="/connections" component={Connections} />
               <Route path="/jetstream" component={JetStream} />
             </Routes>
-          </Router>
-        </main>
+          </main>
+        </Router>
       </div>
     </QueryClientProvider>
   );

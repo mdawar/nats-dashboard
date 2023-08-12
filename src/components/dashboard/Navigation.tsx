@@ -1,6 +1,11 @@
-import { A, type AnchorProps } from '@solidjs/router';
+import { A, useLocation, type AnchorProps } from '@solidjs/router';
 
 export default function Navigation() {
+  const location = useLocation();
+
+  // Preserve the query params on navigation.
+  const path = (path: string) => `${path}${location.search}`;
+
   return (
     <nav class="flex overflow-x-auto border-b border-gray-200 dark:border-white/10 py-4">
       <ul
@@ -8,19 +13,19 @@ export default function Navigation() {
         class="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-500 dark:text-gray-400 sm:px-6 lg:px-8"
       >
         <li>
-          <Link href="/">Overview</Link>
+          <Link href={path('/')}>Overview</Link>
         </li>
         <li>
-          <Link href="/connections">Connections</Link>
+          <Link href={path('/connections')}>Connections</Link>
         </li>
         <li>
-          <Link href="/jetstream">JetStream</Link>
+          <Link href={path('/jetstream')}>JetStream</Link>
         </li>
         <li>
-          <Link href="/accounts">Accounts</Link>
+          <Link href={path('/accounts')}>Accounts</Link>
         </li>
         <li>
-          <Link href="/routes">Routes</Link>
+          <Link href={path('/routes')}>Routes</Link>
         </li>
       </ul>
     </nav>
