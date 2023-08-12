@@ -6,7 +6,7 @@ import {
   type ParentProps,
   type ComponentProps,
 } from 'solid-js';
-import { useDisplayMobileMenu } from '~/lib/state';
+import { useStore } from '~/lib/store';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
 import {
@@ -33,15 +33,15 @@ export default function Sidebar() {
 
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
 function MobileSidebar() {
-  const [display, setDisplay] = useDisplayMobileMenu();
+  const [store, actions] = useStore();
   // Workaround to keep the container element until the animation ends.
   // Without this workaround the animated child elements are removed from the DOM before any animations are applied.
-  const [showContainer, setShowContainer] = createSignal(display()); // Start with the initial state of the menu.
+  const [showContainer, setShowContainer] = createSignal(store.menuActive); // Start with the initial state of the menu.
 
   // Track enabling the mobile menu to display the container.
   // Hiding the container is done after the animation completes.
   createRenderEffect(() => {
-    if (display()) {
+    if (store.menuActive) {
       setShowContainer(true);
     }
   });
@@ -63,7 +63,7 @@ function MobileSidebar() {
             setShowContainer(false);
           }}
         >
-          <Show when={display()}>
+          <Show when={store.menuActive}>
             <div class="fixed inset-0 bg-gray-900/80"></div>
           </Show>
         </Transition>
@@ -79,10 +79,10 @@ function MobileSidebar() {
             exitToClass="-translate-x-full"
             appear={true}
           >
-            <Show when={display()}>
+            <Show when={store.menuActive}>
               <div
                 class="relative mr-16 flex w-full max-w-xs flex-1 dark:bg-gray-900"
-                use:clickOutside={() => setDisplay(false)}
+                use:clickOutside={actions.hideMenu}
               >
                 {/*
                   Close button, show/hide based on off-canvas menu state.
@@ -103,7 +103,7 @@ function MobileSidebar() {
                   <button
                     type="button"
                     class="-m-2.5 p-2.5"
-                    onClick={() => setDisplay(false)}
+                    onClick={actions.hideMenu}
                   >
                     <span class="sr-only">Close sidebar</span>
                     <CloseIcon class="h-6 w-6 text-white" />

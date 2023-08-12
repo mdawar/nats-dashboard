@@ -1,12 +1,10 @@
 import { Show } from 'solid-js';
 
-import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useStore } from '~/lib/store';
-import { useDisplayMobileMenu } from '~/lib/state';
+import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 
 export default function InputHeader() {
   const [store, actions] = useStore();
-  const [_, setDisplay] = useDisplayMobileMenu(); // TODO: move to global store
 
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
@@ -22,7 +20,7 @@ export default function InputHeader() {
       <button
         type="button"
         class="-m-2.5 p-2.5 text-gray-700 dark:text-white lg:hidden"
-        onClick={() => setDisplay(true)}
+        onClick={actions.displayMenu}
       >
         <span class="sr-only">Open sidebar</span>
         <BarsIcon class="h-6 w-6" />
