@@ -1,10 +1,12 @@
+import { createMemo } from 'solid-js';
+
 import { useStore } from '~/lib/store';
 import { formatStats } from '~/lib/stats';
 import StatCell from '~/components/dashboard/StatCell';
 
 export default function Stats() {
   const [store] = useStore();
-  const stats = () => formatStats(store.varz);
+  const stats = createMemo(() => formatStats(store.varz));
 
   return (
     <div class="bg-gray-200 dark:bg-gray-700/50 border-y border-gray-200 dark:border-gray-700/50 tabular-nums">
