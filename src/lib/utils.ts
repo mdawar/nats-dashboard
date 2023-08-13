@@ -7,7 +7,7 @@ import {
 export interface FormattedBytes {
   value: string;
   unit: string;
-  display: string;
+  str: string;
 }
 
 /** Format bytes to a human readable number with a unit. */
@@ -18,12 +18,9 @@ export function formatBytes(bytes: number): FormattedBytes {
   if (bytes < factor) {
     const value = bytes.toFixed(2).replace(/\.0+$/, '');
     const unit = 'B';
+    const str = `${value} ${unit}`;
 
-    return {
-      value,
-      unit,
-      display: `${value} ${unit}`,
-    };
+    return { value, unit, str };
   }
 
   let div = factor;
@@ -36,18 +33,15 @@ export function formatBytes(bytes: number): FormattedBytes {
 
   const value = (bytes / div).toFixed(2).replace(/\.0+$/, '');
   const unit = `${units[exp]}iB`;
+  const str = [value, unit].join(' ');
 
-  return {
-    value,
-    unit,
-    display: [value, unit].join(' '),
-  };
+  return { value, unit, str };
 }
 
 export interface AbbreviatedNumber {
   value: string;
   unit: string | undefined;
-  display: string;
+  str: string;
 }
 
 /** Abbreviate a large number.
@@ -65,12 +59,9 @@ export function abbreviateNum(n: number): AbbreviatedNumber {
 
   const value = n.toFixed(2).replace(/\.0+$/, '');
   const unit = suffixes[suffixNum];
+  const str = [value, unit].join(' ');
 
-  return {
-    value,
-    unit,
-    display: [value, unit].join(' '),
-  };
+  return { value, unit, str };
 }
 
 /** Format the server uptime string (adds spaces after the letters). */

@@ -154,11 +154,11 @@ export function formatConnz(
         Uptime: formatUptime(conn.uptime),
         'Last activity': formatLastActivity(conn.last_activity),
         Subs: conn.subscriptions,
-        Pending: formatBytes(conn.pending_bytes).display,
-        'Msgs. Sent': abbreviateNum(conn.in_msgs).display,
-        'Msgs. Received': abbreviateNum(conn.out_msgs).display,
-        'Data Sent': formatBytes(conn.in_bytes).display,
-        'Data Received': formatBytes(conn.out_bytes).display,
+        Pending: formatBytes(conn.pending_bytes).str,
+        'Msgs. Sent': abbreviateNum(conn.in_msgs).str,
+        'Msgs. Received': abbreviateNum(conn.out_msgs).str,
+        'Data Sent': formatBytes(conn.in_bytes).str,
+        'Data Received': formatBytes(conn.out_bytes).str,
       },
     })) ?? [];
 
