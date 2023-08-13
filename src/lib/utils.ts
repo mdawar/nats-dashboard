@@ -5,8 +5,13 @@ import {
 } from 'date-fns';
 
 export interface FormattedBytes {
+  /** Original number of bytes. */
+  bytes: number;
+  /** Formatted number of bytes. */
   value: string;
+  /** Unit of the formatted number of bytes. */
   unit: string;
+  /** String representation of the formatted bytes. */
   str: string;
 }
 
@@ -20,7 +25,7 @@ export function formatBytes(bytes: number): FormattedBytes {
     const unit = 'B';
     const str = `${value} ${unit}`;
 
-    return { value, unit, str };
+    return { bytes, value, unit, str };
   }
 
   let div = factor;
@@ -35,12 +40,17 @@ export function formatBytes(bytes: number): FormattedBytes {
   const unit = `${units[exp]}iB`;
   const str = [value, unit].join(' ');
 
-  return { value, unit, str };
+  return { bytes, value, unit, str };
 }
 
 export interface AbbreviatedNumber {
+  /** Original number. */
+  num: number;
+  /** Abbreviated number. */
   value: string;
+  /** Unit of the abbreviated number. */
   unit: string | undefined;
+  /** String representation of the abbreviated number. */
   str: string;
 }
 
@@ -48,20 +58,20 @@ export interface AbbreviatedNumber {
  *
  * Non abbreviated numbers will have the unit as an empty string.
  */
-export function abbreviateNum(n: number): AbbreviatedNumber {
+export function abbreviateNum(num: number): AbbreviatedNumber {
   const suffixes = ['', 'K', 'M', 'B', 'T'];
   let suffixNum = 0;
 
-  while (n >= 1000) {
-    n /= 1000;
+  while (num >= 1000) {
+    num /= 1000;
     suffixNum++;
   }
 
-  const value = n.toFixed(2).replace(/\.0+$/, '');
+  const value = num.toFixed(2).replace(/\.0+$/, '');
   const unit = suffixes[suffixNum];
   const str = [value, unit].join(' ');
 
-  return { value, unit, str };
+  return { num, value, unit, str };
 }
 
 /** Format the server uptime string (adds spaces after the letters). */
