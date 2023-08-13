@@ -1,4 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
+import type { ConnInfo } from '~/types/common';
 import {
   formatBytes,
   abbreviateNum,
@@ -107,31 +108,57 @@ export interface ConnectionInfo {
   lastActive: number;
 }
 
+/** Map of client connections by CID. */
+type ConnectionsMap = Record<number, ConnInfo>;
+
 /** Format the connections data for display. */
 export function formatConnz(
   connz: PartialInfoResponse<'connz'>
 ): FormattedConnz {
-  const { current } = connz;
+  const { current, previous } = connz;
+
+  /** Map of the previous connections by CID. */
+  const prevConns: ConnectionsMap =
+    previous?.connections.reduce((acc, c) => {
+      acc[c.cid] = c;
+      return acc;
+    }, {} as ConnectionsMap) ?? {};
 
   const connections: ConnectionInfo[] =
-    current?.connections.map((conn) => ({
-      cid: conn.cid,
-      host: `${conn.ip}:${conn.port}`,
-      name: conn.name,
-      lang: conn.lang,
-      version: conn.version,
-      lastActive: diffInSecondsToNow(conn.last_activity),
-      info: {
-        Uptime: formatUptime(conn.uptime),
-        'Last activity': formatLastActivity(conn.last_activity),
-        Subs: conn.subscriptions,
-        Pending: formatBytes(conn.pending_bytes).str,
-        'Msgs. Sent': abbreviateNum(conn.in_msgs).str,
-        'Msgs. Received': abbreviateNum(conn.out_msgs).str,
-        'Data Sent': formatBytes(conn.in_bytes).str,
-        'Data Received': formatBytes(conn.out_bytes).str,
-      },
-    })) ?? [];
+    current?.connections.map((conn) => {
+      // Returns zero rates if any of the params is undefined.
+      const rates = calculateRates({
+        now: current?.now,
+        then: previous?.now,
+        current: conn,
+        previous: prevConns[conn.cid],
+      });
+
+      return {
+        cid: conn.cid,
+        host: `${conn.ip}:${conn.port}`,
+        name: conn.name,
+        lang: conn.lang,
+        version: conn.version,
+        lastActive: diffInSecondsToNow(conn.last_activity),
+        info: {
+          Uptime: formatUptime(conn.uptime),
+          'Last activity': formatLastActivity(conn.last_activity),
+          Subs: conn.subscriptions,
+          Pending: formatBytes(conn.pending_bytes).str,
+          // In and out messages.
+          'Msgs. Sent': abbreviateNum(conn.in_msgs).str,
+          'Msgs. Received': abbreviateNum(conn.out_msgs).str,
+          'Data Sent': formatBytes(conn.in_bytes).str,
+          'Data Received': formatBytes(conn.out_bytes).str,
+          // Rates
+          'Msgs. Sent Rate': `${rates.inMsgsRate.str}/s`,
+          'Msgs. Received Rate': `${rates.outMsgsRate.str}/s`,
+          'Data Sent Rate': `${rates.inBytesRate.str}/s`,
+          'Data Received Rate': `${rates.outBytesRate.str}/s`,
+        },
+      };
+    }) ?? [];
 
   return {
     numConnections: current?.num_connections ?? 0,
