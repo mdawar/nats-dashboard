@@ -47,46 +47,43 @@ export default function ConnectionItem(props: ClientConnection) {
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge border={false} color="gray">
-            Uptime: <strong class="ml-1">{props.info.uptime}</strong>
+            Uptime: {props.info.uptime}
           </Badge>
           <Badge border={false} color="gray">
-            Last Activity:{' '}
-            <strong class="ml-1">{props.info.lastActivity}</strong>
+            Last Activity: {props.info.lastActivity}
           </Badge>
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge border={false} color={highlightNonZero(props.subscriptions)}>
-            Subs: <strong class="ml-1">{props.subscriptions}</strong>
+            Subs: {props.subscriptions}
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.pending.bytes)}
           >
-            Pending: <strong class="ml-1">{props.info.pending.str}</strong>
+            Pending: {props.info.pending.str}
           </Badge>
           <Badge border={false} color={highlightNonZero(props.info.inMsgs.num)}>
-            Msgs. Sent: <strong class="ml-1">{props.info.inMsgs.str}</strong>
+            Msgs. Sent: {props.info.inMsgs.str}
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.outMsgs.num)}
           >
-            Msgs. Received:{' '}
-            <strong class="ml-1">{props.info.outMsgs.str}</strong>
+            Msgs. Received: {props.info.outMsgs.str}
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.inBytes.bytes)}
           >
-            Data Sent: <strong class="ml-1">{props.info.inBytes.str}</strong>
+            Data Sent: {props.info.inBytes.str}
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.outBytes.bytes)}
           >
-            Data Received:{' '}
-            <strong class="ml-1">{props.info.outBytes.str}</strong>
+            Data Received: {props.info.outBytes.str}
           </Badge>
         </div>
 
@@ -95,29 +92,25 @@ export default function ConnectionItem(props: ClientConnection) {
             border={false}
             color={highlightNonZero(props.info.inMsgsRate.num)}
           >
-            Msgs. Sent Rate:{' '}
-            <strong class="ml-1">{props.info.inMsgsRate.str}/s</strong>
+            Msgs. Sent Rate: {props.info.inMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.outMsgsRate.num)}
           >
-            Msgs. Received Rate:{' '}
-            <strong class="ml-1">{props.info.outMsgsRate.str}/s</strong>
+            Msgs. Received Rate: {props.info.outMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.inBytesRate.bytes)}
           >
-            Data Sent Rate:{' '}
-            <strong class="ml-1">{props.info.inBytesRate.str}/s</strong>
+            Data Sent Rate: {props.info.inBytesRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={highlightNonZero(props.info.outBytesRate.bytes)}
           >
-            Data Received Rate:{' '}
-            <strong class="ml-1">{props.info.outBytesRate.str}/s</strong>
+            Data Received Rate: {props.info.outBytesRate.str}/s
           </Badge>
         </div>
       </div>
