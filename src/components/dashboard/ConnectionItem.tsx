@@ -1,4 +1,4 @@
-import { For, Show } from 'solid-js';
+import { createMemo, For, Show } from 'solid-js';
 import type { ConnectionInfo } from '~/lib/format';
 
 // TODO: .net, nats.deno, java
@@ -20,7 +20,7 @@ const indicatorColors = {
 };
 
 export default function ConnectionItem(props: ConnectionInfo) {
-  const infoEntries = () => Object.entries(props.info ?? {});
+  const infoEntries = createMemo(() => Object.entries(props.info ?? {}));
 
   const lang = props.lang?.toLowerCase() ?? 'Unknown';
   const langName = lang in langColor ? lang : 'unknown';
