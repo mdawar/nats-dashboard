@@ -1,4 +1,5 @@
 import { useVarz } from '~/lib/queries';
+import Indicator from '~/components/Indicator';
 
 export default function MainInfo() {
   const varz = useVarz();
@@ -7,9 +8,7 @@ export default function MainInfo() {
     <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8 tabular-nums">
       <div>
         <div class="flex items-center gap-x-3">
-          <div class="flex-none rounded-full bg-emerald-500/20 text-emerald-500 dark:bg-green-400/10 dark:text-green-400 p-1">
-            <div class="h-2 w-2 rounded-full bg-current"></div>
-          </div>
+          <Indicator color="green" />
 
           <h1 class="flex gap-x-3 text-base leading-7">
             <span class="font-semibold text-gray-900 dark:text-white">
