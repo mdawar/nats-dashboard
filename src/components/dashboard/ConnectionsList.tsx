@@ -1,7 +1,7 @@
 import { For } from 'solid-js';
 
-import Badge from '~/components/Badge';
 import { useConnz } from '~/lib/queries';
+import Badge from '~/components/Badge';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 
 export default function ConnectionsList() {
@@ -91,7 +91,14 @@ export default function ConnectionsList() {
       </header>
 
       <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
-        <For each={connz.data?.connections}>
+        <For
+          each={connz.data?.connections}
+          fallback={
+            <li class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+              No connections to display.
+            </li>
+          }
+        >
           {(conn) => <ConnectionItem {...conn} />}
         </For>
       </ul>
