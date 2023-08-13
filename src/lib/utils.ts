@@ -146,6 +146,20 @@ export function calculateRates({
   current,
   previous,
 }: CalculateRatesParams): Rates {
+  // If any of the params is undefined, return zero values.
+  if (!now || !then || !current || !previous) {
+    const zeroMsgRate = abbreviateNum(0);
+    const zeroDataRate = formatBytes(0);
+
+    return {
+      timeDelta: 0,
+      inMsgsRate: zeroMsgRate,
+      outMsgsRate: zeroMsgRate,
+      inBytesRate: zeroDataRate,
+      outBytesRate: zeroDataRate,
+    };
+  }
+
   // Time delta between the current and previous request in milliseconds.
   const timeDelta = now && then ? msTimeDiff(now, then) : 0;
   // Time delta in seconds.
