@@ -105,3 +105,81 @@ export function diffInSecondsToNow(date: string): number {
     roundingMethod: 'round',
   });
 }
+
+/** Rates of in/out messages and bytes per second. */
+interface Rates {
+  /** Time delta in milliseconds. */
+  timeDelta: number;
+  /** In messages rate per second. */
+  inMsgsRate: AbbreviatedNumber;
+  /** Out messages rate per second. */
+  outMsgsRate: AbbreviatedNumber;
+  /** In data rate per second. */
+  inBytesRate: FormattedBytes;
+  /** Out data rate per second. */
+  outBytesRate: FormattedBytes;
+}
+
+/** Numbers of in/out messages and bytes to use for the rate calculations. */
+interface MessagesData {
+  in_msgs: number | undefined;
+  out_msgs: number | undefined;
+  in_bytes: number | undefined;
+  out_bytes: number | undefined;
+}
+
+interface CalculateRatesParams {
+  /** Current data timestamp. */
+  now: string | undefined;
+  /** Previous data timestamp. */
+  then: string | undefined;
+  /** Current in/out messages and bytes data. */
+  current: MessagesData | undefined;
+  /** Previous in/out messages and bytes data. */
+  previous: MessagesData | undefined;
+}
+
+/** Calculate the rate of messages and bytes per second between 2 timestamps. */
+export function calculateRates({
+  now,
+  then,
+  current,
+  previous,
+}: CalculateRatesParams): Rates {
+  // Time delta between the current and previous request in milliseconds.
+  const timeDelta = now && then ? msTimeDiff(now, then) : 0;
+  // Time delta in seconds.
+  const timeDeltaSec = timeDelta / 1000;
+
+  const inMsgsDelta = (current?.in_msgs ?? 0) - (previous?.in_msgs ?? 0);
+
+  const inMsgsRate = abbreviateNum(
+    timeDeltaSec > 0 ? Math.max(inMsgsDelta, 0) / timeDeltaSec : 0
+  );
+
+  const outMsgsDelta = (current?.out_msgs ?? 0) - (previous?.out_msgs ?? 0);
+
+  const outMsgsRate = abbreviateNum(
+    timeDeltaSec > 0 ? Math.max(outMsgsDelta, 0) / timeDeltaSec : 0
+  );
+
+  const inBytesDelta = (current?.in_bytes ?? 0) - (previous?.in_bytes ?? 0);
+
+  const inBytesRate = formatBytes(
+    timeDeltaSec > 0 ? Math.max(inBytesDelta, 0) / timeDeltaSec : 0
+  );
+
+  const outBytesDelta = (current?.out_bytes ?? 0) - (previous?.out_bytes ?? 0);
+
+  const outBytesRate = formatBytes(
+    timeDeltaSec > 0 ? Math.max(outBytesDelta, 0) / timeDeltaSec : 0
+  );
+
+  return {
+    timeDelta,
+    inMsgsRate,
+    outMsgsRate,
+    inBytesRate,
+    outBytesRate,
+  };
+}

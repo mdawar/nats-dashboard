@@ -2,9 +2,9 @@ import type { PartialInfoResponse } from '~/lib/info';
 import {
   formatBytes,
   abbreviateNum,
+  calculateRates,
   formatUptime,
   formatLastActivity,
-  msTimeDiff,
   diffInSecondsToNow,
   type FormattedBytes,
   type AbbreviatedNumber,
@@ -56,37 +56,12 @@ export interface FormattedVarz {
 export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
   const { current, previous } = varz;
 
-  // Time delta between the current and previous request in milliseconds.
-  // Using the server reported time instead of request time.
-  const timeDeltaMs =
-    current?.now && previous?.now ? msTimeDiff(current.now, previous.now) : 0;
-
-  // Time delta in seconds.
-  const timeDeltaSec = timeDeltaMs / 1000;
-
-  const inMsgsDelta = (current?.in_msgs ?? 0) - (previous?.in_msgs ?? 0);
-
-  const inMsgsRate = abbreviateNum(
-    timeDeltaSec > 0 ? Math.max(inMsgsDelta, 0) / timeDeltaSec : 0
-  );
-
-  const outMsgsDelta = (current?.out_msgs ?? 0) - (previous?.out_msgs ?? 0);
-
-  const outMsgsRate = abbreviateNum(
-    timeDeltaSec > 0 ? Math.max(outMsgsDelta, 0) / timeDeltaSec : 0
-  );
-
-  const inBytesDelta = (current?.in_bytes ?? 0) - (previous?.in_bytes ?? 0);
-
-  const inBytesRate = formatBytes(
-    timeDeltaSec > 0 ? Math.max(inBytesDelta, 0) / timeDeltaSec : 0
-  );
-
-  const outBytesDelta = (current?.out_bytes ?? 0) - (previous?.out_bytes ?? 0);
-
-  const outBytesRate = formatBytes(
-    timeDeltaSec > 0 ? Math.max(outBytesDelta, 0) / timeDeltaSec : 0
-  );
+  const rates = calculateRates({
+    now: current?.now,
+    then: previous?.now,
+    current,
+    previous,
+  });
 
   return {
     serverID: current?.server_id ?? '',
@@ -103,11 +78,7 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
     outMsgs: abbreviateNum(current?.out_msgs ?? 0),
     inBytes: formatBytes(current?.in_bytes ?? 0),
     outBytes: formatBytes(current?.out_bytes ?? 0),
-    timeDelta: timeDeltaMs,
-    inMsgsRate,
-    outMsgsRate,
-    inBytesRate,
-    outBytesRate,
+    ...rates,
   };
 }
 
