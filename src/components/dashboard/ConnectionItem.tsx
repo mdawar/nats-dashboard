@@ -1,7 +1,8 @@
-import { createMemo, For, Show } from 'solid-js';
+import { Show } from 'solid-js';
 
-import type { ConnectionInfo } from '~/lib/format';
+import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
+import Badge from '~/components/Badge';
 
 // TODO: .net, nats.deno, java
 const langColor: Record<string, string> = {
@@ -14,13 +15,14 @@ const langColor: Record<string, string> = {
     'bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-500 dark:ring-sky-400/20',
 };
 
-export default function ConnectionItem(props: ConnectionInfo) {
-  const infoEntries = createMemo(() => Object.entries(props.info ?? {}));
+const highlightNonZero = (n: number) => (n > 0 ? 'green' : 'gray');
 
+export default function ConnectionItem(props: ClientConnection) {
   const lang = props.lang?.toLowerCase() ?? 'Unknown';
   const langName = lang in langColor ? lang : 'unknown';
 
-  const indicator = () => ((props?.lastActive ?? 0) <= 60 ? 'green' : 'gray');
+  const indicator = () =>
+    (props?.info.lastActive ?? 0) <= 60 ? 'green' : 'gray';
 
   return (
     <li class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
@@ -32,7 +34,9 @@ export default function ConnectionItem(props: ConnectionInfo) {
             <a href="#" class="flex gap-x-2">
               <span class="whitespace-nowrap">CID {props.cid}</span>
               <span class="text-gray-500 dark:text-gray-400">/</span>
-              <span class="truncate">{props.host}</span>
+              <span class="truncate">
+                {props.ip}:{props.port}
+              </span>
               <Show when={props.name}>
                 <span class="text-gray-500 dark:text-gray-400">/</span>
                 <span class="truncate">{props.name}</span>
@@ -41,22 +45,83 @@ export default function ConnectionItem(props: ConnectionInfo) {
           </h2>
         </div>
 
-        <Show when={!!infoEntries().length}>
-          <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
-            <For each={infoEntries()}>
-              {([key, value], index) => (
-                <>
-                  <p>
-                    <span class="text-gray-600 dark:text-gray-200">{key}</span>:{' '}
-                    {value}
-                  </p>
-                  {index() < infoEntries().length - 1 && <CircleSep />}
-                </>
-              )}
-            </For>
-          </div>
-        </Show>
+        <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+          <Badge border={false} color="gray">
+            Uptime: <strong class="ml-1">{props.info.uptime}</strong>
+          </Badge>
+          <Badge border={false} color="gray">
+            Last Activity:{' '}
+            <strong class="ml-1">{props.info.lastActivity}</strong>
+          </Badge>
+        </div>
+
+        <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+          <Badge border={false} color={highlightNonZero(props.subscriptions)}>
+            Subs: <strong class="ml-1">{props.subscriptions}</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.pending.bytes)}
+          >
+            Pending: <strong class="ml-1">{props.info.pending.str}</strong>
+          </Badge>
+          <Badge border={false} color={highlightNonZero(props.info.inMsgs.num)}>
+            Msgs. Sent: <strong class="ml-1">{props.info.inMsgs.str}</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.outMsgs.num)}
+          >
+            Msgs. Received:{' '}
+            <strong class="ml-1">{props.info.outMsgs.str}</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.inBytes.bytes)}
+          >
+            Data Sent: <strong class="ml-1">{props.info.inBytes.str}</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.outBytes.bytes)}
+          >
+            Data Received:{' '}
+            <strong class="ml-1">{props.info.outBytes.str}</strong>
+          </Badge>
+        </div>
+
+        <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.inMsgsRate.num)}
+          >
+            Msgs. Sent Rate:{' '}
+            <strong class="ml-1">{props.info.inMsgsRate.str}/s</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.outMsgsRate.num)}
+          >
+            Msgs. Received Rate:{' '}
+            <strong class="ml-1">{props.info.outMsgsRate.str}/s</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.inBytesRate.bytes)}
+          >
+            Data Sent Rate:{' '}
+            <strong class="ml-1">{props.info.inBytesRate.str}/s</strong>
+          </Badge>
+          <Badge
+            border={false}
+            color={highlightNonZero(props.info.outBytesRate.bytes)}
+          >
+            Data Received Rate:{' '}
+            <strong class="ml-1">{props.info.outBytesRate.str}/s</strong>
+          </Badge>
+        </div>
       </div>
+
       <div
         class="rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset"
         classList={{
@@ -79,17 +144,5 @@ export default function ConnectionItem(props: ConnectionInfo) {
         ></path>
       </svg>
     </li>
-  );
-}
-
-/** Separator used for the connection info. */
-function CircleSep() {
-  return (
-    <svg
-      viewBox="0 0 2 2"
-      class="h-0.5 w-0.5 flex-none hidden sm:block fill-gray-400 dark:fill-gray-300"
-    >
-      <circle cx="1" cy="1" r="1"></circle>
-    </svg>
   );
 }

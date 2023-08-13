@@ -84,28 +84,51 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
 }
 
 /** Formatted connections information. */
-interface FormattedConnz extends PartialInfoResponse<'connz'> {
+interface FormattedConnz {
   /** Number of client connections. */
   numConnections: number;
   /** List of connections to the server. */
-  connections: ConnectionInfo[];
+  connections: ClientConnection[];
 }
 
-/** Single client connection information. */
-export interface ConnectionInfo {
-  cid: number;
-  /** Host and port of the client. */
-  host: string;
-  /** Client name. */
-  name?: string | undefined;
-  /** Client language. */
-  lang?: string | undefined;
-  /** Client version. */
-  version?: string | undefined;
-  /** Client information. */
-  info?: Record<string, string | number>;
+/**
+ * Information about the client connection.
+ *
+ * Includes the original connection data returned by the server
+ * plus an `info` property that holds formatted connection data.
+ */
+export interface ClientConnection extends ConnInfo {
+  info: ConnectionInfo;
+}
+
+/** Formatted connection information. */
+interface ConnectionInfo {
+  /** Formatted uptime string of the client connection. */
+  uptime: string;
   /** Number of seconds since the client's last activity. */
   lastActive: number;
+  /** Human readable last activity of the client. */
+  lastActivity: string;
+  /** Pending bytes. */
+  pending: FormattedBytes;
+  /** Total messages sent by the client. */
+  inMsgs: AbbreviatedNumber;
+  /** Total messages received by the client. */
+  outMsgs: AbbreviatedNumber;
+  /** Total data size sent by the client. */
+  inBytes: FormattedBytes;
+  /** Total data size received by the client. */
+  outBytes: FormattedBytes;
+  /** Time delta in milliseconds between the current and previous data. */
+  timeDelta: number;
+  /** Rate of sent messages per second. */
+  inMsgsRate: AbbreviatedNumber;
+  /** Rate of received messages per second. */
+  outMsgsRate: AbbreviatedNumber;
+  /** Rate of data size sent per second. */
+  inBytesRate: FormattedBytes;
+  /** Rate of data size received per second. */
+  outBytesRate: FormattedBytes;
 }
 
 /** Map of client connections by CID. */
@@ -124,7 +147,7 @@ export function formatConnz(
       return acc;
     }, {} as ConnectionsMap) ?? {};
 
-  const connections: ConnectionInfo[] =
+  const connections: ClientConnection[] =
     current?.connections.map((conn) => {
       // Returns zero rates if any of the params is undefined.
       const rates = calculateRates({
@@ -135,27 +158,17 @@ export function formatConnz(
       });
 
       return {
-        cid: conn.cid,
-        host: `${conn.ip}:${conn.port}`,
-        name: conn.name,
-        lang: conn.lang,
-        version: conn.version,
-        lastActive: diffInSecondsToNow(conn.last_activity),
+        ...conn,
         info: {
-          Uptime: formatUptime(conn.uptime),
-          'Last activity': formatLastActivity(conn.last_activity),
-          Subs: conn.subscriptions,
-          Pending: formatBytes(conn.pending_bytes).str,
-          // In and out messages.
-          'Msgs. Sent': abbreviateNum(conn.in_msgs).str,
-          'Msgs. Received': abbreviateNum(conn.out_msgs).str,
-          'Data Sent': formatBytes(conn.in_bytes).str,
-          'Data Received': formatBytes(conn.out_bytes).str,
-          // Rates
-          'Msgs. Sent Rate': `${rates.inMsgsRate.str}/s`,
-          'Msgs. Received Rate': `${rates.outMsgsRate.str}/s`,
-          'Data Sent Rate': `${rates.inBytesRate.str}/s`,
-          'Data Received Rate': `${rates.outBytesRate.str}/s`,
+          uptime: formatUptime(conn.uptime),
+          lastActive: diffInSecondsToNow(conn.last_activity),
+          lastActivity: formatLastActivity(conn.last_activity),
+          pending: formatBytes(conn.pending_bytes),
+          inMsgs: abbreviateNum(conn.in_msgs),
+          outMsgs: abbreviateNum(conn.out_msgs),
+          inBytes: formatBytes(conn.in_bytes),
+          outBytes: formatBytes(conn.out_bytes),
+          ...rates,
         },
       };
     }) ?? [];
