@@ -108,6 +108,23 @@ export function roundDuration(duration: string) {
   return `${value}${match[0]}`;
 }
 
+/**
+ * Format RTT duration.
+ *
+ * Adds spaces for multi units duration and rounds their numbers.
+ * For example `1s2.12345ms` becomes `1s 2.12ms`.
+ */
+export function formatRTT(rtt: string): string {
+  const formatted = [];
+  const parts = formatDuration(rtt).split(' ');
+
+  for (const p of parts) {
+    formatted.push(roundDuration(p));
+  }
+
+  return formatted.join(' ');
+}
+
 /** Get the time difference in milliseconds from 2 ISO 8601 date-time strings. */
 export function msTimeDiff(d1: string, d2: string): number {
   return new Date(d1).getTime() - new Date(d2).getTime();
