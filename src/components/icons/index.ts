@@ -4,6 +4,7 @@ export * from './Play';
 export * from './Stop';
 export * from './Close';
 export * from './ChartBarSquare';
+export * from './ChevronUpDown';
 export * from './Signal';
 export * from './ChatBubble';
 export * from './InfoCircle';
