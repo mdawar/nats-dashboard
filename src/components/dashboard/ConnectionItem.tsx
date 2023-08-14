@@ -1,6 +1,7 @@
 import { Show } from 'solid-js';
 
 import type { ClientConnection } from '~/lib/format';
+import { formatRTT } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
 
@@ -53,7 +54,7 @@ export default function ConnectionItem(props: ClientConnection) {
             Last Activity: {props.info.lastActivity}
           </Badge>
           <Badge border={false} color="gray">
-            RTT: {props.rtt}
+            RTT: {formatRTT(props.rtt ?? '')}
           </Badge>
         </div>
 
