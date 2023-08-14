@@ -80,9 +80,32 @@ export function abbreviateNum(num: number): AbbreviatedNumber {
  * For example `1d12h30m12s` becomes `1d 12h 30m 12s`.
  * Fractions are also supported, `10m1.2s` becomes `10m 1.2s`.
  */
-export function formatDuration(uptime: string): string {
-  const parts = uptime.match(/[\d.]+(\D+)?/g);
+export function formatDuration(duration: string): string {
+  const parts = duration.match(/[\d.]+(\D+)?/g);
   return parts ? parts.join(' ') : '';
+}
+
+/**
+ * Round a duration string.
+ *
+ * For example `7.075186ms` becomes `7.08ms`.
+ */
+export function roundDuration(duration: string) {
+  if (!duration.includes('.')) return duration;
+
+  let value = parseFloat(duration).toFixed(2);
+
+  if (value.endsWith('.00')) {
+    value = value.slice(0, -3);
+  }
+
+  const match = duration.match(/[^\d.]+/g);
+
+  if (!match) {
+    return value;
+  }
+
+  return `${value}${match[0]}`;
 }
 
 /** Get the time difference in milliseconds from 2 ISO 8601 date-time strings. */

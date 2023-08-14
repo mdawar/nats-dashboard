@@ -1,6 +1,6 @@
 // sum.test.js
 import { describe, test, expect } from 'vitest';
-import { formatDuration } from './utils';
+import { formatDuration, roundDuration } from './utils';
 
 interface TestCase {
   input: string;
@@ -85,6 +85,44 @@ describe('formatDuration', () => {
     for (const [name, { input, want }] of Object.entries(cases)) {
       test(name, () => {
         expect(formatDuration(input)).toBe(want);
+      });
+    }
+  });
+});
+
+describe('roundDuration', () => {
+  describe('input without fractions', () => {
+    const cases: Record<string, TestCase> = {
+      'empty string': { input: '', want: '' },
+      'blank space': { input: ' ', want: ' ' },
+      letters: { input: 'abc', want: 'abc' },
+      number: { input: '12', want: '12' },
+      'int duration': { input: '24m', want: '24m' },
+    };
+
+    for (const [name, { input, want }] of Object.entries(cases)) {
+      test(name, () => {
+        expect(roundDuration(input)).toBe(want);
+      });
+    }
+  });
+
+  describe('duration with fractions', () => {
+    const cases: Record<string, TestCase> = {
+      '2 decimals': { input: '1.32h', want: '1.32h' },
+      '3 decimals': { input: '5.124s', want: '5.12s' },
+      '4 decimals': { input: '1.5789ms', want: '1.58ms' },
+      '5 decimals': { input: '3.95532s', want: '3.96s' },
+      '6 decimals': { input: '30.462357s', want: '30.46s' },
+      '7 decimals': { input: '12.8412370m', want: '12.84m' },
+      '8 decimals': { input: '7.80727655ns', want: '7.81ns' },
+      '9 decimals': { input: '57.005276559s', want: '57.01s' },
+      'zeros removed': { input: '1.0002563s', want: '1s' },
+    };
+
+    for (const [name, { input, want }] of Object.entries(cases)) {
+      test(name, () => {
+        expect(roundDuration(input)).toBe(want);
       });
     }
   });
