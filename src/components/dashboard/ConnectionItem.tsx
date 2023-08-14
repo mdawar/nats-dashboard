@@ -52,6 +52,9 @@ export default function ConnectionItem(props: ClientConnection) {
           <Badge border={false} color="gray">
             Last Activity: {props.info.lastActivity}
           </Badge>
+          <Badge border={false} color="gray">
+            RTT: {props.rtt}
+          </Badge>
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
