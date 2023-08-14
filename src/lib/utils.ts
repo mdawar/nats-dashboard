@@ -74,8 +74,8 @@ export function abbreviateNum(num: number): AbbreviatedNumber {
   return { num, value, unit, str };
 }
 
-/** Format the server uptime string (adds spaces after the letters). */
-export function formatUptime(uptime: string): string {
+/** Format a duration string (add spaces after the letters). */
+export function formatDuration(uptime: string): string {
   const parts = uptime.match(/\d+\D+/g);
   return parts ? parts.join(' ') : '';
 }

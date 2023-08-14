@@ -4,7 +4,7 @@ import {
   formatBytes,
   abbreviateNum,
   calculateRates,
-  formatUptime,
+  formatDuration,
   formatLastActivity,
   diffInSecondsToNow,
   type FormattedBytes,
@@ -68,7 +68,7 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
     serverID: current?.server_id ?? '',
     serverName: current?.server_name ?? '',
     version: current?.version ?? '',
-    uptime: formatUptime(current?.uptime ?? ''),
+    uptime: formatDuration(current?.uptime ?? ''),
     cpu: current?.cpu ?? 0,
     memory: formatBytes(current?.mem ?? 0),
     conns: abbreviateNum(current?.connections ?? 0),
@@ -160,7 +160,7 @@ export function formatConnz(
       return {
         ...conn,
         info: {
-          uptime: formatUptime(conn.uptime),
+          uptime: formatDuration(conn.uptime),
           lastActive: diffInSecondsToNow(conn.last_activity),
           lastActivity: formatLastActivity(conn.last_activity),
           pending: formatBytes(conn.pending_bytes),
