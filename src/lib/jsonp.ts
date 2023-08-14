@@ -47,7 +47,7 @@ export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
     // The callback is not guaranteed to be called even if the script
     // was loaded successfully so we need to timeout in these cases.
     // e.g. wrong URL, wrong content type, script execution error.
-    timeoutID = setTimeout(() => {
+    timeoutID = window.setTimeout(() => {
       reject(new TimeoutError(jsonpURL.href));
       cleanup();
     }, timeout);
