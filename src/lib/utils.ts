@@ -74,9 +74,14 @@ export function abbreviateNum(num: number): AbbreviatedNumber {
   return { num, value, unit, str };
 }
 
-/** Format a duration string (add spaces after the letters). */
+/**
+ * Format a duration string.
+ *
+ * For example `1d12h30m12s` becomes `1d 12h 30m 12s`.
+ * Fractions are also supported, `10m1.2s` becomes `10m 1.2s`.
+ */
 export function formatDuration(uptime: string): string {
-  const parts = uptime.match(/\d+\D+/g);
+  const parts = uptime.match(/[\d.]+(\D+)?/g);
   return parts ? parts.join(' ') : '';
 }
 

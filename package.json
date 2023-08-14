@@ -8,7 +8,9 @@
     "build": "astro build",
     "prebuild": "astro check && tsc --noEmit",
     "preview": "astro preview",
-    "format": "prettier --write \"./src\""
+    "format": "prettier --write \"./src\"",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
   },
   "author": "Pierre Mdawar <pierre@mdawar.dev>",
   "license": "MIT",
@@ -27,6 +29,7 @@
     "@tailwindcss/forms": "^0.5.4",
     "prettier": "^3.0.1",
     "prettier-plugin-astro": "^0.11.0",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.1"
   }
 }

@@ -29,6 +29,14 @@ make server
 make clean
 ```
 
+#### Run the tests
+
+```sh
+npm run test
+# Run the tests and watch for changes
+npm run test:watch
+```
+
 ## Build the App
 
 #### Build the Web App
