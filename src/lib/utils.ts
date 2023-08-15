@@ -125,9 +125,9 @@ export function formatRTT(rtt: string): string {
   return formatted.join(' ');
 }
 
-/** Get the time difference in milliseconds from 2 ISO 8601 date-time strings. */
-export function msTimeDiff(d1: string, d2: string): number {
-  return new Date(d1).getTime() - new Date(d2).getTime();
+/** Get the time difference in milliseconds between a start and an end date-time strings. */
+export function msTimeDiff(start: string, end: string): number {
+  return new Date(end).getTime() - new Date(start).getTime();
 }
 
 /** Add query parameters to a URL object (Preserves the existing query params). */
@@ -184,10 +184,10 @@ interface MessagesData {
 }
 
 interface CalculateRatesParams {
-  /** Current data timestamp. */
-  now: string | undefined;
-  /** Previous data timestamp. */
-  then: string | undefined;
+  /** Start timestamp. */
+  start: string | undefined;
+  /** End timestamp. */
+  end: string | undefined;
   /** Current in/out messages and bytes data. */
   current: MessagesData | undefined;
   /** Previous in/out messages and bytes data. */
@@ -196,13 +196,13 @@ interface CalculateRatesParams {
 
 /** Calculate the rate of messages and bytes per second between 2 timestamps. */
 export function calculateRates({
-  now,
-  then,
+  start,
+  end,
   current,
   previous,
 }: CalculateRatesParams): Rates {
   // If any of the params is undefined, return zero values.
-  if (!now || !then || !current || !previous) {
+  if (!end || !start || !current || !previous) {
     const zeroMsgRate = abbreviateNum(0);
     const zeroDataRate = formatBytes(0);
 
@@ -216,7 +216,7 @@ export function calculateRates({
   }
 
   // Time delta between the current and previous request in milliseconds.
-  const timeDelta = now && then ? msTimeDiff(now, then) : 0;
+  const timeDelta = msTimeDiff(start, end);
   // Time delta in seconds.
   const timeDeltaSec = timeDelta / 1000;
 

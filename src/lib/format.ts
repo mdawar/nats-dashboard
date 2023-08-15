@@ -58,8 +58,8 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
   const { current, previous } = varz;
 
   const rates = calculateRates({
-    now: current?.now,
-    then: previous?.now,
+    start: previous?.now,
+    end: current?.now,
     current,
     previous,
   });
@@ -151,8 +151,8 @@ export function formatConnz(
     current?.connections.map((conn) => {
       // Returns zero rates if any of the params is undefined.
       const rates = calculateRates({
-        now: current?.now,
-        then: previous?.now,
+        start: previous?.now,
+        end: current?.now,
         current: conn,
         previous: prevConns[conn.cid],
       });
