@@ -1,6 +1,7 @@
-import { createSignal, For, Show } from 'solid-js';
+import { createSignal, Switch, Match, For } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
+import { useStore } from '~/lib/store';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
@@ -25,6 +26,7 @@ const sortOptions: Record<ConnzSortOpt, string> = {
 };
 
 export default function ConnectionsList() {
+  const [store] = useStore();
   const [sortOpt, setSortOpt] = createSignal<ConnzSortOpt>('cid');
   const connz = useConnz(() => ({ sort: sortOpt() }));
 
@@ -52,20 +54,35 @@ export default function ConnectionsList() {
         </Dropdown>
       </header>
 
-      <Show
-        when={connz.data?.connections.length}
-        fallback={
+      <Switch>
+        <Match when={!store.active && !connz.isFetched}>
+          <p class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+            Start monitoring to display connections.
+          </p>
+        </Match>
+
+        {/* Note: Cannot check isLoading (New query is created on options change). */}
+        <Match when={store.active && !connz.isFetched}>
           <div class="flex items-center justify-center h-40 px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
             <LoadingIcon class="h-5 w-5" />
           </div>
-        }
-      >
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
-          <For each={connz.data?.connections}>
-            {(conn) => <ConnectionItem {...conn} />}
-          </For>
-        </ul>
-      </Show>
+        </Match>
+
+        <Match when={connz.isSuccess}>
+          <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
+            <For
+              each={connz.data?.connections}
+              fallback={
+                <li class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+                  No connections to display.
+                </li>
+              }
+            >
+              {(conn) => <ConnectionItem {...conn} />}
+            </For>
+          </ul>
+        </Match>
+      </Switch>
     </section>
   );
 }
