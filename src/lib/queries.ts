@@ -6,13 +6,15 @@ import { fetchInfo } from '~/lib/info';
 import { formatVarz, formatConnz } from '~/lib/format';
 import { createMemo } from 'solid-js';
 
+type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
+
 /** Start polling for general server information. */
 export function useVarz() {
   const [store] = useStore();
 
   return createQuery(() => ({
-    queryKey: [store.url, 'varz'],
-    queryFn: () => fetchInfo(store.url, 'varz'),
+    queryKey: [store.url, 'varz'] as VarzFetchParams,
+    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
     select: formatVarz, // Fromat the data for display.
     placeholderData: {},
     enabled: store.active,
@@ -21,14 +23,16 @@ export function useVarz() {
   }));
 }
 
+type ConnzFetchParams = Parameters<typeof fetchInfo<'connz'>>;
+
 /** Start polling for connections information. */
 export function useConnz(options?: () => ConnzOptions) {
   const [store] = useStore();
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
-    queryKey: [store.url, 'connz', optsMemo()],
-    queryFn: () => fetchInfo(store.url, 'connz', optsMemo()),
+    queryKey: [store.url, 'connz', optsMemo()] as ConnzFetchParams,
+    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
     select: formatConnz, // Fromat the data for display.
     placeholderData: {},
     enabled: store.active,
