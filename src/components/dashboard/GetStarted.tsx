@@ -14,7 +14,7 @@ export default function GetStarted() {
       <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
         Get started by monitoring a new NATS server.
       </p>
-      <div class="flex justify-center gap-6 mt-6">
+      <div class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
         <Button
           onClick={() => {
             actions.setURL('http://localhost:8222');
