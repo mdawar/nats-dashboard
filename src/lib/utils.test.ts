@@ -145,6 +145,9 @@ describe('formatRTT', () => {
       { input: '1s50.124ms', want: '1s 50.12ms' },
       { input: '1m57.800276559s', want: '1m 57.80s' },
       { input: '3.95532s', want: '3.96s' },
+      { input: '1.00s', want: '1s' },
+      { input: '7.002454754ms', want: '7ms' },
+      { input: '2s10.0045412ms', want: '2s 10ms' },
     ];
 
     for (const { input, want } of cases) {
