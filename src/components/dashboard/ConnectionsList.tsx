@@ -4,7 +4,7 @@ import type { ConnzSortOpt } from '~/types';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
-import OptionsDropdown from '~/components/OptionsDropdown';
+import Dropdown from '~/components/Dropdown';
 import { ChevronUpDownIcon } from '~/components/icons';
 
 const sortOptions: Record<ConnzSortOpt, string> = {
@@ -38,14 +38,14 @@ export default function ConnectionsList() {
           </Badge>
         </h1>
 
-        <OptionsDropdown
+        <Dropdown
           options={sortOptions}
           active={sortOpt()}
           onChange={setSortOpt}
         >
           Sort by
           <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
-        </OptionsDropdown>
+        </Dropdown>
       </header>
 
       <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">

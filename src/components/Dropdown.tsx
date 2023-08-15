@@ -16,7 +16,7 @@ interface Props<T extends keyof any> extends ParentProps {
   onChange: (id: T) => void;
 }
 
-export default function OptionDropdown<T extends keyof any>(props: Props<T>) {
+export default function Dropdown<T extends keyof any>(props: Props<T>) {
   const [show, setShow] = createSignal(false);
 
   const options = createMemo(
