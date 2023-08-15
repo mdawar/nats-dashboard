@@ -16,7 +16,7 @@ const langColor: Record<string, string> = {
     'bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-500 dark:ring-sky-400/20',
 };
 
-const highlightNonZero = (n: number) => (n > 0 ? 'green' : 'gray');
+const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
 
 export default function ConnectionItem(props: ClientConnection) {
   const lang = props.lang?.toLowerCase() ?? 'Unknown';
@@ -59,33 +59,30 @@ export default function ConnectionItem(props: ClientConnection) {
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
-          <Badge border={false} color={highlightNonZero(props.subscriptions)}>
+          <Badge border={false} color={greenIfNotZero(props.subscriptions)}>
             Subs: {props.subscriptions}
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.pending.bytes)}
+            color={greenIfNotZero(props.info.pending.bytes)}
           >
             Pending: {props.info.pending.str}
           </Badge>
-          <Badge border={false} color={highlightNonZero(props.info.inMsgs.num)}>
+          <Badge border={false} color={greenIfNotZero(props.info.inMsgs.num)}>
             Msgs. Sent: {props.info.inMsgs.str}
           </Badge>
-          <Badge
-            border={false}
-            color={highlightNonZero(props.info.outMsgs.num)}
-          >
+          <Badge border={false} color={greenIfNotZero(props.info.outMsgs.num)}>
             Msgs. Received: {props.info.outMsgs.str}
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.inBytes.bytes)}
+            color={greenIfNotZero(props.info.inBytes.bytes)}
           >
             Data Sent: {props.info.inBytes.str}
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.outBytes.bytes)}
+            color={greenIfNotZero(props.info.outBytes.bytes)}
           >
             Data Received: {props.info.outBytes.str}
           </Badge>
@@ -94,25 +91,25 @@ export default function ConnectionItem(props: ClientConnection) {
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
-            color={highlightNonZero(props.info.inMsgsRate.num)}
+            color={greenIfNotZero(props.info.inMsgsRate.num)}
           >
             Msgs. Sent Rate: {props.info.inMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.outMsgsRate.num)}
+            color={greenIfNotZero(props.info.outMsgsRate.num)}
           >
             Msgs. Received Rate: {props.info.outMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.inBytesRate.bytes)}
+            color={greenIfNotZero(props.info.inBytesRate.bytes)}
           >
             Data Sent Rate: {props.info.inBytesRate.str}/s
           </Badge>
           <Badge
             border={false}
-            color={highlightNonZero(props.info.outBytesRate.bytes)}
+            color={greenIfNotZero(props.info.outBytesRate.bytes)}
           >
             Data Received Rate: {props.info.outBytesRate.str}/s
           </Badge>
