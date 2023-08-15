@@ -1,11 +1,11 @@
-import { createSignal, For } from 'solid-js';
+import { createSignal, For, Show } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 import Dropdown from '~/components/Dropdown';
-import { ChevronUpDownIcon } from '~/components/icons';
+import { ChevronUpDownIcon, LoadingIcon } from '~/components/icons';
 
 const sortOptions: Record<ConnzSortOpt, string> = {
   cid: 'CID',
@@ -48,18 +48,20 @@ export default function ConnectionsList() {
         </Dropdown>
       </header>
 
-      <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
-        <For
-          each={connz.data?.connections}
-          fallback={
-            <li class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
-              No connections to display.
-            </li>
-          }
-        >
-          {(conn) => <ConnectionItem {...conn} />}
-        </For>
-      </ul>
+      <Show
+        when={connz.data?.connections.length}
+        fallback={
+          <div class="flex items-center justify-center h-40 px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+            <LoadingIcon class="h-5 w-5" />
+          </div>
+        }
+      >
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
+          <For each={connz.data?.connections}>
+            {(conn) => <ConnectionItem {...conn} />}
+          </For>
+        </ul>
+      </Show>
     </section>
   );
 }
