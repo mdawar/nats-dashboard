@@ -33,7 +33,11 @@ export default function ConnectionsList() {
       <header class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
         <h1 class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
           Connections
-          <Badge type="pill" color="green" class="ml-3">
+          <Badge
+            type="pill"
+            color={(connz.data?.numConnections ?? 0) > 0 ? 'green' : 'gray'}
+            class="ml-3"
+          >
             {connz.data?.numConnections}
           </Badge>
         </h1>
