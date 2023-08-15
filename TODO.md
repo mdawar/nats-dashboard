@@ -6,6 +6,7 @@
 - [ ] Display detailed server information
 - [ ] Add empty state when no server URL is set
 - [ ] Save theme preference
+- [ ] Save sorting preference
 - [ ] Change transition effects for the mobile menu
 - [ ] Check if dark mode is already set
 - [ ] Add websocket connection support

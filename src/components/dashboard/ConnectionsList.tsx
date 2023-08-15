@@ -25,8 +25,8 @@ const sortOptions: Record<ConnzSortOpt, string> = {
 };
 
 export default function ConnectionsList() {
-  const connz = useConnz();
   const [sortOpt, setSortOpt] = createSignal<ConnzSortOpt>('cid');
+  const connz = useConnz(() => ({ sort: sortOpt() }));
 
   return (
     <section class="tabular-nums slashed-zero">
