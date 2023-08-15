@@ -19,7 +19,7 @@ const langColor: Record<string, string> = {
 const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
 
 export default function ConnectionItem(props: ClientConnection) {
-  const lang = props.lang?.toLowerCase() ?? 'Unknown';
+  const lang = props.lang?.toLowerCase() ?? 'unknown';
   const langName = lang in langColor ? lang : 'unknown';
 
   const indicator = () =>
