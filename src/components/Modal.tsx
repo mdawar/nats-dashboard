@@ -1,4 +1,4 @@
-import { Show, createSignal, type JSX, mergeProps } from 'solid-js';
+import { createSignal, mergeProps, Show, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
@@ -25,9 +25,9 @@ interface Props {
   /** Modal close handler. */
   onClose: () => void;
   /**
-   * The children prop may be a function that accept a close function as an argument.
+   * The children prop may be a function that accepts a close function as an argument.
    *
-   * Note: this is temporary solution to prevent the modal from closing without the exit animation.
+   * Note: This is temporary solution to prevent the modal from closing without the exit animation.
    */
   children?: JSX.Element | ((close: () => void) => JSX.Element);
   /** Disabling the padding is useful when the content must take the full modal width. */
