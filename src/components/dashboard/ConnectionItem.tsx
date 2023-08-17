@@ -5,15 +5,19 @@ import { formatRTT } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
 
-// TODO: .net, nats.deno, java
 const langColor: Record<string, string> = {
   unknown: 'text-gray-500 dark:text-gray-400 bg-gray-400/10 ring-gray-400/20',
   go: 'bg-cyan-50 text-cyan-700 ring-cyan-600/20 dark:bg-cyan-400/10 dark:text-cyan-500 dark:ring-cyan-400/20',
   rust: 'bg-orange-50 text-orange-700 ring-orange-600/20 dark:bg-orange-400/10 dark:text-orange-500 dark:ring-orange-400/20',
   'nats.js':
     'bg-yellow-50 text-yellow-700 ring-yellow-600/20 dark:bg-yellow-400/10 dark:text-yellow-500 dark:ring-yellow-400/20',
+  'nats.deno':
+    'bg-blue-50 text-blue-700 ring-blue-600/20 dark:bg-blue-400/10 dark:text-blue-500 dark:ring-blue-400/20',
   python3:
     'bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-500 dark:ring-sky-400/20',
+  java: 'bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-500 dark:ring-amber-400/20',
+  '.net':
+    'bg-lime-50 text-lime-700 ring-lime-600/20 dark:bg-lime-400/10 dark:text-lime-500 dark:ring-lime-400/20',
 };
 
 const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
