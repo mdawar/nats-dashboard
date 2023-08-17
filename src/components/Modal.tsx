@@ -62,7 +62,7 @@ export default function Modal(props: Props) {
           onAfterExit={props.onClose}
         >
           <Show when={show()}>
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 dark:bg-gray-700 dark:bg-opacity-75 transition-opacity"></div>
           </Show>
         </Transition>
 
@@ -79,7 +79,7 @@ export default function Modal(props: Props) {
             >
               <Show when={show()}>
                 <div
-                  class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full"
+                  class="relative transform overflow-hidden rounded-lg bg-white text-gray-900 dark:bg-gray-900 dark:text-white text-left shadow-xl transition-all sm:my-8 sm:w-full"
                   classList={{
                     'px-4 pb-4 pt-5 sm:p-6': props.padding,
                     [modalSizes[props.size!]]: true,

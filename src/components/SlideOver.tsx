@@ -69,7 +69,7 @@ export default function SlideOver(props: Props) {
             appear={true}
           >
             <Show when={show()}>
-              <div class="fixed inset-0 bg-gray-500 dark:bg-gray-700 bg-opacity-75 dark:bg-opacity-75 transition-opacity"></div>
+              <div class="fixed inset-0 bg-gray-500 bg-opacity-75 dark:bg-gray-700 dark:bg-opacity-75 transition-opacity"></div>
             </Show>
           </Transition>
         </Show>
