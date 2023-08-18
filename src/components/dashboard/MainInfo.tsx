@@ -30,7 +30,7 @@ export default function MainInfo() {
         </p>
       </div>
 
-      <div class="order-first flex-none rounded-full bg-cyan-50 text-cyan-700 ring-cyan-700/10 dark:bg-cyan-400/10 px-2 py-1 text-xs font-medium dark:text-cyan-400 ring-1 ring-inset dark:ring-cyan-400/30 sm:order-none">
+      <div class="order-first flex-none rounded-full bg-sky-50 text-sky-700 ring-sky-700/10 dark:bg-sky-400/10 px-2 py-1 text-xs font-medium dark:text-sky-400 ring-1 ring-inset dark:ring-sky-400/30 sm:order-none">
         v{varz.data?.version}
       </div>
     </div>

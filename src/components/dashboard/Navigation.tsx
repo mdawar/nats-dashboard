@@ -34,6 +34,6 @@ export default function Navigation() {
 
 function Link(props: AnchorProps) {
   return (
-    <A activeClass="text-cyan-600 dark:text-cyan-400" end={true} {...props} />
+    <A activeClass="text-sky-600 dark:text-sky-400" end={true} {...props} />
   );
 }
