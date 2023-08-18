@@ -3,6 +3,7 @@ import { onMount, createEffect, Show } from 'solid-js';
 import { useStore } from '~/lib/store';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useSearchParams } from '@solidjs/router';
+import Button from '../Button';
 
 export default function InputHeader() {
   const [store, actions] = useStore();
@@ -72,19 +73,16 @@ export default function InputHeader() {
         </form>
 
         <div class="flex items-center gap-x-4 lg:gap-x-6">
-          <button
-            type="button"
-            class="rounded-full bg-cyan-600 p-1 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
-            classList={{
-              'bg-gray-600 hover:bg-gray-500 focus-visible:outline-gray-600':
-                store.active,
-            }}
+          <Button
+            icon
+            rounded
+            color={store.active ? 'secondary' : 'primary'}
             onClick={toggleMonitor}
           >
             <Show when={store.active} fallback={<PlayIcon class="h-5 w-5" />}>
               <StopIcon class="h-5 w-5" />
             </Show>
-          </button>
+          </Button>
         </div>
       </div>
     </div>
