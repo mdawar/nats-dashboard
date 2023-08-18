@@ -5,7 +5,6 @@ import { Transition } from 'solid-transition-group';
 // @ts-expect-error
 import { clickOutside } from '~/lib/directives';
 import { CloseIcon } from '~/components/icons';
-import Button from '~/components/Button';
 
 const slideOverSizes = {
   xs: 'max-w-xs',
@@ -104,7 +103,7 @@ export default function SlideOver(props: Props) {
                           <div class="ml-3 flex h-7 items-center">
                             <button
                               type="button"
-                              class="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                              class="relative rounded-md text-gray-400 hover:text-gray-500 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                               onClick={close}
                             >
                               <span class="absolute -inset-2.5"></span>
