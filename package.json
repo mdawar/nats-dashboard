@@ -15,11 +15,11 @@
   "author": "Pierre Mdawar <pierre@mdawar.dev>",
   "license": "MIT",
   "dependencies": {
-    "@astrojs/solid-js": "^2.2.0",
+    "@astrojs/solid-js": "^2.2.1",
     "@astrojs/tailwind": "^4.0.0",
     "@solidjs/router": "^0.8.3",
     "@tanstack/solid-query": "^5.0.0-beta.15",
-    "astro": "^2.10.7",
+    "astro": "^2.10.10",
     "date-fns": "^2.30.0",
     "solid-js": "^1.7.11",
     "solid-transition-group": "^0.2.3",
@@ -27,9 +27,9 @@
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.4",
-    "prettier": "^3.0.1",
-    "prettier-plugin-astro": "^0.11.0",
+    "prettier": "^3.0.2",
+    "prettier-plugin-astro": "^0.11.1",
     "typescript": "^5.1.6",
-    "vitest": "^0.34.1"
+    "vitest": "^0.34.2"
   }
 }
