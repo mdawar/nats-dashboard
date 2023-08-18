@@ -2,9 +2,9 @@ import { mergeProps, splitProps, type ComponentProps } from 'solid-js';
 
 const buttonColors = {
   primary:
-    'bg-sky-600 text-white hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
+    'bg-sky-600 text-white hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:bg-sky-500 dark:hover:bg-sky-400 dark:focus-visible:outline-sky-500',
   secondary:
-    'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50',
+    'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:ring-0',
 } as const;
 
 type ButtonColor = keyof typeof buttonColors;
