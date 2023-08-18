@@ -41,7 +41,10 @@ export default function ConnectionItem(props: ClientConnection) {
               <span class="whitespace-nowrap">CID {props.cid}</span>
               <span class="text-gray-500 dark:text-gray-400">/</span>
               <span class="truncate">
-                {props.ip}:{props.port}
+                {props.ip}
+                <span class="text-gray-600 dark:text-gray-500">
+                  :{props.port}
+                </span>
               </span>
               <Show when={props.name}>
                 <span class="text-gray-500 dark:text-gray-400">/</span>
