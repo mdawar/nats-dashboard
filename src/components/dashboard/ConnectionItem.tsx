@@ -4,6 +4,7 @@ import type { ClientConnection } from '~/lib/format';
 import { formatRTT } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
+import { ArrowUpIcon, ArrowDownIcon } from '~/components/icons';
 
 const langColor: Record<string, string> = {
   unknown: 'text-gray-500 dark:text-gray-400 bg-gray-400/10 ring-gray-400/20',
@@ -72,50 +73,67 @@ export default function ConnectionItem(props: ClientConnection) {
           >
             Pending: {props.info.pending.str}
           </Badge>
-          <Badge border={false} color={greenIfNotZero(props.info.inMsgs.num)}>
-            Msgs. Sent: {props.info.inMsgs.str}
+          <Badge
+            border={false}
+            color={greenIfNotZero(props.info.inMsgs.num)}
+            title="Sent Messages"
+          >
+            <ArrowUpIcon class="w-3 h-3 mr-1" /> Msgs.: {props.info.inMsgs.str}
           </Badge>
-          <Badge border={false} color={greenIfNotZero(props.info.outMsgs.num)}>
-            Msgs. Received: {props.info.outMsgs.str}
+          <Badge
+            border={false}
+            color={greenIfNotZero(props.info.outMsgs.num)}
+            title="Received Messages"
+          >
+            <ArrowDownIcon class="w-3 h-3 mr-1" /> Msgs.:{' '}
+            {props.info.outMsgs.str}
           </Badge>
           <Badge
             border={false}
             color={greenIfNotZero(props.info.inBytes.bytes)}
+            title="Data Sent"
           >
-            Data Sent: {props.info.inBytes.str}
+            <ArrowUpIcon class="w-3 h-3 mr-1" /> Data: {props.info.inBytes.str}
           </Badge>
           <Badge
             border={false}
             color={greenIfNotZero(props.info.outBytes.bytes)}
+            title="Data Received"
           >
-            Data Received: {props.info.outBytes.str}
+            <ArrowDownIcon class="w-3 h-3 mr-1" /> Data:{' '}
+            {props.info.outBytes.str}
           </Badge>
-        </div>
-
-        <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
             color={greenIfNotZero(props.info.inMsgsRate.num)}
+            title="Sent Messages Rate"
           >
-            Msgs. Sent Rate: {props.info.inMsgsRate.str}/s
+            <ArrowUpIcon class="w-3 h-3 mr-1" /> Msgs. Rate:{' '}
+            {props.info.inMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={greenIfNotZero(props.info.outMsgsRate.num)}
+            title="Received Messages Rate"
           >
-            Msgs. Received Rate: {props.info.outMsgsRate.str}/s
+            <ArrowDownIcon class="w-3 h-3 mr-1" /> Msgs. Rate:{' '}
+            {props.info.outMsgsRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={greenIfNotZero(props.info.inBytesRate.bytes)}
+            title="Data Sent Rate"
           >
-            Data Sent Rate: {props.info.inBytesRate.str}/s
+            <ArrowUpIcon class="w-3 h-3 mr-1" /> Data Rate:{' '}
+            {props.info.inBytesRate.str}/s
           </Badge>
           <Badge
             border={false}
             color={greenIfNotZero(props.info.outBytesRate.bytes)}
+            title="Data Received Rate"
           >
-            Data Received Rate: {props.info.outBytesRate.str}/s
+            <ArrowDownIcon class="w-3 h-3 mr-1" /> Data Rate:{' '}
+            {props.info.outBytesRate.str}/s
           </Badge>
         </div>
       </div>
