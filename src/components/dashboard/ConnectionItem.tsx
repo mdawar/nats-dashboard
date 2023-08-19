@@ -44,7 +44,10 @@ export default function ConnectionItem(props: Props) {
             <a
               href="#"
               class="flex gap-x-2"
-              onClick={() => props.onClick(props.connection.cid)}
+              onClick={(e) => {
+                e.preventDefault();
+                props.onClick(props.connection.cid);
+              }}
             >
               <span class="whitespace-nowrap">CID {props.connection.cid}</span>
               <span class="text-gray-500 dark:text-gray-400">/</span>
