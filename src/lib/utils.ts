@@ -1,8 +1,4 @@
-import {
-  formatDistanceToNowStrict,
-  differenceInSeconds,
-  differenceInMilliseconds,
-} from 'date-fns';
+import { differenceInSeconds } from 'date-fns';
 
 export interface FormattedBytes {
   /** Original number of bytes. */
@@ -138,20 +134,6 @@ export function addQueryParams(url: URL, params: Record<string, string>): URL {
   ]).toString();
 
   return new URL(`${url.origin}${url.pathname}?${newParams}`);
-}
-
-/** Format a last activity date to a human readable string. */
-export function formatLastActivity(lastActivity: string) {
-  const activity = new Date(lastActivity);
-
-  // For < 1s display "now" instead of "0 seconds ago".
-  if (differenceInMilliseconds(new Date(), activity) < 1000) {
-    return 'now';
-  }
-
-  return formatDistanceToNowStrict(activity, {
-    addSuffix: true,
-  });
 }
 
 /** Return the difference in seconds from the date until now. */

@@ -6,7 +6,6 @@ import {
   calculateRates,
   formatDuration,
   formatRTT,
-  formatLastActivity,
   diffInSecondsToNow,
   type FormattedBytes,
   type AbbreviatedNumber,
@@ -108,8 +107,6 @@ interface ConnectionInfo {
   uptime: string;
   /** Formatted RTT string. */
   rtt: string;
-  /** Connection idle time or last activity. */
-  idle: string;
   /** Number of seconds since the client's last activity. */
   lastActive: number;
   /** Human readable last activity of the client. */
@@ -166,10 +163,9 @@ export function formatConnz(
         ...conn,
         info: {
           uptime: formatDuration(conn.uptime),
-          idle: formatDuration(conn.idle),
           rtt: formatRTT(conn.rtt ?? ''),
           lastActive: diffInSecondsToNow(conn.last_activity),
-          lastActivity: formatLastActivity(conn.last_activity),
+          lastActivity: conn.idle === '0s' ? 'now' : formatDuration(conn.idle),
           pending: formatBytes(conn.pending_bytes),
           inMsgs: abbreviateNum(conn.in_msgs),
           outMsgs: abbreviateNum(conn.out_msgs),

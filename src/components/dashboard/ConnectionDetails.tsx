@@ -12,7 +12,7 @@ export default function ConnectionDetails(props: Props) {
         info={{
           Name: props.connection.name,
           Uptime: props.connection.info.uptime,
-          'Last Activity': props.connection.info.idle,
+          'Last Activity': props.connection.info.lastActivity,
           RTT: props.connection.info.rtt,
         }}
       />
