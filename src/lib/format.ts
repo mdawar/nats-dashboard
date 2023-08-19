@@ -5,6 +5,7 @@ import {
   abbreviateNum,
   calculateRates,
   formatDuration,
+  formatRTT,
   formatLastActivity,
   diffInSecondsToNow,
   type FormattedBytes,
@@ -105,11 +106,15 @@ export interface ClientConnection extends ConnInfo {
 interface ConnectionInfo {
   /** Formatted uptime string of the client connection. */
   uptime: string;
+  /** Formatted RTT string. */
+  rtt: string;
+  /** Connection idle time or last activity. */
+  idle: string;
   /** Number of seconds since the client's last activity. */
   lastActive: number;
   /** Human readable last activity of the client. */
   lastActivity: string;
-  /** Pending bytes. */
+  /** Total pending/queued bytes. */
   pending: FormattedBytes;
   /** Total messages sent by the client. */
   inMsgs: AbbreviatedNumber;
@@ -161,6 +166,8 @@ export function formatConnz(
         ...conn,
         info: {
           uptime: formatDuration(conn.uptime),
+          idle: formatDuration(conn.idle),
+          rtt: formatRTT(conn.rtt ?? ''),
           lastActive: diffInSecondsToNow(conn.last_activity),
           lastActivity: formatLastActivity(conn.last_activity),
           pending: formatBytes(conn.pending_bytes),
