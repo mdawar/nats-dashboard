@@ -1,11 +1,13 @@
-import { createSignal, Switch, Match, For } from 'solid-js';
+import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
 import { useStore } from '~/lib/store';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
-import ConnectionItem from '~/components/dashboard/ConnectionItem';
+import SlideOver from '~/components/SlideOver';
 import Dropdown from '~/components/Dropdown';
+import ConnectionItem from '~/components/dashboard/ConnectionItem';
+import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
 import { ChevronUpDownIcon, LoadingIcon } from '~/components/icons';
 
 const sortOptions: Record<ConnzSortOpt, string> = {
@@ -29,6 +31,11 @@ export default function ConnectionsList() {
   const [store] = useStore();
   const [sortOpt, setSortOpt] = createSignal<ConnzSortOpt>('cid');
   const connz = useConnz(() => ({ sort: sortOpt() }));
+
+  const [selectedID, setSelectedID] = createSignal<number>();
+  const selectedConn = createMemo(
+    () => connz.data?.connections.find((c) => c.cid === selectedID())
+  );
 
   return (
     <section class="tabular-nums slashed-zero">
@@ -78,11 +85,23 @@ export default function ConnectionsList() {
                 </li>
               }
             >
-              {(conn) => <ConnectionItem {...conn} />}
+              {(conn) => (
+                <ConnectionItem connection={conn} onClick={setSelectedID} />
+              )}
             </For>
           </ul>
         </Match>
       </Switch>
+
+      {/* Slide over connection details. */}
+      <Show when={selectedConn()}>
+        <SlideOver
+          title={`CID ${selectedConn()?.cid}`}
+          onClose={() => setSelectedID(undefined)}
+        >
+          <ConnectionDetails connection={selectedConn()!} />
+        </SlideOver>
+      </Show>
     </section>
   );
 }

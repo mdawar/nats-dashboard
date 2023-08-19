@@ -88,13 +88,13 @@ export default function SlideOver(props: Props) {
               >
                 <Show when={show()}>
                   <div
-                    class="pointer-events-auto w-screen dark:bg-gray-900"
+                    class="pointer-events-auto w-screen text-gray-900 dark:text-white dark:bg-gray-900"
                     classList={{
                       [slideOverSizes[props.size!]]: true,
                     }}
                     use:clickOutside={close}
                   >
-                    <div class="flex h-full flex-col overflow-y-scroll text-gray-900 dark:text-white bg-white dark:bg-black/10 py-6 shadow-xl">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black/10 py-6 shadow-xl">
                       <div class="px-4 sm:px-6">
                         <div class="flex items-start justify-between">
                           <h2 class="text-base font-semibold leading-6">

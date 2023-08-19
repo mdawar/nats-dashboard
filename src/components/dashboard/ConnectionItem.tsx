@@ -1,7 +1,6 @@
 import { Show } from 'solid-js';
 
 import type { ClientConnection } from '~/lib/format';
-import { formatRTT } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
 import { ArrowUpIcon, ArrowDownIcon } from '~/components/icons';
@@ -23,12 +22,17 @@ const langColor: Record<string, string> = {
 
 const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
 
-export default function ConnectionItem(props: ClientConnection) {
-  const lang = props.lang?.toLowerCase() ?? 'unknown';
+interface Props {
+  connection: ClientConnection;
+  onClick: (cid: number) => void;
+}
+
+export default function ConnectionItem(props: Props) {
+  const lang = props.connection.lang?.toLowerCase() ?? 'unknown';
   const langName = lang in langColor ? lang : 'unknown';
 
   const indicator = () =>
-    (props?.info.lastActive ?? 0) <= 60 ? 'green' : 'gray';
+    (props.connection.info.lastActive ?? 0) <= 60 ? 'green' : 'gray';
 
   return (
     <li class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
@@ -37,19 +41,25 @@ export default function ConnectionItem(props: ClientConnection) {
           <Indicator color={indicator()} />
 
           <h2 class="min-w-0 text-sm font-semibold leading-6 text-gray-900 dark:text-white">
-            <a href="#" class="flex gap-x-2">
-              <span class="whitespace-nowrap">CID {props.cid}</span>
+            <a
+              href="#"
+              class="flex gap-x-2"
+              onClick={() => props.onClick(props.connection.cid)}
+            >
+              <span class="whitespace-nowrap">CID {props.connection.cid}</span>
               <span class="text-gray-500 dark:text-gray-400">/</span>
               <span class="truncate">
-                {props.ip}
+                {props.connection.ip}
                 <span class="text-gray-600 dark:text-gray-500">
-                  :{props.port}
+                  :{props.connection.port}
                 </span>
               </span>
-              <Show when={props.name}>
+              <Show when={props.connection.name}>
                 <span class="text-gray-500 dark:text-gray-400">/</span>
-                <span class="truncate">{props.name}</span>
+                <span class="truncate">{props.connection.name}</span>
               </Show>
+              {/* Make the whole item clickable. */}
+              <span class="absolute inset-0"></span>
             </a>
           </h2>
         </div>
@@ -61,15 +71,17 @@ export default function ConnectionItem(props: ClientConnection) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Uptime</span>
-            {props.info.uptime}
+            {props.connection.info.uptime}
           </Badge>
           <Badge
             border={false}
-            color={(props?.info.lastActive ?? 0) <= 10 ? 'green' : 'gray'}
+            color={
+              (props.connection.info.lastActive ?? 0) <= 30 ? 'green' : 'gray'
+            }
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Last Activity</span>
-            {props.info.lastActivity}
+            {props.connection.info.lastActivity}
           </Badge>
           <Badge
             border={false}
@@ -77,93 +89,105 @@ export default function ConnectionItem(props: ClientConnection) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">RTT</span>
-            {formatRTT(props.rtt ?? '')}
+            {props.connection.info.rtt}
           </Badge>
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
-            color={greenIfNotZero(props.subscriptions)}
+            color={greenIfNotZero(props.connection.subscriptions)}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Subs</span>
-            {props.subscriptions}
-          </Badge>
-
-          <Badge
-            border={false}
-            color={greenIfNotZero(props.info.pending.bytes)}
-            class="flex items-center gap-x-1.5"
-          >
-            <span class="text-gray-900 dark:text-white">Pending</span>
-            {props.info.pending.str}
+            {props.connection.subscriptions}
           </Badge>
 
           <Badge
             border={false}
             color={greenIfNotZero(
-              props.info.inMsgs.num || props.info.outMsgs.num
+              props.connection.info.inMsgs.num ||
+                props.connection.info.outMsgs.num
             )}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Msgs.</span>
             <ArrowUpIcon class="w-3 h-3" />
-            <span title="Sent Messages">{props.info.inMsgs.str}</span>
+            <span title="Sent Messages">
+              {props.connection.info.inMsgs.str}
+            </span>
             <span>/</span>
             <ArrowDownIcon class="w-3 h-3" />
-            <span title="Received Messages">{props.info.outMsgs.str}</span>
+            <span title="Received Messages">
+              {props.connection.info.outMsgs.str}
+            </span>
           </Badge>
 
           <Badge
             border={false}
             color={greenIfNotZero(
-              props.info.inBytes.bytes || props.info.outBytes.bytes
+              props.connection.info.inBytes.bytes ||
+                props.connection.info.outBytes.bytes
             )}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data</span>
             <ArrowUpIcon class="w-3 h-3" />
-            <span title="Data Sent">{props.info.inBytes.str}</span>
+            <span title="Data Sent">{props.connection.info.inBytes.str}</span>
             <span>/</span>
             <ArrowDownIcon class="w-3 h-3" />
-            <span title="Data Received">{props.info.outBytes.str}</span>
+            <span title="Data Received">
+              {props.connection.info.outBytes.str}
+            </span>
           </Badge>
 
           <Badge
             border={false}
             color={greenIfNotZero(
-              props.info.inMsgsRate.num || props.info.outMsgsRate.num
+              props.connection.info.inMsgsRate.num ||
+                props.connection.info.outMsgsRate.num
             )}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Msgs. Rate</span>
             <ArrowUpIcon class="w-3 h-3" />
             <span title="Sent Messages Rate">
-              {props.info.inMsgsRate.str}/s
+              {props.connection.info.inMsgsRate.str}/s
             </span>
             <span>/</span>
             <ArrowDownIcon class="w-3 h-3" />
             <span title="Received Messages Rate">
-              {props.info.outMsgsRate.str}/s
+              {props.connection.info.outMsgsRate.str}/s
             </span>
           </Badge>
 
           <Badge
             border={false}
             color={greenIfNotZero(
-              props.info.inBytesRate.bytes || props.info.outBytesRate.bytes
+              props.connection.info.inBytesRate.bytes ||
+                props.connection.info.outBytesRate.bytes
             )}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data Rate</span>
             <ArrowUpIcon class="w-3 h-3" />
-            <span title="Data Sent Rate">{props.info.inBytesRate.str}/s</span>
+            <span title="Data Sent Rate">
+              {props.connection.info.inBytesRate.str}/s
+            </span>
             <span>/</span>
             <ArrowDownIcon class="w-3 h-3" />
             <span title="Data Received Rate">
-              {props.info.outBytesRate.str}/s
+              {props.connection.info.outBytesRate.str}/s
             </span>
+          </Badge>
+
+          <Badge
+            border={false}
+            color={greenIfNotZero(props.connection.info.pending.bytes)}
+            class="flex items-center gap-x-1.5"
+          >
+            <span class="text-gray-900 dark:text-white">Pending</span>
+            {props.connection.info.pending.str}
           </Badge>
         </div>
       </div>
@@ -174,7 +198,7 @@ export default function ConnectionItem(props: ClientConnection) {
           [langColor[langName]!]: true,
         }}
       >
-        {lang} {props.version}
+        {lang} {props.connection.version}
       </div>
 
       <svg
