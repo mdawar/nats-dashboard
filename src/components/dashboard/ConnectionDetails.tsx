@@ -10,6 +10,7 @@ export default function ConnectionDetails(props: Props) {
     <div class="space-y-6">
       <InfoList
         info={{
+          CID: props.connection.cid,
           Name: props.connection.name,
           Uptime: props.connection.info.uptime,
           'Last Activity': props.connection.info.lastActivity,
@@ -64,7 +65,7 @@ export default function ConnectionDetails(props: Props) {
 }
 
 interface InfoListProps {
-  info: Record<string, string | undefined>;
+  info: Record<string, number | string | undefined>;
 }
 
 function InfoList(props: InfoListProps) {

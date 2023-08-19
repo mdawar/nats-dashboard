@@ -96,7 +96,7 @@ export default function ConnectionsList() {
       {/* Slide over connection details. */}
       <Show when={selectedConn()}>
         <SlideOver
-          title={`CID ${selectedConn()?.cid}`}
+          title="Connection Info"
           onClose={() => setSelectedID(undefined)}
         >
           <ConnectionDetails connection={selectedConn()!} />
