@@ -29,6 +29,9 @@ export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
     const cleanup = () => {
       clearTimeout(timeoutID);
       script.remove();
+      // Removing the callback function may cause a `ReferenceError`
+      // if for example the script finishes loading after a timeout
+      // which is OK in this case.
       delete window[callback as any];
     };
 
@@ -39,7 +42,7 @@ export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
     };
 
     // JSONP callback.
-    (window as any)[callback] = (response: any) => {
+    (window as any)[callback] = (response: T) => {
       resolve(response);
       cleanup();
     };
