@@ -1,5 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { ConnInfo } from '~/types/common';
+import type { ConnInfo } from '~/types';
 import {
   formatBytes,
   abbreviateNum,
