@@ -50,9 +50,10 @@ export interface AbbreviatedNumber {
   str: string;
 }
 
-/** Abbreviate a large number.
+/**
+ * Abbreviate a large number.
  *
- * Non abbreviated numbers will have the unit as an empty string.
+ * The `unit` will be an empty string for non abbreviated numbers.
  */
 export function abbreviateNum(num: number): AbbreviatedNumber {
   const suffixes = ['', 'K', 'M', 'B', 'T'];
