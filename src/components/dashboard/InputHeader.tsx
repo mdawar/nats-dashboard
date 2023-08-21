@@ -1,12 +1,14 @@
 import { onMount, createEffect, Show } from 'solid-js';
 
 import { useStore } from '~/lib/store';
+import { useMobileMenu } from '~/lib/global';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useSearchParams } from '@solidjs/router';
 import Button from '../Button';
 
 export default function InputHeader() {
   const [store, actions] = useStore();
+  const [_, menuActions] = useMobileMenu();
   const [params, setParams] = useSearchParams();
 
   onMount(() => {
@@ -34,7 +36,7 @@ export default function InputHeader() {
       <button
         type="button"
         class="-m-2.5 p-2.5 text-gray-700 dark:text-white lg:hidden"
-        onClick={actions.displayMenu}
+        onClick={menuActions.displayMenu}
       >
         <span class="sr-only">Open sidebar</span>
         <BarsIcon class="h-6 w-6" />

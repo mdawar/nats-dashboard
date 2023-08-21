@@ -6,7 +6,7 @@ import {
   type ParentProps,
   type ComponentProps,
 } from 'solid-js';
-import { useStore } from '~/lib/store';
+import { useMobileMenu } from '~/lib/global';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
 import {
@@ -18,7 +18,7 @@ import {
   SunIcon,
   MoonIcon,
 } from '~/components/icons';
-// @ts-expect-error (use:clickOutside not recognized as a reference)
+// @ts-expect-error
 import { clickOutside } from '~/lib/directives';
 import { Transition } from 'solid-transition-group';
 
@@ -33,15 +33,15 @@ export default function Sidebar() {
 
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
 function MobileSidebar() {
-  const [store, actions] = useStore();
+  const [menuActive, actions] = useMobileMenu();
   // Workaround to keep the container element until the animation ends.
   // Without this workaround the animated child elements are removed from the DOM before any animations are applied.
-  const [showContainer, setShowContainer] = createSignal(store.menuActive); // Start with the initial state of the menu.
+  const [showContainer, setShowContainer] = createSignal(menuActive()); // Start with the initial state of the menu.
 
   // Track enabling the mobile menu to display the container.
   // Hiding the container is done after the animation completes.
   createRenderEffect(() => {
-    if (store.menuActive) {
+    if (menuActive()) {
       setShowContainer(true);
     }
   });
@@ -63,7 +63,7 @@ function MobileSidebar() {
             setShowContainer(false);
           }}
         >
-          <Show when={store.menuActive}>
+          <Show when={menuActive()}>
             <div class="fixed inset-0 bg-gray-900/80"></div>
           </Show>
         </Transition>
@@ -79,7 +79,7 @@ function MobileSidebar() {
             exitToClass="-translate-x-full"
             appear={true}
           >
-            <Show when={store.menuActive}>
+            <Show when={menuActive()}>
               <div
                 class="relative mr-16 flex w-full max-w-xs flex-1 dark:bg-gray-900"
                 use:clickOutside={actions.hideMenu}
