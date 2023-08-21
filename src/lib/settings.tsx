@@ -1,0 +1,59 @@
+import { createContext, useContext, type ParentProps } from 'solid-js';
+
+import type { ConnzSortOpt } from '~/types';
+import { createLocalStore } from '~/lib/localstore';
+
+interface SettingsState {
+  connz: {
+    /** Connection sorting option. */
+    sortOpt: ConnzSortOpt;
+  };
+}
+
+interface SettingsActions {
+  setSortOpt(opt: ConnzSortOpt): void;
+}
+
+const defaultSettings: SettingsState = {
+  connz: {
+    sortOpt: 'cid',
+  },
+};
+
+const defaultActions: SettingsActions = {
+  setSortOpt() {},
+};
+
+export type SettingsStore = [state: SettingsState, actions: SettingsActions];
+
+const SettingsContext = createContext<SettingsStore>([
+  defaultSettings,
+  defaultActions,
+]);
+
+interface Props {
+  initialState?: SettingsState;
+}
+
+export function SettingsProvider(props: ParentProps<Props>) {
+  const [state, setState] = createLocalStore<SettingsState>(
+    'settings',
+    props.initialState ?? defaultSettings
+  );
+
+  const actions: SettingsActions = {
+    setSortOpt(opt) {
+      setState('connz', 'sortOpt', opt);
+    },
+  };
+
+  return (
+    <SettingsContext.Provider value={[state, actions]}>
+      {props.children}
+    </SettingsContext.Provider>
+  );
+}
+
+export function useSettings() {
+  return useContext(SettingsContext);
+}

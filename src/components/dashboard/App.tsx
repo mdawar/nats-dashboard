@@ -6,6 +6,7 @@ import {
 import { Router, Routes, Route } from '@solidjs/router';
 
 import { FetchError, TimeoutError } from '~/lib/jsonp';
+import Provider from '~/components/dashboard/Provider';
 import InputHeader from '~/components/dashboard/InputHeader';
 import Navigation from '~/components/dashboard/Navigation';
 import Overview from '~/components/dashboard/pages/Overview';
@@ -40,22 +41,24 @@ const queryClient = new QueryClient({
 
 export default function App(props: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <div>
-        <Router url={props.url}>
-          <InputHeader />
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <Router url={props.url}>
+            <InputHeader />
 
-          <main>
-            <Navigation />
+            <main>
+              <Navigation />
 
-            <Routes>
-              <Route path="/" component={Overview} />
-              <Route path="/connections" component={Connections} />
-              <Route path="/jetstream" component={JetStream} />
-            </Routes>
-          </main>
-        </Router>
-      </div>
-    </QueryClientProvider>
+              <Routes>
+                <Route path="/" component={Overview} />
+                <Route path="/connections" component={Connections} />
+                <Route path="/jetstream" component={JetStream} />
+              </Routes>
+            </main>
+          </Router>
+        </div>
+      </QueryClientProvider>
+    </Provider>
   );
 }

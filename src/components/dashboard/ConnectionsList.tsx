@@ -2,6 +2,7 @@ import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
 import { useStore } from '~/lib/store';
+import { useSettings } from '~/lib/settings';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import SlideOver from '~/components/SlideOver';
@@ -29,8 +30,8 @@ const sortOptions: Record<ConnzSortOpt, string> = {
 
 export default function ConnectionsList() {
   const [store] = useStore();
-  const [sortOpt, setSortOpt] = createSignal<ConnzSortOpt>('cid');
-  const connz = useConnz(() => ({ sort: sortOpt() }));
+  const [settings, actions] = useSettings();
+  const connz = useConnz(() => ({ sort: settings.connz.sortOpt }));
 
   const [selectedID, setSelectedID] = createSignal<number>();
   const selectedConn = createMemo(
@@ -53,8 +54,8 @@ export default function ConnectionsList() {
 
         <Dropdown
           options={sortOptions}
-          active={sortOpt()}
-          onChange={setSortOpt}
+          active={settings.connz.sortOpt}
+          onChange={actions.setSortOpt}
         >
           Sort by
           <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
