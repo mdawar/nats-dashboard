@@ -5,6 +5,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/solid-query';
 
+import { StoreProvider } from '~/lib/store';
 import { SettingsProvider } from '~/lib/settings';
 import { FetchError, TimeoutError } from '~/lib/jsonp';
 
@@ -27,10 +28,12 @@ const queryClient = new QueryClient({
 
 export default function Provider(props: ParentProps) {
   return (
-    <SettingsProvider>
-      <QueryClientProvider client={queryClient}>
-        {props.children}
-      </QueryClientProvider>
-    </SettingsProvider>
+    <StoreProvider>
+      <SettingsProvider>
+        <QueryClientProvider client={queryClient}>
+          {props.children}
+        </QueryClientProvider>
+      </SettingsProvider>
+    </StoreProvider>
   );
 }
