@@ -1,12 +1,17 @@
 import {
-  Show,
   createSignal,
-  splitProps,
   createRenderEffect,
+  splitProps,
+  onMount,
+  Show,
   type ParentProps,
   type ComponentProps,
 } from 'solid-js';
 import { useMobileMenu } from '~/lib/global';
+import { ThemeProvider, useTheme } from '~/components/context/theme';
+// @ts-expect-error
+import { clickOutside } from '~/lib/directives';
+import { Transition } from 'solid-transition-group';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
 import {
@@ -17,17 +22,15 @@ import {
   CloseIcon,
   SunIcon,
   MoonIcon,
+  DesktopIcon,
 } from '~/components/icons';
-// @ts-expect-error
-import { clickOutside } from '~/lib/directives';
-import { Transition } from 'solid-transition-group';
 
 export default function Sidebar() {
   return (
-    <>
+    <ThemeProvider>
       <MobileSidebar />
       <DesktopSidebar />
-    </>
+    </ThemeProvider>
   );
 }
 
@@ -129,13 +132,15 @@ function DesktopSidebar() {
 }
 
 function Menu() {
-  // TODO: check if dark theme is already applied
-  const [darkMode, setDarkMode] = createSignal(false);
+  const theme = useTheme();
 
-  const toggleTheme = () => {
-    document.documentElement.classList.toggle('dark');
-    setDarkMode((d) => !d);
-  };
+  const [showThemeToggle, setShowThemeToggle] = createSignal(false);
+
+  // Display the theme toggle only on the client to prevent hydration issues.
+  // Can be removed with the state when using the `client:only` directive.
+  onMount(() => {
+    setShowThemeToggle(true);
+  });
 
   return (
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white dark:border-none dark:bg-black/10 dark:ring-1 dark:ring-white/5 px-6 pb-4">
@@ -205,22 +210,38 @@ function Menu() {
               </li>
             </ul>
           </li>
-          <li class="mt-auto">
-            <button
-              class="group -mx-2 flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
-              onClick={toggleTheme}
-            >
-              <Show
-                when={darkMode()}
-                fallback={
-                  <SunIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
-                }
+
+          <Show when={showThemeToggle()}>
+            <li class="mt-auto flex flex-col sm:flex-row gap-3">
+              <button
+                class="group flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
+                onClick={theme.toggle}
               >
-                <MoonIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                <Show
+                  when={theme.isDark()}
+                  fallback={
+                    <>
+                      <MoonIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                      Dark
+                    </>
+                  }
+                >
+                  <SunIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                  Light
+                </Show>
+              </button>
+
+              <Show when={!theme.isAuto()}>
+                <button
+                  class="group flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
+                  onClick={theme.reset}
+                >
+                  <DesktopIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                  System
+                </button>
               </Show>
-              {darkMode() ? 'Light' : 'Dark'}
-            </button>
-          </li>
+            </li>
+          </Show>
         </ul>
       </nav>
     </div>

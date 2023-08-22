@@ -15,3 +15,4 @@ export * from './Loading';
 export * from './Plus';
 export * from './ArrowUp';
 export * from './ArrowDown';
+export * from './Desktop';

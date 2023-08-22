@@ -9,6 +9,23 @@ import Sidebar from '~/components/Sidebar';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>NATS Web Dashboard</title>
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Site Theme -->
+    <script is:inline>
+      try {
+        if (
+          localStorage.darkMode === 'true' ||
+          (!('darkMode' in localStorage) &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      } catch (_) {}
+    </script>
+
+    <!-- Font -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
   </head>
   <body class="h-full bg-white dark:bg-gray-900">
