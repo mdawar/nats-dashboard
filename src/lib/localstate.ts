@@ -44,6 +44,8 @@ export function createLocalStore<T extends StoreNode>(
 /**
  * Create a signal that stores the value in local storage if available.
  *
+ * Set the value to `undefined` to remove it from the local storage.
+ *
  * @param name - The local storage key name.
  * @param value - Initial signal value.
  * @param options - Optional signal options.
@@ -62,7 +64,11 @@ export function createLocalSignal<T>(
   );
 
   createEffect(() => {
-    setItem(name, JSON.stringify(state()));
+    if (state() === undefined) {
+      removeItem(name);
+    } else {
+      setItem(name, JSON.stringify(state()));
+    }
   });
 
   return [state, setState];
@@ -83,6 +89,21 @@ function isSecurityError(error: unknown): boolean {
 function setItem(key: string, value: string): void {
   try {
     localStorage.setItem(key, value);
+  } catch (error) {
+    if (!isSecurityError(error)) {
+      throw error;
+    }
+  }
+}
+
+/**
+ * Remove a value from the local storage and ignore access denied errors.
+ *
+ * Note: A `SecurityError` exception is thrown in the case of denied access to `localStorage`.
+ */
+function removeItem(key: string): void {
+  try {
+    localStorage.removeItem(key);
   } catch (error) {
     if (!isSecurityError(error)) {
       throw error;
