@@ -5,8 +5,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/solid-query';
 
-import { StoreProvider } from '~/lib/store';
-import { SettingsProvider } from '~/lib/settings';
+import { StoreProvider } from '~/components/context/store';
+import { SettingsProvider } from '~/components/context/settings';
 import { FetchError, TimeoutError } from '~/lib/jsonp';
 
 const queryClient = new QueryClient({

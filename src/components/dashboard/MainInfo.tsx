@@ -1,4 +1,4 @@
-import { useStore } from '~/lib/store';
+import { useStore } from '~/components/context/store';
 import { useVarz } from '~/lib/queries';
 import Indicator from '~/components/Indicator';
 

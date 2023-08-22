@@ -1,4 +1,4 @@
-import { useStore } from '~/lib/store';
+import { useStore } from '~/components/context/store';
 import { ServerIcon, PlusIcon } from '~/components/icons';
 import Button from '~/components/Button';
 

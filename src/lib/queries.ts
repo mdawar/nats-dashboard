@@ -1,7 +1,7 @@
 import { createQuery } from '@tanstack/solid-query';
 
 import type { ConnzOptions } from '~/types';
-import { useStore } from '~/lib/store';
+import { useStore } from '~/components/context/store';
 import { fetchInfo } from '~/lib/info';
 import { formatVarz, formatConnz } from '~/lib/format';
 import { createMemo } from 'solid-js';

@@ -1,6 +1,6 @@
 import { onMount, createEffect, Show } from 'solid-js';
 
-import { useStore } from '~/lib/store';
+import { useStore } from '~/components/context/store';
 import { useMobileMenu } from '~/lib/global';
 import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useSearchParams } from '@solidjs/router';

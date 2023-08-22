@@ -1,8 +1,8 @@
 import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
-import { useStore } from '~/lib/store';
-import { useSettings } from '~/lib/settings';
+import { useStore } from '~/components/context/store';
+import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import SlideOver from '~/components/SlideOver';
