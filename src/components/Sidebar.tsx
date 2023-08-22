@@ -211,37 +211,46 @@ function Menu() {
             </ul>
           </li>
 
-          <Show when={showThemeToggle()}>
-            <li class="mt-auto flex flex-col sm:flex-row gap-3">
-              <button
-                class="group flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
-                onClick={theme.toggle}
-              >
-                <Show
-                  when={theme.isDark()}
-                  fallback={
-                    <>
-                      <MoonIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
-                      Dark
-                    </>
-                  }
-                >
-                  <SunIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
-                  Light
-                </Show>
-              </button>
-
-              <Show when={!theme.isAuto()}>
+          <Transition
+            enterActiveClass="ease-in duration-300"
+            enterClass="opacity-0"
+            enterToClass="opacity-100"
+            exitActiveClass="ease-out duration-200"
+            exitClass="opacity-100"
+            exitToClass="opacity-0"
+          >
+            <Show when={showThemeToggle()}>
+              <li class="mt-auto flex flex-col sm:flex-row gap-3">
                 <button
                   class="group flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
-                  onClick={theme.reset}
+                  onClick={theme.toggle}
                 >
-                  <DesktopIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
-                  System
+                  <Show
+                    when={theme.isDark()}
+                    fallback={
+                      <>
+                        <MoonIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                        Dark
+                      </>
+                    }
+                  >
+                    <SunIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                    Light
+                  </Show>
                 </button>
-              </Show>
-            </li>
-          </Show>
+
+                <Show when={!theme.isAuto()}>
+                  <button
+                    class="group flex gap-x-3 w-full rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600 dark:text-white dark:hover:bg-gray-800"
+                    onClick={theme.reset}
+                  >
+                    <DesktopIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                    System
+                  </button>
+                </Show>
+              </li>
+            </Show>
+          </Transition>
         </ul>
       </nav>
     </div>
