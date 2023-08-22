@@ -1,4 +1,10 @@
-import { createEffect } from 'solid-js';
+import {
+  createEffect,
+  createSignal,
+  type Accessor,
+  type Setter,
+  type SignalOptions,
+} from 'solid-js';
 import {
   createStore,
   type Store,
@@ -30,6 +36,33 @@ export function createLocalStore<T extends StoreNode>(
   // Update the local storage on state change.
   createEffect(() => {
     setItem(name, JSON.stringify(state));
+  });
+
+  return [state, setState];
+}
+
+/**
+ * Create a signal that stores the value in local storage if available.
+ *
+ * @param name - The local storage key name.
+ * @param value - Initial signal value.
+ * @param options - Optional signal options.
+ * @returns Signal getter and setter.
+ */
+export function createLocalSignal<T>(
+  name: string,
+  value: T,
+  options?: SignalOptions<T>
+): [state: Accessor<T>, setState: Setter<T>] {
+  const localState = getItem(name);
+
+  const [state, setState] = createSignal<T>(
+    localState ? JSON.parse(localState) : value,
+    options
+  );
+
+  createEffect(() => {
+    setItem(name, JSON.stringify(state()));
   });
 
   return [state, setState];
