@@ -1,7 +1,7 @@
 import { createContext, useContext, type ParentProps } from 'solid-js';
 
 import type { ConnzSortOpt } from '~/types';
-import { createLocalStore } from '~/lib/localstore';
+import { createLocalStore } from '~/lib/localstate';
 
 interface SettingsState {
   connz: {
