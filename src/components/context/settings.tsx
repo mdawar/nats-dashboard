@@ -6,7 +6,7 @@ import { createLocalStore } from '~/lib/localstate';
 interface SettingsState {
   connz: {
     /** Connection sorting option. */
-    sortOpt: ConnzSortOpt;
+    sort: ConnzSortOpt;
   };
 }
 
@@ -16,7 +16,7 @@ interface SettingsActions {
 
 const defaultSettings: SettingsState = {
   connz: {
-    sortOpt: 'cid',
+    sort: 'cid',
   },
 };
 
@@ -43,7 +43,7 @@ export function SettingsProvider(props: ParentProps<Props>) {
 
   const actions: SettingsActions = {
     setSortOpt(opt) {
-      setState('connz', 'sortOpt', opt);
+      setState('connz', 'sort', opt);
     },
   };
 

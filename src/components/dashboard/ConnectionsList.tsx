@@ -31,7 +31,7 @@ const sortOptions: Record<ConnzSortOpt, string> = {
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
-  const connz = useConnz(() => ({ sort: settings.connz.sortOpt }));
+  const connz = useConnz(() => ({ sort: settings.connz.sort }));
 
   const [selectedID, setSelectedID] = createSignal<number>();
   const selectedConn = createMemo(
@@ -54,7 +54,7 @@ export default function ConnectionsList() {
 
         <Dropdown
           options={sortOptions}
-          active={settings.connz.sortOpt}
+          active={settings.connz.sort}
           onChange={actions.setSortOpt}
         >
           Sort by
