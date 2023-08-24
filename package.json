@@ -18,8 +18,8 @@
     "@astrojs/solid-js": "^2.2.1",
     "@astrojs/tailwind": "^4.0.0",
     "@solidjs/router": "^0.8.3",
-    "@tanstack/solid-query": "^5.0.0-beta.15",
-    "astro": "^2.10.13",
+    "@tanstack/solid-query": "^5.0.0-beta.18",
+    "astro": "^2.10.14",
     "date-fns": "^2.30.0",
     "solid-js": "^1.7.11",
     "solid-transition-group": "^0.2.3",
@@ -29,7 +29,7 @@
     "@tailwindcss/forms": "^0.5.5",
     "prettier": "^3.0.2",
     "prettier-plugin-astro": "^0.12.0",
-    "typescript": "^5.1.6",
+    "typescript": "^5.2.2",
     "vitest": "^0.34.2"
   }
 }
