@@ -14,6 +14,7 @@ interface Props<T extends keyof any> extends ParentProps {
   options: Record<T, string>;
   active: T;
   onChange: (id: T) => void;
+  class?: string;
 }
 
 export default function Dropdown<T extends keyof any>(props: Props<T>) {
@@ -24,17 +25,12 @@ export default function Dropdown<T extends keyof any>(props: Props<T>) {
   );
 
   return (
-    <div class="relative" use:clickOutside={() => setShow(false)}>
-      <button
-        type="button"
-        class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
-        id="sort-menu-button"
-        aria-expanded={show()}
-        aria-haspopup="true"
-        onClick={() => setShow((prev) => !prev)}
-      >
-        {props.children}
-      </button>
+    <div
+      class="relative"
+      classList={{ [props.class!]: !!props.class }}
+      use:clickOutside={() => setShow(false)}
+    >
+      <div onClick={() => setShow((prev) => !prev)}>{props.children}</div>
 
       <Transition
         enterActiveClass="transition ease-out duration-100"
@@ -50,7 +46,6 @@ export default function Dropdown<T extends keyof any>(props: Props<T>) {
             class="absolute right-0 z-10 mt-2.5 w-40 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
             role="menu"
             aria-orientation="vertical"
-            aria-labelledby="sort-menu-button"
             tabindex="-1"
           >
             <For each={options()}>

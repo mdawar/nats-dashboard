@@ -57,8 +57,13 @@ export default function ConnectionsList() {
           active={settings.connz.sort}
           onChange={actions.setSortOpt}
         >
-          Sort by
-          <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
+          <button
+            type="button"
+            class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+          >
+            Sort by
+            <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
+          </button>
         </Dropdown>
       </header>
 
