@@ -45,10 +45,10 @@ export default function ConnectionsList() {
           Connections
           <Badge
             type="pill"
-            color={(connz.data?.numConnections ?? 0) > 0 ? 'green' : 'gray'}
+            color={(connz.data?.total ?? 0) > 0 ? 'green' : 'gray'}
             class="ml-3"
           >
-            {connz.data?.numConnections}
+            {connz.data?.total ?? 0}
           </Badge>
         </h1>
 

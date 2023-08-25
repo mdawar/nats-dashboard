@@ -1,5 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { ConnInfo } from '~/types';
+import type { Connz, ConnInfo } from '~/types';
 import {
   formatBytes,
   abbreviateNum,
@@ -83,10 +83,12 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
   };
 }
 
-/** Formatted connections information. */
-interface FormattedConnz {
-  /** Number of client connections. */
-  numConnections: number;
+/**
+ * Formatted connections information.
+ *
+ * Includes the original connections information with a formatted connections array.
+ */
+interface FormattedConnz extends Partial<Connz> {
   /** List of connections to the server. */
   connections: ClientConnection[];
 }
@@ -177,7 +179,7 @@ export function formatConnz(
     }) ?? [];
 
   return {
-    numConnections: current?.num_connections ?? 0,
+    ...current,
     connections,
   };
 }
