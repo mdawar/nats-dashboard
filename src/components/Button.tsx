@@ -35,6 +35,14 @@ const buttonPadding = {
   xl: 'px-3.5 py-2.5',
 } as const;
 
+const iconPadding = {
+  xs: 'p-1',
+  sm: 'p-1',
+  md: 'p-1.5',
+  lg: 'p-2',
+  xl: 'p-2.5',
+} as const;
+
 const roundedPadding = {
   xs: 'px-2.5 py-1',
   sm: 'px-2.5 py-1',
@@ -82,7 +90,7 @@ export default function Button(props: Props) {
         // Regular button padding.
         [buttonPadding[local.size!]]: !local.icon,
         // Icon button padding.
-        'p-1': local.icon,
+        [iconPadding[local.size!]]: local.icon,
         // Regular border radius.
         [borderRadius[local.size!]]: !local.rounded,
         // Rounded buttons.
