@@ -9,7 +9,11 @@ import SlideOver from '~/components/SlideOver';
 import Dropdown, { type Options } from '~/components/Dropdown';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
-import { ChevronUpDownIcon, LoadingIcon } from '~/components/icons';
+import {
+  ChevronUpDownIcon,
+  ChevronDownIcon,
+  LoadingIcon,
+} from '~/components/icons';
 
 const sortOptions: Options<ConnzSortOpt> = [
   { value: 'cid', label: 'CID' },
@@ -28,10 +32,23 @@ const sortOptions: Options<ConnzSortOpt> = [
   { value: 'reason', label: 'Close Reason' },
 ];
 
+const limitOptions: Options<number> = [
+  { value: 5, label: '5' },
+  { value: 10, label: '10' },
+  { value: 50, label: '50' },
+  { value: 100, label: '100' },
+  { value: 250, label: '250' },
+  { value: 500, label: '500' },
+  { value: 1000, label: '1000' },
+];
+
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
-  const connz = useConnz(() => ({ sort: settings.connz.sort }));
+  const connz = useConnz(() => ({
+    sort: settings.connz.sort,
+    limit: settings.connz.limit,
+  }));
 
   const [selectedID, setSelectedID] = createSignal<number>();
   const selectedConn = createMemo(
@@ -52,19 +69,35 @@ export default function ConnectionsList() {
           </Badge>
         </h1>
 
-        <Dropdown
-          options={sortOptions}
-          active={settings.connz.sort}
-          onChange={actions.setSortOpt}
-        >
-          <button
-            type="button"
-            class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+        <div class="flex items-center gap-6">
+          <Dropdown
+            options={limitOptions}
+            active={settings.connz.limit}
+            onChange={actions.setConnzLimit}
           >
-            Sort by
-            <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
-          </button>
-        </Dropdown>
+            <button
+              type="button"
+              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+            >
+              Limit
+              <ChevronDownIcon class="h-4 w-4 text-gray-500" />
+            </button>
+          </Dropdown>
+
+          <Dropdown
+            options={sortOptions}
+            active={settings.connz.sort}
+            onChange={actions.setConnzSort}
+          >
+            <button
+              type="button"
+              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+            >
+              Sort by
+              <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
+            </button>
+          </Dropdown>
+        </div>
       </header>
 
       <Switch>

@@ -7,21 +7,26 @@ interface SettingsState {
   connz: {
     /** Connection sorting option. */
     sort: ConnzSortOpt;
+    /** Number of connections to return. */
+    limit: number;
   };
 }
 
 interface SettingsActions {
-  setSortOpt(opt: ConnzSortOpt): void;
+  setConnzSort(opt: ConnzSortOpt): void;
+  setConnzLimit(limit: number): void;
 }
 
 const defaultSettings: SettingsState = {
   connz: {
     sort: 'cid',
+    limit: 100,
   },
 };
 
 const defaultActions: SettingsActions = {
-  setSortOpt() {},
+  setConnzSort() {},
+  setConnzLimit() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -42,8 +47,11 @@ export function SettingsProvider(props: ParentProps<Props>) {
   );
 
   const actions: SettingsActions = {
-    setSortOpt(opt) {
+    setConnzSort(opt) {
       setState('connz', 'sort', opt);
+    },
+    setConnzLimit(limit) {
+      setState('connz', 'limit', limit);
     },
   };
 
