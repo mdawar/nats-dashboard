@@ -6,27 +6,27 @@ import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
 import SlideOver from '~/components/SlideOver';
-import Dropdown from '~/components/Dropdown';
+import Dropdown, { type Options } from '~/components/Dropdown';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
 import { ChevronUpDownIcon, LoadingIcon } from '~/components/icons';
 
-const sortOptions: Record<ConnzSortOpt, string> = {
-  cid: 'CID',
-  rtt: 'RTT',
-  uptime: 'Uptime',
-  last: 'Last Activity',
-  idle: 'Idle Time',
-  subs: 'Subscriptions',
-  msgs_from: 'Msgs. Sent',
-  msgs_to: 'Msgs. Received',
-  bytes_from: 'Data Size Sent',
-  bytes_to: 'Data Size Received',
-  pending: 'Pending Data',
-  start: 'Connection Start',
-  stop: 'Connection Stop',
-  reason: 'Close Reason',
-};
+const sortOptions: Options<ConnzSortOpt> = [
+  { value: 'cid', label: 'CID' },
+  { value: 'rtt', label: 'RTT' },
+  { value: 'uptime', label: 'Uptime' },
+  { value: 'last', label: 'Last Activity' },
+  { value: 'idle', label: 'Idle Time' },
+  { value: 'subs', label: 'Subscriptions' },
+  { value: 'msgs_from', label: 'Msgs. Sent' },
+  { value: 'msgs_to', label: 'Msgs. Received' },
+  { value: 'bytes_from', label: 'Data Size Sent' },
+  { value: 'bytes_to', label: 'Data Size Received' },
+  { value: 'pending', label: 'Pending Data' },
+  { value: 'start', label: 'Connection Start' },
+  { value: 'stop', label: 'Connection Stop' },
+  { value: 'reason', label: 'Close Reason' },
+];
 
 export default function ConnectionsList() {
   const [store] = useStore();

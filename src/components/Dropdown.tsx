@@ -1,17 +1,18 @@
-import {
-  createSignal,
-  createMemo,
-  For,
-  Show,
-  type ParentProps,
-} from 'solid-js';
+import { createSignal, For, Show, type ParentProps } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
 // @ts-expect-error
 import { clickOutside } from '~/lib/directives';
 
+export interface Option<T> {
+  value: T;
+  label: string | number;
+}
+
+export type Options<T> = Option<T>[];
+
 interface Props<T extends keyof any> extends ParentProps {
-  options: Record<T, string>;
+  options: Options<T>;
   active: T;
   onChange: (id: T) => void;
   class?: string;
@@ -19,10 +20,6 @@ interface Props<T extends keyof any> extends ParentProps {
 
 export default function Dropdown<T extends keyof any>(props: Props<T>) {
   const [show, setShow] = createSignal(false);
-
-  const options = createMemo(
-    () => Object.entries(props.options) as [T, string][]
-  );
 
   return (
     <div
@@ -48,18 +45,18 @@ export default function Dropdown<T extends keyof any>(props: Props<T>) {
             aria-orientation="vertical"
             tabindex="-1"
           >
-            <For each={options()}>
-              {([id, name]) => (
+            <For each={props.options}>
+              {({ value, label }) => (
                 <button
                   class="block w-full text-left px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-50"
-                  classList={{ 'bg-gray-50': props.active === id }}
+                  classList={{ 'bg-gray-50': props.active === value }}
                   role="menuitem"
                   onClick={() => {
-                    props.onChange(id);
+                    props.onChange(value);
                     setShow(false);
                   }}
                 >
-                  {name}
+                  {label}
                 </button>
               )}
             </For>
