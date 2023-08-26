@@ -191,7 +191,7 @@ function Menu() {
             <ul role="list" class="-mx-2 mt-2 space-y-1">
               <li>
                 <SecondaryMenuItem
-                  href="https://github.com/mdawar/natsdashboard"
+                  href="https://github.com/mdawar/nats-dashboard"
                   letter="G"
                   target="_blank"
                 >
