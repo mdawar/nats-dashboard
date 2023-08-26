@@ -24,7 +24,20 @@ const langColor: Record<string, string> = {
     'bg-lime-50 text-lime-700 ring-lime-600/20 dark:bg-lime-400/10 dark:text-lime-500 dark:ring-lime-400/20',
 };
 
+/**
+ * Defines the `Badge` component color based on the number.
+ *
+ * Returns `green` when the number is positive and `gray` otherwise.
+ */
 const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
+
+/**
+ * Returns a `classList` object for styling contents of a badge.
+ *
+ * To be used to dim non positive numbers when the badge is green for badges with multiple numbers.
+ */
+const grayIfZero = (n: number) =>
+  n === 0 ? { 'text-gray-600 dark:text-gray-400': true } : {};
 
 interface Props {
   connection: ClientConnection;
@@ -119,13 +132,27 @@ export default function ConnectionItem(props: Props) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Msgs.</span>
-            <ArrowUpIcon class="w-3 h-3" />
-            <span title="Sent Messages">
+            <ArrowUpIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.inMsgs.num)}
+            />
+            <span
+              title="Sent Messages"
+              classList={grayIfZero(props.connection.info.inMsgs.num)}
+            >
               {props.connection.info.inMsgs.str}
             </span>
-            <span>/</span>
-            <ArrowDownIcon class="w-3 h-3" />
-            <span title="Received Messages">
+
+            <span class="text-gray-600 dark:text-gray-400">/</span>
+
+            <ArrowDownIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.outMsgs.num)}
+            />
+            <span
+              title="Received Messages"
+              classList={grayIfZero(props.connection.info.outMsgs.num)}
+            >
               {props.connection.info.outMsgs.str}
             </span>
           </Badge>
@@ -139,11 +166,27 @@ export default function ConnectionItem(props: Props) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data</span>
-            <ArrowUpIcon class="w-3 h-3" />
-            <span title="Data Sent">{props.connection.info.inBytes.str}</span>
-            <span>/</span>
-            <ArrowDownIcon class="w-3 h-3" />
-            <span title="Data Received">
+            <ArrowUpIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.inBytes.bytes)}
+            />
+            <span
+              title="Data Sent"
+              classList={grayIfZero(props.connection.info.inBytes.bytes)}
+            >
+              {props.connection.info.inBytes.str}
+            </span>
+
+            <span class="text-gray-600 dark:text-gray-400">/</span>
+
+            <ArrowDownIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.outBytes.bytes)}
+            />
+            <span
+              title="Data Received"
+              classList={grayIfZero(props.connection.info.outBytes.bytes)}
+            >
               {props.connection.info.outBytes.str}
             </span>
           </Badge>
@@ -157,13 +200,27 @@ export default function ConnectionItem(props: Props) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Msgs. Rate</span>
-            <ArrowUpIcon class="w-3 h-3" />
-            <span title="Sent Messages Rate">
+            <ArrowUpIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.inMsgsRate.num)}
+            />
+            <span
+              title="Sent Messages Rate"
+              classList={grayIfZero(props.connection.info.inMsgsRate.num)}
+            >
               {props.connection.info.inMsgsRate.str}/s
             </span>
-            <span>/</span>
-            <ArrowDownIcon class="w-3 h-3" />
-            <span title="Received Messages Rate">
+
+            <span class="text-gray-600 dark:text-gray-400">/</span>
+
+            <ArrowDownIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.outMsgsRate.num)}
+            />
+            <span
+              title="Received Messages Rate"
+              classList={grayIfZero(props.connection.info.outMsgsRate.num)}
+            >
               {props.connection.info.outMsgsRate.str}/s
             </span>
           </Badge>
@@ -177,13 +234,27 @@ export default function ConnectionItem(props: Props) {
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data Rate</span>
-            <ArrowUpIcon class="w-3 h-3" />
-            <span title="Data Sent Rate">
+            <ArrowUpIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
+            />
+            <span
+              title="Data Sent Rate"
+              classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
+            >
               {props.connection.info.inBytesRate.str}/s
             </span>
-            <span>/</span>
-            <ArrowDownIcon class="w-3 h-3" />
-            <span title="Data Received Rate">
+
+            <span class="text-gray-600 dark:text-gray-400">/</span>
+
+            <ArrowDownIcon
+              class="w-3 h-3"
+              classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
+            />
+            <span
+              title="Data Received Rate"
+              classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
+            >
               {props.connection.info.outBytesRate.str}/s
             </span>
           </Badge>
