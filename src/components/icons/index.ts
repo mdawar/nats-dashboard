@@ -6,6 +6,7 @@ export * from './Close';
 export * from './ChartBarSquare';
 export * from './ChevronUpDown';
 export * from './ChevronRight';
+export * from './ChevronLeft';
 export * from './ChevronDown';
 export * from './Signal';
 export * from './ChatBubble';

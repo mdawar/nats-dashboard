@@ -12,6 +12,8 @@ import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
 import {
   ChevronUpDownIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
   LoadingIcon,
 } from '~/components/icons';
 
@@ -33,6 +35,8 @@ const sortOptions: Options<ConnzSortOpt> = [
 ];
 
 const limitOptions: Options<number> = [
+  { value: 1, label: '1' },
+  { value: 2, label: '2' },
   { value: 5, label: '5' },
   { value: 10, label: '10' },
   { value: 50, label: '50' },
@@ -45,15 +49,25 @@ const limitOptions: Options<number> = [
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
+  const [offset, setOffset] = createSignal(0);
+
   const connz = useConnz(() => ({
     sort: settings.connz.sort,
     limit: settings.connz.limit,
+    offset: offset(),
   }));
 
   const [selectedID, setSelectedID] = createSignal<number>();
   const selectedConn = createMemo(
     () => connz.data?.connections.find((c) => c.cid === selectedID())
   );
+
+  const prev = () => setOffset((o) => Math.max(0, o - settings.connz.limit));
+  const next = () => setOffset((o) => o + settings.connz.limit);
+
+  const isFirstPage = () => offset() === 0;
+  const isLastPage = () =>
+    offset() + settings.connz.limit >= (connz.data?.total ?? 0);
 
   return (
     <section class="tabular-nums slashed-zero">
@@ -70,6 +84,25 @@ export default function ConnectionsList() {
         </h1>
 
         <div class="flex items-center gap-6">
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+              onClick={prev}
+              disabled={isFirstPage()}
+            >
+              <ChevronLeftIcon class="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+              onClick={next}
+              disabled={isLastPage()}
+            >
+              <ChevronRightIcon class="h-4 w-4" />
+            </button>
+          </div>
+
           <Dropdown
             options={limitOptions}
             active={settings.connz.limit}
@@ -83,6 +116,9 @@ export default function ConnectionsList() {
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
             </button>
           </Dropdown>
+
+          {/* Separator */}
+          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
             options={sortOptions}
