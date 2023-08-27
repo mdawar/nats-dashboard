@@ -30,6 +30,6 @@
     "prettier": "^3.0.2",
     "prettier-plugin-astro": "^0.12.0",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.2"
+    "vitest": "^0.34.3"
   }
 }
