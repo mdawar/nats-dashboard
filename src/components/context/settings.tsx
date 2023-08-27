@@ -1,6 +1,6 @@
 import { createContext, useContext, type ParentProps } from 'solid-js';
 
-import type { ConnzSortOpt } from '~/types';
+import type { ConnState, ConnzSortOpt } from '~/types';
 import { createLocalStore } from '~/lib/localstate';
 
 interface SettingsState {
@@ -8,15 +8,18 @@ interface SettingsState {
   interval: number;
   /** Connz settings. */
   connz: {
-    /** Connection sorting option. */
+    /** Connections state (Default: open). */
+    state: ConnState;
+    /** Connection sorting option (Default: cid). */
     sort: ConnzSortOpt;
-    /** Number of connections to return. */
+    /** Number of connections to return (Default: 100). */
     limit: number;
   };
 }
 
 interface SettingsActions {
   setInterval(interval: number): void;
+  setConnzState(state: ConnState): void;
   setConnzSort(opt: ConnzSortOpt): void;
   setConnzLimit(limit: number): void;
 }
@@ -24,6 +27,7 @@ interface SettingsActions {
 const defaultSettings: SettingsState = {
   interval: 1000, // 1s
   connz: {
+    state: 'open',
     sort: 'cid',
     limit: 100,
   },
@@ -31,6 +35,7 @@ const defaultSettings: SettingsState = {
 
 const defaultActions: SettingsActions = {
   setInterval() {},
+  setConnzState() {},
   setConnzSort() {},
   setConnzLimit() {},
 };
@@ -55,6 +60,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
   const actions: SettingsActions = {
     setInterval(interval) {
       setState('interval', interval);
+    },
+    setConnzState(state) {
+      setState('connz', 'state', state);
     },
     setConnzSort(opt) {
       setState('connz', 'sort', opt);

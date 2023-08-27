@@ -1,6 +1,6 @@
 import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
-import type { ConnzSortOpt } from '~/types';
+import type { ConnState, ConnzSortOpt } from '~/types';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
@@ -46,12 +46,19 @@ const limitOptions: Options<number> = [
   { value: 1000, label: '1000' },
 ];
 
+const stateOptions: Options<ConnState> = [
+  { value: 'open', label: 'Open' },
+  { value: 'closed', label: 'Closed' },
+  { value: 'any', label: 'Any' },
+];
+
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
   const [offset, setOffset] = createSignal(0);
 
   const connz = useConnz(() => ({
+    state: settings.connz.state,
     sort: settings.connz.sort,
     limit: settings.connz.limit,
     offset: offset(),
@@ -124,6 +131,20 @@ export default function ConnectionsList() {
               class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
             >
               Limit
+              <ChevronDownIcon class="h-4 w-4 text-gray-500" />
+            </button>
+          </Dropdown>
+
+          <Dropdown
+            options={stateOptions}
+            active={settings.connz.state}
+            onChange={actions.setConnzState}
+          >
+            <button
+              type="button"
+              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+            >
+              State
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
             </button>
           </Dropdown>
