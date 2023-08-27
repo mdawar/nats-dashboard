@@ -48,8 +48,13 @@ export default function ConnectionItem(props: Props) {
   const lang = props.connection.lang?.toLowerCase() ?? 'unknown';
   const langName = lang in langColor ? lang : 'unknown';
 
-  const indicator = () =>
-    (props.connection.info.lastActive ?? 0) <= 60 ? 'green' : 'gray';
+  const indicator = () => {
+    if (props.connection.info.isOpen) {
+      return (props.connection.info.lastActive ?? 0) <= 60 ? 'green' : 'gray';
+    }
+
+    return 'red';
+  };
 
   return (
     <li class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
@@ -85,6 +90,16 @@ export default function ConnectionItem(props: Props) {
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+          <Show when={props.connection.reason}>
+            <Badge
+              border={false}
+              color="red"
+              class="flex items-center gap-x-1.5"
+            >
+              <span class="text-gray-900 dark:text-white">Reason</span>
+              {props.connection.reason}
+            </Badge>
+          </Show>
           <Badge
             border={false}
             color="gray"
@@ -191,82 +206,84 @@ export default function ConnectionItem(props: Props) {
             </span>
           </Badge>
 
-          <Badge
-            border={false}
-            color={greenIfNotZero(
-              props.connection.info.inMsgsRate.num ||
-                props.connection.info.outMsgsRate.num
-            )}
-            class="flex items-center gap-x-1.5"
-          >
-            <span class="text-gray-900 dark:text-white">Msgs. Rate</span>
-            <ArrowUpIcon
-              class="w-3 h-3"
-              classList={grayIfZero(props.connection.info.inMsgsRate.num)}
-            />
-            <span
-              title="Sent Messages Rate"
-              classList={grayIfZero(props.connection.info.inMsgsRate.num)}
+          <Show when={props.connection.info.isOpen}>
+            <Badge
+              border={false}
+              color={greenIfNotZero(
+                props.connection.info.inMsgsRate.num ||
+                  props.connection.info.outMsgsRate.num
+              )}
+              class="flex items-center gap-x-1.5"
             >
-              {props.connection.info.inMsgsRate.str}/s
-            </span>
+              <span class="text-gray-900 dark:text-white">Msgs. Rate</span>
+              <ArrowUpIcon
+                class="w-3 h-3"
+                classList={grayIfZero(props.connection.info.inMsgsRate.num)}
+              />
+              <span
+                title="Sent Messages Rate"
+                classList={grayIfZero(props.connection.info.inMsgsRate.num)}
+              >
+                {props.connection.info.inMsgsRate.str}/s
+              </span>
 
-            <span class="text-gray-600 dark:text-gray-400">/</span>
+              <span class="text-gray-600 dark:text-gray-400">/</span>
 
-            <ArrowDownIcon
-              class="w-3 h-3"
-              classList={grayIfZero(props.connection.info.outMsgsRate.num)}
-            />
-            <span
-              title="Received Messages Rate"
-              classList={grayIfZero(props.connection.info.outMsgsRate.num)}
+              <ArrowDownIcon
+                class="w-3 h-3"
+                classList={grayIfZero(props.connection.info.outMsgsRate.num)}
+              />
+              <span
+                title="Received Messages Rate"
+                classList={grayIfZero(props.connection.info.outMsgsRate.num)}
+              >
+                {props.connection.info.outMsgsRate.str}/s
+              </span>
+            </Badge>
+
+            <Badge
+              border={false}
+              color={greenIfNotZero(
+                props.connection.info.inBytesRate.bytes ||
+                  props.connection.info.outBytesRate.bytes
+              )}
+              class="flex items-center gap-x-1.5"
             >
-              {props.connection.info.outMsgsRate.str}/s
-            </span>
-          </Badge>
+              <span class="text-gray-900 dark:text-white">Data Rate</span>
+              <ArrowUpIcon
+                class="w-3 h-3"
+                classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
+              />
+              <span
+                title="Data Sent Rate"
+                classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
+              >
+                {props.connection.info.inBytesRate.str}/s
+              </span>
 
-          <Badge
-            border={false}
-            color={greenIfNotZero(
-              props.connection.info.inBytesRate.bytes ||
-                props.connection.info.outBytesRate.bytes
-            )}
-            class="flex items-center gap-x-1.5"
-          >
-            <span class="text-gray-900 dark:text-white">Data Rate</span>
-            <ArrowUpIcon
-              class="w-3 h-3"
-              classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
-            />
-            <span
-              title="Data Sent Rate"
-              classList={grayIfZero(props.connection.info.inBytesRate.bytes)}
+              <span class="text-gray-600 dark:text-gray-400">/</span>
+
+              <ArrowDownIcon
+                class="w-3 h-3"
+                classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
+              />
+              <span
+                title="Data Received Rate"
+                classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
+              >
+                {props.connection.info.outBytesRate.str}/s
+              </span>
+            </Badge>
+
+            <Badge
+              border={false}
+              color={greenIfNotZero(props.connection.info.pending.bytes)}
+              class="flex items-center gap-x-1.5"
             >
-              {props.connection.info.inBytesRate.str}/s
-            </span>
-
-            <span class="text-gray-600 dark:text-gray-400">/</span>
-
-            <ArrowDownIcon
-              class="w-3 h-3"
-              classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
-            />
-            <span
-              title="Data Received Rate"
-              classList={grayIfZero(props.connection.info.outBytesRate.bytes)}
-            >
-              {props.connection.info.outBytesRate.str}/s
-            </span>
-          </Badge>
-
-          <Badge
-            border={false}
-            color={greenIfNotZero(props.connection.info.pending.bytes)}
-            class="flex items-center gap-x-1.5"
-          >
-            <span class="text-gray-900 dark:text-white">Pending</span>
-            {props.connection.info.pending.str}
-          </Badge>
+              <span class="text-gray-900 dark:text-white">Pending</span>
+              {props.connection.info.pending.str}
+            </Badge>
+          </Show>
         </div>
       </div>
 

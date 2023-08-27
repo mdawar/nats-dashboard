@@ -1,4 +1,8 @@
-import { differenceInSeconds } from 'date-fns';
+import {
+  differenceInMilliseconds,
+  differenceInSeconds,
+  formatDistanceToNowStrict,
+} from 'date-fns';
 
 export interface FormattedBytes {
   /** Original number of bytes. */
@@ -234,4 +238,18 @@ export function calculateRates({
     inBytesRate,
     outBytesRate,
   };
+}
+
+/** Create a formatted distance string from a date-time string. */
+export function formatDistance(datetime: string): string {
+  const date = new Date(datetime);
+
+  // For < 1s display "now" instead of "0 seconds ago".
+  if (differenceInMilliseconds(new Date(), date) < 1000) {
+    return 'now';
+  }
+
+  return formatDistanceToNowStrict(date, {
+    addSuffix: true,
+  });
 }

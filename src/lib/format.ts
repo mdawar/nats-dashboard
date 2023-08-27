@@ -6,6 +6,7 @@ import {
   calculateRates,
   formatDuration,
   formatRTT,
+  formatDistance,
   diffInSecondsToNow,
   type FormattedBytes,
   type AbbreviatedNumber,
@@ -105,6 +106,8 @@ export interface ClientConnection extends ConnInfo {
 
 /** Formatted connection information. */
 interface ConnectionInfo {
+  /** The connection state is open. */
+  isOpen: boolean;
   /** Formatted uptime string of the client connection. */
   uptime: string;
   /** Formatted RTT string. */
@@ -161,13 +164,24 @@ export function formatConnz(
         previous: prevConns[conn.cid],
       });
 
+      // The connection is open if we don't have a stop time.
+      const isOpen = !conn.stop;
+
+      // In the case of a closed connection, idle is always "0s".
+      const lastActivity = isOpen
+        ? conn.idle === '0s'
+          ? 'now'
+          : formatDuration(conn.idle)
+        : formatDistance(conn.last_activity);
+
       return {
         ...conn,
         info: {
+          isOpen,
           uptime: formatDuration(conn.uptime),
           rtt: formatRTT(conn.rtt ?? ''),
           lastActive: diffInSecondsToNow(conn.last_activity),
-          lastActivity: conn.idle === '0s' ? 'now' : formatDuration(conn.idle),
+          lastActivity: lastActivity,
           pending: formatBytes(conn.pending_bytes),
           inMsgs: abbreviateNum(conn.in_msgs),
           outMsgs: abbreviateNum(conn.out_msgs),
