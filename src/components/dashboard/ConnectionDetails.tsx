@@ -1,5 +1,7 @@
-import { For, Show, createMemo } from 'solid-js';
+import { createMemo, For, Show, type JSX } from 'solid-js';
+
 import type { ClientConnection } from '~/lib/format';
+import Indicator from '~/components/Indicator';
 
 interface Props {
   connection: ClientConnection;
@@ -11,6 +13,7 @@ export default function ConnectionDetails(props: Props) {
       <InfoList
         info={{
           CID: props.connection.cid,
+          State: <ConnState connection={props.connection} />,
           Name: props.connection.name,
           Uptime: props.connection.info.uptime,
           'Last Activity': props.connection.info.lastActivity,
@@ -36,13 +39,15 @@ export default function ConnectionDetails(props: Props) {
         }}
       />
 
-      <DataList
-        title="Message Rates"
-        data={{
-          Sent: `${props.connection.info.inMsgsRate.str}/s`,
-          Received: `${props.connection.info.outMsgsRate.str}/s`,
-        }}
-      />
+      <Show when={props.connection.info.isOpen}>
+        <DataList
+          title="Message Rates"
+          data={{
+            Sent: `${props.connection.info.inMsgsRate.str}/s`,
+            Received: `${props.connection.info.outMsgsRate.str}/s`,
+          }}
+        />
+      </Show>
 
       <DataList
         title="Data"
@@ -53,19 +58,21 @@ export default function ConnectionDetails(props: Props) {
         }}
       />
 
-      <DataList
-        title="Data Rates"
-        data={{
-          Sent: `${props.connection.info.inBytesRate.str}/s`,
-          Received: `${props.connection.info.outBytesRate.str}/s`,
-        }}
-      />
+      <Show when={props.connection.info.isOpen}>
+        <DataList
+          title="Data Rates"
+          data={{
+            Sent: `${props.connection.info.inBytesRate.str}/s`,
+            Received: `${props.connection.info.outBytesRate.str}/s`,
+          }}
+        />
+      </Show>
     </div>
   );
 }
 
 interface InfoListProps {
-  info: Record<string, number | string | undefined>;
+  info: Record<string, JSX.Element | undefined>;
 }
 
 function InfoList(props: InfoListProps) {
@@ -114,6 +121,23 @@ function DataList(props: DataListProps) {
           )}
         </For>
       </dl>
+    </div>
+  );
+}
+
+function ConnState(props: Props) {
+  return (
+    <div class="flex items-center gap-2">
+      <Indicator
+        color={
+          props.connection.info.isOpen
+            ? props.connection.info.isActive
+              ? 'green'
+              : 'gray'
+            : 'red'
+        }
+      />
+      {props.connection.info.isOpen ? 'Open' : 'Closed'}
     </div>
   );
 }
