@@ -1,3 +1,5 @@
+import { splitProps, type ComponentProps } from 'solid-js';
+
 const indicatorColors = {
   gray: 'bg-gray-100 text-gray-500 dark:bg-gray-100/10 dark:text-gray-500',
   green:
@@ -7,17 +9,20 @@ const indicatorColors = {
 
 type IndicatorColor = keyof typeof indicatorColors;
 
-interface Props {
+interface Props extends ComponentProps<'div'> {
   color?: IndicatorColor;
 }
 
 export default function Indicator(props: Props) {
+  const [local, rest] = splitProps(props, ['color']);
+
   return (
     <div
       class="flex-none rounded-full p-1"
       classList={{
-        [indicatorColors[props.color ?? 'gray']]: true,
+        [indicatorColors[local.color ?? 'gray']]: true,
       }}
+      {...rest}
     >
       <div class="h-2 w-2 rounded-full bg-current"></div>
     </div>
