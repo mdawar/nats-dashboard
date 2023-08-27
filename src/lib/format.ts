@@ -108,6 +108,8 @@ export interface ClientConnection extends ConnInfo {
 interface ConnectionInfo {
   /** The connection state is open. */
   isOpen: boolean;
+  /** A connection is considered active if it had any activity in the last 60 seconds. */
+  isActive: boolean;
   /** Formatted uptime string of the client connection. */
   uptime: string;
   /** Formatted RTT string. */
@@ -141,6 +143,9 @@ interface ConnectionInfo {
 /** Map of client connections by CID. */
 type ConnectionsMap = Record<number, ConnInfo>;
 
+// Connection activity window in seconds.
+const activityWindow = 60;
+
 /** Format the connections data for display. */
 export function formatConnz(
   connz: PartialInfoResponse<'connz'>
@@ -167,6 +172,8 @@ export function formatConnz(
       // The connection is open if we don't have a stop time.
       const isOpen = !conn.stop;
 
+      const lastActive = diffInSecondsToNow(conn.last_activity);
+
       // In the case of a closed connection, idle is always "0s".
       const lastActivity = isOpen
         ? conn.idle === '0s'
@@ -178,9 +185,10 @@ export function formatConnz(
         ...conn,
         info: {
           isOpen,
+          isActive: lastActive <= activityWindow,
           uptime: formatDuration(conn.uptime),
           rtt: formatRTT(conn.rtt ?? ''),
-          lastActive: diffInSecondsToNow(conn.last_activity),
+          lastActive,
           lastActivity: lastActivity,
           pending: formatBytes(conn.pending_bytes),
           inMsgs: abbreviateNum(conn.in_msgs),

@@ -44,19 +44,13 @@ interface Props {
   onClick: (cid: number) => void;
 }
 
-// Client activity window in seconds.
-const activityWindow = 60;
-
 export default function ConnectionItem(props: Props) {
   const lang = props.connection.lang?.toLowerCase() ?? 'unknown';
   const langName = lang in langColor ? lang : 'unknown';
 
-  const isActive = () =>
-    (props.connection.info.lastActive ?? 0) <= activityWindow;
-
   const indicator = () => {
     if (props.connection.info.isOpen) {
-      return isActive() ? 'green' : 'gray';
+      return props.connection.info.isActive ? 'green' : 'gray';
     }
 
     return 'red';
@@ -116,7 +110,7 @@ export default function ConnectionItem(props: Props) {
           </Badge>
           <Badge
             border={false}
-            color={isActive() ? 'green' : 'gray'}
+            color={props.connection.info.isActive ? 'green' : 'gray'}
             class="flex items-center gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Last Activity</span>
