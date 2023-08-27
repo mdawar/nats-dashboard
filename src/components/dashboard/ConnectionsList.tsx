@@ -69,6 +69,17 @@ export default function ConnectionsList() {
   const isLastPage = () =>
     offset() + settings.connz.limit >= (connz.data?.total ?? 0);
 
+  const numConnections = () => {
+    const total = connz.data?.total ?? 0;
+    const current = connz.data?.num_connections ?? 0;
+
+    if (total > 0 && total !== current) {
+      return `${current} of ${total}`;
+    }
+
+    return total;
+  };
+
   return (
     <section class="tabular-nums slashed-zero">
       <header class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
@@ -79,7 +90,7 @@ export default function ConnectionsList() {
             color={(connz.data?.total ?? 0) > 0 ? 'green' : 'gray'}
             class="ml-3"
           >
-            {connz.data?.total ?? 0}
+            {numConnections()}
           </Badge>
         </h1>
 
