@@ -4,6 +4,9 @@ import type { ConnzSortOpt } from '~/types';
 import { createLocalStore } from '~/lib/localstate';
 
 interface SettingsState {
+  /** Polling interval in milliseconds.. */
+  interval: number;
+  /** Connz settings. */
   connz: {
     /** Connection sorting option. */
     sort: ConnzSortOpt;
@@ -13,11 +16,13 @@ interface SettingsState {
 }
 
 interface SettingsActions {
+  setInterval(interval: number): void;
   setConnzSort(opt: ConnzSortOpt): void;
   setConnzLimit(limit: number): void;
 }
 
 const defaultSettings: SettingsState = {
+  interval: 1000, // 1s
   connz: {
     sort: 'cid',
     limit: 100,
@@ -25,6 +30,7 @@ const defaultSettings: SettingsState = {
 };
 
 const defaultActions: SettingsActions = {
+  setInterval() {},
   setConnzSort() {},
   setConnzLimit() {},
 };
@@ -47,6 +53,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
   );
 
   const actions: SettingsActions = {
+    setInterval(interval) {
+      setState('interval', interval);
+    },
     setConnzSort(opt) {
       setState('connz', 'sort', opt);
     },

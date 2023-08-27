@@ -8,6 +8,7 @@ export * from './ChevronUpDown';
 export * from './ChevronRight';
 export * from './ChevronLeft';
 export * from './ChevronDown';
+export * from './EllipsisVertical';
 export * from './Signal';
 export * from './ChatBubble';
 export * from './InfoCircle';

@@ -2,6 +2,7 @@ import { createQuery } from '@tanstack/solid-query';
 
 import type { ConnzOptions } from '~/types';
 import { useStore } from '~/components/context/store';
+import { useSettings } from '~/components/context/settings';
 import { fetchInfo } from '~/lib/info';
 import { formatVarz, formatConnz } from '~/lib/format';
 import { createMemo } from 'solid-js';
@@ -11,6 +12,7 @@ type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
 /** Start polling for general server information. */
 export function useVarz() {
   const [store] = useStore();
+  const [settings] = useSettings();
 
   return createQuery(() => ({
     queryKey: [store.url, 'varz'] as VarzFetchParams,
@@ -18,7 +20,7 @@ export function useVarz() {
     select: formatVarz, // Fromat the data for display.
     placeholderData: {},
     enabled: store.active,
-    refetchInterval: 1000,
+    refetchInterval: settings.interval,
     reconcile: false,
   }));
 }
@@ -28,6 +30,8 @@ type ConnzFetchParams = Parameters<typeof fetchInfo<'connz'>>;
 /** Start polling for connections information. */
 export function useConnz(options?: () => ConnzOptions) {
   const [store] = useStore();
+  const [settings] = useSettings();
+
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
@@ -36,7 +40,7 @@ export function useConnz(options?: () => ConnzOptions) {
     select: formatConnz, // Fromat the data for display.
     placeholderData: {},
     enabled: store.active,
-    refetchInterval: 1000,
+    refetchInterval: settings.interval,
     reconcile: false,
   }));
 }

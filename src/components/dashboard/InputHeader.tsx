@@ -1,20 +1,40 @@
 import { onMount, createEffect, Show } from 'solid-js';
-
-import { useStore } from '~/components/context/store';
-import { useMobileMenu } from '~/lib/global';
-import { BarsIcon, ServerIcon, PlayIcon, StopIcon } from '~/components/icons';
 import { useSearchParams } from '@solidjs/router';
-import Button from '../Button';
+
+import { useMobileMenu } from '~/lib/global';
+import { useStore } from '~/components/context/store';
+import { useSettings } from '~/components/context/settings';
+import Button from '~/components/Button';
+import Dropdown, { type Options } from '~/components/Dropdown';
+import {
+  BarsIcon,
+  ServerIcon,
+  PlayIcon,
+  StopIcon,
+  EllipsisVerticalIcon,
+} from '~/components/icons';
+
+const intervalOptions: Options<number> = [
+  { value: 100, label: '100ms' },
+  { value: 250, label: '250ms' },
+  { value: 500, label: '500ms' },
+  { value: 1000, label: '1s' },
+  { value: 2000, label: '2s' },
+  { value: 3000, label: '3s' },
+  { value: 5000, label: '5s' },
+  { value: 10000, label: '10s' },
+];
 
 export default function InputHeader() {
-  const [store, actions] = useStore();
+  const [store, storeActions] = useStore();
+  const [settings, settingsActions] = useSettings();
   const [_, menuActions] = useMobileMenu();
   const [params, setParams] = useSearchParams();
 
   onMount(() => {
     if (params.url) {
-      actions.setURL(params.url);
-      actions.setActive(true);
+      storeActions.setURL(params.url);
+      storeActions.setActive(true);
     }
   });
 
@@ -27,7 +47,7 @@ export default function InputHeader() {
 
     // TODO: show an error if there's no URL
     if (store.url.trim() !== '') {
-      actions.toggleActive();
+      storeActions.toggleActive();
     }
   };
 
@@ -64,7 +84,7 @@ export default function InputHeader() {
             list="url-list"
             value={store.url}
             onInput={(e) => {
-              actions.setURL(e.target.value);
+              storeActions.setURL(e.target.value);
             }}
           />
           <datalist id="url-list">
@@ -85,6 +105,22 @@ export default function InputHeader() {
               <StopIcon class="h-5 w-5" />
             </Show>
           </Button>
+
+          {/* Separator */}
+          <div
+            class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200 dark:lg:bg-white/10"
+            aria-hidden="true"
+          />
+
+          <Dropdown
+            options={intervalOptions}
+            active={settings.interval}
+            onChange={settingsActions.setInterval}
+          >
+            <Button icon rounded color="secondary">
+              <EllipsisVerticalIcon class="h-5 w-5" />
+            </Button>
+          </Dropdown>
         </div>
       </div>
     </div>
