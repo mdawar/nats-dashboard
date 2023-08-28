@@ -117,7 +117,7 @@ export default function ConnectionsList() {
         </h1>
 
         <div class="flex items-center gap-6">
-          <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-2">
             <button
               type="button"
               class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
@@ -137,6 +137,7 @@ export default function ConnectionsList() {
           </div>
 
           <Dropdown
+            class="hidden sm:block"
             width="20"
             options={limitOptions}
             active={settings.connz.limit}
@@ -152,9 +153,10 @@ export default function ConnectionsList() {
           </Dropdown>
 
           {/* Separator */}
-          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
+            class="hidden xl:block"
             width="20"
             options={stateOptions}
             active={settings.connz.state}
@@ -179,9 +181,10 @@ export default function ConnectionsList() {
           </Dropdown>
 
           {/* Separator */}
-          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
+            class="hidden xl:block"
             options={subsOptions}
             active={settings.connz.subs}
             onChange={(subs) => actions.setConnz({ subs })}
@@ -196,9 +199,9 @@ export default function ConnectionsList() {
           </Dropdown>
 
           {/* Separator */}
-          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
 
-          <div class="flex items-center">
+          <div class="hidden xl:flex items-center">
             <Toggle
               checked={settings.connz.auth}
               onChange={(auth) => actions.setConnz({ auth })}
