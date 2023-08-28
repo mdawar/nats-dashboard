@@ -214,7 +214,7 @@ export default function ConnectionsList() {
             <For
               each={connz.data?.connections}
               fallback={
-                <li class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+                <li class="px-4 py-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
                   No connections to display.
                 </li>
               }

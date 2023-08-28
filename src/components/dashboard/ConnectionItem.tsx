@@ -57,7 +57,7 @@ export default function ConnectionItem(props: Props) {
   };
 
   return (
-    <li class="relative flex items-center space-x-4 px-4 py-4 sm:px-6 lg:px-8">
+    <li class="relative flex items-center space-x-4 px-4 py-6 sm:px-6 lg:px-8">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <Indicator color={indicator()} />
