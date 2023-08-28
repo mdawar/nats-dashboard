@@ -24,13 +24,10 @@ interface ConnzSettings {
 }
 
 interface SettingsActions {
+  /** Set the polling interval in milliseconds. */
   setInterval(interval: number): void;
-  setConnzSettings(settings: Partial<ConnzSettings>): void;
-  setConnzState(state: ConnState): void;
-  setConnzSort(opt: ConnzSortOpt): void;
-  setConnzLimit(limit: number): void;
-  setConnzSubs(subs: SubsOption): void;
-  setConnzAuth(auth: boolean): void;
+  /** Set the connz settings. */
+  setConnz(settings: Partial<ConnzSettings>): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -46,12 +43,7 @@ const defaultSettings: SettingsState = {
 
 const defaultActions: SettingsActions = {
   setInterval() {},
-  setConnzSettings() {},
-  setConnzState() {},
-  setConnzSort() {},
-  setConnzLimit() {},
-  setConnzSubs() {},
-  setConnzAuth() {},
+  setConnz() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -75,23 +67,8 @@ export function SettingsProvider(props: ParentProps<Props>) {
     setInterval(interval) {
       setState('interval', interval);
     },
-    setConnzSettings(settings) {
+    setConnz(settings) {
       setState('connz', settings);
-    },
-    setConnzState(state) {
-      setState('connz', 'state', state);
-    },
-    setConnzSort(opt) {
-      setState('connz', 'sort', opt);
-    },
-    setConnzLimit(limit) {
-      setState('connz', 'limit', limit);
-    },
-    setConnzSubs(subs) {
-      setState('connz', 'subs', subs);
-    },
-    setConnzAuth(auth) {
-      setState('connz', 'auth', auth);
     },
   };
 
