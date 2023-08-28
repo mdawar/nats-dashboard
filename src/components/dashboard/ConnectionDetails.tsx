@@ -1,4 +1,4 @@
-import { createMemo, For, Show, type JSX } from 'solid-js';
+import { createMemo, For, Index, Show, type JSX } from 'solid-js';
 
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
@@ -31,6 +31,13 @@ export default function ConnectionDetails(props: Props) {
           Subscriptions: props.connection.subscriptions,
         }}
       />
+
+      <Show when={props.connection.subscriptions_list}>
+        <SubsList
+          title="Subscriptions List"
+          subs={props.connection.subscriptions_list!}
+        />
+      </Show>
 
       <DataList
         title="Messages"
@@ -122,6 +129,29 @@ function DataList(props: DataListProps) {
           )}
         </For>
       </dl>
+    </div>
+  );
+}
+
+interface SubsListProps {
+  title: string;
+  subs: string[];
+}
+
+function SubsList(props: SubsListProps) {
+  return (
+    <div>
+      <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
+      <div class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
+        {/* The subscriptions order changes on each request. */}
+        <Index each={props.subs.slice().sort()}>
+          {(subject) => (
+            <p class="py-3 text-sm font-medium text-gray-500 dark:text-gray-400 break-all">
+              {subject()}
+            </p>
+          )}
+        </Index>
+      </div>
     </div>
   );
 }
