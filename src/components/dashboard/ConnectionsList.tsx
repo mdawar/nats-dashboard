@@ -18,22 +18,25 @@ import {
   LoadingIcon,
 } from '~/components/icons';
 
-const sortOptions: Options<ConnzSortOpt> = [
-  { value: 'cid', label: 'CID' },
-  { value: 'rtt', label: 'RTT' },
-  { value: 'uptime', label: 'Uptime' },
-  { value: 'last', label: 'Last Activity' },
-  { value: 'idle', label: 'Idle Time' },
-  { value: 'subs', label: 'Subscriptions' },
-  { value: 'msgs_from', label: 'Msgs. Sent' },
-  { value: 'msgs_to', label: 'Msgs. Received' },
-  { value: 'bytes_from', label: 'Data Size Sent' },
-  { value: 'bytes_to', label: 'Data Size Received' },
-  { value: 'pending', label: 'Pending Data' },
-  { value: 'start', label: 'Connection Start' },
-  { value: 'stop', label: 'Connection Stop' },
-  { value: 'reason', label: 'Close Reason' },
-];
+function sortOptions(state: ConnState): Options<ConnzSortOpt> {
+  return [
+    { value: 'cid', label: 'CID' },
+    { value: 'rtt', label: 'RTT' },
+    { value: 'uptime', label: 'Uptime' },
+    { value: 'last', label: 'Last Activity' },
+    { value: 'idle', label: 'Idle Time' },
+    { value: 'subs', label: 'Subscriptions' },
+    { value: 'msgs_from', label: 'Msgs. Sent' },
+    { value: 'msgs_to', label: 'Msgs. Received' },
+    { value: 'bytes_from', label: 'Data Size Sent' },
+    { value: 'bytes_to', label: 'Data Size Received' },
+    { value: 'pending', label: 'Pending Data' },
+    { value: 'start', label: 'Connection Start' },
+    // Only valid for closed connections.
+    { value: 'stop', label: 'Connection Stop', disabled: state === 'open' },
+    { value: 'reason', label: 'Close Reason', disabled: state === 'open' },
+  ];
+}
 
 const limitOptions: Options<number> = [
   { value: 1, label: '1' },
@@ -195,7 +198,7 @@ export default function ConnectionsList() {
           <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
-            options={sortOptions}
+            options={sortOptions(settings.connz.state)}
             active={settings.connz.sort}
             onChange={actions.setConnzSort}
           >
