@@ -184,7 +184,10 @@ function SubsListDetails(props: SubsListDetailProps) {
                   <strong>SID</strong>
                   {sub.sid}
                 </Badge>
-                <Badge class="flex justify-between gap-1">
+                <Badge
+                  class="flex justify-between gap-1"
+                  color={sub.msgs.num > 0 ? 'green' : 'gray'}
+                >
                   <strong>Msgs.</strong>
                   {sub.msgs.str}
                 </Badge>
@@ -201,7 +204,7 @@ function SubsListDetails(props: SubsListDetailProps) {
                   </Badge>
                 </Show>
                 <Show when={sub.account}>
-                  <Badge class="flex justify-between gap-1">
+                  <Badge class="flex justify-between gap-1" color="blue">
                     <strong>Account</strong>
                     {sub.account}
                   </Badge>
