@@ -1,4 +1,10 @@
-import { createSignal, For, Show, type ParentProps } from 'solid-js';
+import {
+  createSignal,
+  mergeProps,
+  For,
+  Show,
+  type ParentProps,
+} from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
 // @ts-expect-error
@@ -19,9 +25,13 @@ interface Props<T extends OptionType> extends ParentProps {
   active: T;
   onChange: (id: T) => void;
   class?: string;
+  /** Dropdown width (Default: content). */
+  width?: '20' | '40' | '60' | 'content';
 }
 
 export default function Dropdown<T extends OptionType>(props: Props<T>) {
+  props = mergeProps({ width: 'content' } satisfies Partial<Props<T>>, props);
+
   const [show, setShow] = createSignal(false);
 
   return (
@@ -43,7 +53,12 @@ export default function Dropdown<T extends OptionType>(props: Props<T>) {
       >
         <Show when={show()}>
           <div
-            class="absolute right-0 z-10 mt-2.5 w-40 origin-top-right"
+            class="absolute right-0 z-10 mt-2.5 origin-top-right"
+            classList={{
+              'w-20': props.width === '20',
+              'w-40': props.width === '40',
+              'w-60': props.width === '60',
+            }}
             role="menu"
             aria-orientation="vertical"
             tabindex="-1"
@@ -56,6 +71,8 @@ export default function Dropdown<T extends OptionType>(props: Props<T>) {
                       class="block w-full text-left px-3 py-1 text-sm leading-6 text-gray-900 dark:text-white dark:disabled:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800"
                       classList={{
                         'bg-gray-50 dark:bg-gray-800': props.active === value,
+                        // Make the dropdown take the content's width.
+                        'whitespace-nowrap': props.width === 'content',
                       }}
                       role="menuitem"
                       disabled={disabled}
