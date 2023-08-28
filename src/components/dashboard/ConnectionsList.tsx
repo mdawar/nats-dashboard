@@ -212,7 +212,7 @@ export default function ConnectionsList() {
           </div>
 
           {/* Separator */}
-          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <div class="hidden sm:block h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
             options={sortOptions(settings.connz.state)}
