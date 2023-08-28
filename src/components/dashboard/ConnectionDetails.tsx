@@ -1,7 +1,9 @@
 import { createMemo, For, Index, Show, type JSX } from 'solid-js';
 
+import type { SubDetail } from '~/types';
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
+import Badge from '~/components/Badge';
 
 interface Props {
   connection: ClientConnection;
@@ -36,6 +38,13 @@ export default function ConnectionDetails(props: Props) {
         <SubsList
           title="Subscriptions List"
           subs={props.connection.subscriptions_list!}
+        />
+      </Show>
+
+      <Show when={props.connection.subscriptions_list_detail}>
+        <SubsListDetails
+          title="Subscriptions List Details"
+          subs={props.connection.subscriptions_list_detail!}
         />
       </Show>
 
@@ -152,6 +161,64 @@ function SubsList(props: SubsListProps) {
           )}
         </Index>
       </div>
+    </div>
+  );
+}
+
+interface SubsListDetailProps {
+  title: string;
+  subs: SubDetail[];
+}
+
+function SubsListDetails(props: SubsListDetailProps) {
+  // Subscriptions details list sorted by SID.
+  // The subscriptions list is returned in a different order on each request.
+  const subDetails = createMemo(() =>
+    props.subs.slice().sort((a, b) => Number(a.sid) - Number(b.sid))
+  );
+
+  return (
+    <div>
+      <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
+      <dl class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
+        <For each={subDetails()}>
+          {(sub) => (
+            <div class="py-3 text-sm font-medium space-y-3">
+              <dt class="text-gray-900 dark:text-white break-all">
+                {sub.subject}
+              </dt>
+              <dd class="text-gray-500 dark:text-gray-400 flex flex-col sm:flex-row flex-wrap gap-2">
+                <Badge class="flex justify-between gap-1">
+                  <strong>SID</strong>
+                  {sub.sid}
+                </Badge>
+                <Badge class="flex justify-between gap-1">
+                  <strong>Msgs.</strong>
+                  {sub.msgs}
+                </Badge>
+                <Show when={sub.max}>
+                  <Badge class="flex justify-between gap-1">
+                    <strong>Max</strong>
+                    {sub.max}
+                  </Badge>
+                </Show>
+                <Show when={sub.qgroup}>
+                  <Badge class="flex justify-between gap-1">
+                    <strong>Queue</strong>
+                    {sub.qgroup}
+                  </Badge>
+                </Show>
+                <Show when={sub.account}>
+                  <Badge class="flex justify-between gap-1">
+                    <strong>Account</strong>
+                    {sub.account}
+                  </Badge>
+                </Show>
+              </dd>
+            </div>
+          )}
+        </For>
+      </dl>
     </div>
   );
 }
