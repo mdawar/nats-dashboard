@@ -16,6 +16,7 @@ export default function GetStarted() {
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
         <Button
+          color="secondary"
           onClick={() => {
             actions.setURL('http://localhost:8222');
             actions.setActive(true);
@@ -26,6 +27,7 @@ export default function GetStarted() {
         </Button>
 
         <Button
+          color="secondary"
           onClick={() => {
             actions.setURL('https://demo.nats.io:8222');
             actions.setActive(true);
