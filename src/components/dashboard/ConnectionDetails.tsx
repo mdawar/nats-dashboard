@@ -14,6 +14,7 @@ export default function ConnectionDetails(props: Props) {
         info={{
           CID: props.connection.cid,
           State: <ConnState connection={props.connection} />,
+          Reason: props.connection.reason,
           Name: props.connection.name,
           Uptime: props.connection.info.uptime,
           'Last Activity': props.connection.info.lastActivity,
