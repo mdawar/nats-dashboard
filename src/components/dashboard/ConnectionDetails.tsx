@@ -106,7 +106,7 @@ function InfoList(props: InfoListProps) {
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-40 sm:flex-shrink-0 lg:w-48">
                   {key}
                 </dt>
-                <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:ml-6 sm:mt-0">
+                <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:ml-6 sm:mt-0 break-all">
                   {value}
                 </dd>
               </div>

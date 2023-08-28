@@ -264,6 +264,7 @@ export default function ConnectionsList() {
         <SlideOver
           title="Connection Info"
           onClose={() => setSelectedID(undefined)}
+          size="lg"
         >
           <ConnectionDetails connection={selectedConn()!} />
         </SlideOver>
