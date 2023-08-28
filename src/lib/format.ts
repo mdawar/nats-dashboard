@@ -1,5 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { Connz, ConnInfo } from '~/types';
+import type { Connz, ConnInfo, SubDetail } from '~/types';
 import {
   formatBytes,
   abbreviateNum,
@@ -138,6 +138,16 @@ interface ConnectionInfo {
   inBytesRate: FormattedBytes;
   /** Rate of data size received per second. */
   outBytesRate: FormattedBytes;
+  /** Sorted subscriptions list. */
+  subscriptionsList: string[] | undefined;
+  /** Sorted subscriptions list details. */
+  subscriptionsListDetails: FormattedSubDetail[] | undefined;
+}
+
+/** Formatted verbose subscription information. */
+export interface FormattedSubDetail extends Omit<SubDetail, 'msgs'> {
+  /** Number of messages. */
+  msgs: AbbreviatedNumber;
 }
 
 /** Map of client connections by CID. */
@@ -181,6 +191,20 @@ export function formatConnz(
           : formatDuration(conn.idle)
         : formatDistance(conn.last_activity);
 
+      // Sorted subscriptions list.
+      // The subscriptions order changes on each request.
+      const subscriptionsList = conn.subscriptions_list?.slice().sort();
+
+      // Subscriptions list details sorted by SID.
+      // The subscriptions order changes on each request.
+      const subscriptionsListDetails = conn.subscriptions_list_detail
+        ?.slice()
+        .sort((a, b) => Number(a.sid) - Number(b.sid)) // Sort by SID.
+        .map((sub) => ({
+          ...sub,
+          msgs: abbreviateNum(sub.msgs),
+        }));
+
       return {
         ...conn,
         info: {
@@ -196,6 +220,8 @@ export function formatConnz(
           inBytes: formatBytes(conn.in_bytes),
           outBytes: formatBytes(conn.out_bytes),
           ...rates,
+          subscriptionsList,
+          subscriptionsListDetails,
         },
       };
     }) ?? [];

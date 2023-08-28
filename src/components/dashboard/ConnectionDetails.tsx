@@ -1,7 +1,6 @@
 import { createMemo, For, Index, Show, type JSX } from 'solid-js';
 
-import type { SubDetail } from '~/types';
-import type { ClientConnection } from '~/lib/format';
+import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
 
@@ -34,17 +33,17 @@ export default function ConnectionDetails(props: Props) {
         }}
       />
 
-      <Show when={props.connection.subscriptions_list}>
+      <Show when={props.connection.info.subscriptionsList}>
         <SubsList
           title="Subscriptions List"
-          subs={props.connection.subscriptions_list!}
+          subs={props.connection.info.subscriptionsList!}
         />
       </Show>
 
-      <Show when={props.connection.subscriptions_list_detail}>
+      <Show when={props.connection.info.subscriptionsListDetails}>
         <SubsListDetails
           title="Subscriptions List Details"
-          subs={props.connection.subscriptions_list_detail!}
+          subs={props.connection.info.subscriptionsListDetails!}
         />
       </Show>
 
@@ -152,8 +151,7 @@ function SubsList(props: SubsListProps) {
     <div>
       <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
       <div class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
-        {/* The subscriptions order changes on each request. */}
-        <Index each={props.subs.slice().sort()}>
+        <Index each={props.subs}>
           {(subject) => (
             <p class="py-3 text-sm font-medium text-gray-500 dark:text-gray-400 break-all">
               {subject()}
@@ -167,34 +165,28 @@ function SubsList(props: SubsListProps) {
 
 interface SubsListDetailProps {
   title: string;
-  subs: SubDetail[];
+  subs: FormattedSubDetail[];
 }
 
 function SubsListDetails(props: SubsListDetailProps) {
-  // Subscriptions details list sorted by SID.
-  // The subscriptions list is returned in a different order on each request.
-  const subDetails = createMemo(() =>
-    props.subs.slice().sort((a, b) => Number(a.sid) - Number(b.sid))
-  );
-
   return (
     <div>
       <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
       <dl class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
-        <For each={subDetails()}>
+        <For each={props.subs}>
           {(sub) => (
             <div class="py-3 text-sm font-medium space-y-3">
-              <dt class="text-gray-900 dark:text-white break-all">
+              <dt class="text-gray-500 dark:text-gray-400 break-all">
                 {sub.subject}
               </dt>
-              <dd class="text-gray-500 dark:text-gray-400 flex flex-col sm:flex-row flex-wrap gap-2">
+              <dd class="flex flex-col sm:flex-row flex-wrap gap-2">
                 <Badge class="flex justify-between gap-1">
                   <strong>SID</strong>
                   {sub.sid}
                 </Badge>
                 <Badge class="flex justify-between gap-1">
                   <strong>Msgs.</strong>
-                  {sub.msgs}
+                  {sub.msgs.str}
                 </Badge>
                 <Show when={sub.max}>
                   <Badge class="flex justify-between gap-1">

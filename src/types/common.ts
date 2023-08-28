@@ -16,12 +16,19 @@ export type ConnState = 'open' | 'closed' | 'any';
 
 /** Verbose subscription information. */
 export interface SubDetail {
+  /** Account name. */
   account?: string;
+  /** Subject name. */
   subject: string;
+  /** Queue group. */
   qgroup?: string;
+  /** Subject ID. */
   sid: string;
+  /** Number of messages. */
   msgs: number;
+  /** Auto-unsubscribe limit. */
   max?: number;
+  /** Connection ID. */
   cid: number;
 }
 
