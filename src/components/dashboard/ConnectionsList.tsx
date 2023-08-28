@@ -1,6 +1,6 @@
 import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
-import type { ConnState, ConnzSortOpt } from '~/types';
+import type { ConnState, ConnzSortOpt, SubsOption } from '~/types';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
@@ -52,6 +52,12 @@ const stateOptions: Options<ConnState> = [
   { value: 'any', label: 'Any' },
 ];
 
+const subsOptions: Options<SubsOption> = [
+  { value: false, label: 'No Subscriptions' },
+  { value: true, label: 'Include Subscriptions' },
+  { value: 'detail', label: 'Detailed Subscriptions' },
+];
+
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
@@ -61,6 +67,7 @@ export default function ConnectionsList() {
     state: settings.connz.state,
     sort: settings.connz.sort,
     limit: settings.connz.limit,
+    subs: settings.connz.subs,
     offset: offset(),
   }));
 
@@ -135,6 +142,9 @@ export default function ConnectionsList() {
             </button>
           </Dropdown>
 
+          {/* Separator */}
+          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+
           <Dropdown
             options={stateOptions}
             active={settings.connz.state}
@@ -145,6 +155,23 @@ export default function ConnectionsList() {
               class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
             >
               State
+              <ChevronDownIcon class="h-4 w-4 text-gray-500" />
+            </button>
+          </Dropdown>
+
+          {/* Separator */}
+          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+
+          <Dropdown
+            options={subsOptions}
+            active={settings.connz.subs}
+            onChange={actions.setConnzSubs}
+          >
+            <button
+              type="button"
+              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
+            >
+              Subs
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
             </button>
           </Dropdown>

@@ -1,6 +1,6 @@
 import { createContext, useContext, type ParentProps } from 'solid-js';
 
-import type { ConnState, ConnzSortOpt } from '~/types';
+import type { ConnState, ConnzSortOpt, SubsOption } from '~/types';
 import { createLocalStore } from '~/lib/localstate';
 
 interface SettingsState {
@@ -14,6 +14,8 @@ interface SettingsState {
     sort: ConnzSortOpt;
     /** Number of connections to return (Default: 100). */
     limit: number;
+    /** Include subscriptions info. */
+    subs: SubsOption;
   };
 }
 
@@ -22,6 +24,7 @@ interface SettingsActions {
   setConnzState(state: ConnState): void;
   setConnzSort(opt: ConnzSortOpt): void;
   setConnzLimit(limit: number): void;
+  setConnzSubs(subs: SubsOption): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -30,6 +33,7 @@ const defaultSettings: SettingsState = {
     state: 'open',
     sort: 'cid',
     limit: 100,
+    subs: false,
   },
 };
 
@@ -38,6 +42,7 @@ const defaultActions: SettingsActions = {
   setConnzState() {},
   setConnzSort() {},
   setConnzLimit() {},
+  setConnzSubs() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -69,6 +74,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
     },
     setConnzLimit(limit) {
       setState('connz', 'limit', limit);
+    },
+    setConnzSubs(subs) {
+      setState('connz', 'subs', subs);
     },
   };
 
