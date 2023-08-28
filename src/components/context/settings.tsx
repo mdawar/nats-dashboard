@@ -16,6 +16,8 @@ interface SettingsState {
     limit: number;
     /** Include subscriptions info. */
     subs: SubsOption;
+    /** Include authentication info. */
+    auth: boolean;
   };
 }
 
@@ -25,6 +27,7 @@ interface SettingsActions {
   setConnzSort(opt: ConnzSortOpt): void;
   setConnzLimit(limit: number): void;
   setConnzSubs(subs: SubsOption): void;
+  setConnzAuth(auth: boolean): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -34,6 +37,7 @@ const defaultSettings: SettingsState = {
     sort: 'cid',
     limit: 100,
     subs: false,
+    auth: false,
   },
 };
 
@@ -43,6 +47,7 @@ const defaultActions: SettingsActions = {
   setConnzSort() {},
   setConnzLimit() {},
   setConnzSubs() {},
+  setConnzAuth() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -77,6 +82,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
     },
     setConnzSubs(subs) {
       setState('connz', 'subs', subs);
+    },
+    setConnzAuth(auth) {
+      setState('connz', 'auth', auth);
     },
   };
 

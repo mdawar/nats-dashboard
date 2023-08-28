@@ -5,6 +5,7 @@ import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
 import Badge from '~/components/Badge';
+import Toggle from '~/components/Toggle';
 import SlideOver from '~/components/SlideOver';
 import Dropdown, { type Options } from '~/components/Dropdown';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
@@ -68,6 +69,7 @@ export default function ConnectionsList() {
     sort: settings.connz.sort,
     limit: settings.connz.limit,
     subs: settings.connz.subs,
+    auth: settings.connz.auth,
     offset: offset(),
   }));
 
@@ -175,6 +177,19 @@ export default function ConnectionsList() {
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
             </button>
           </Dropdown>
+
+          {/* Separator */}
+          <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
+
+          <div class="flex items-center">
+            <Toggle
+              checked={settings.connz.auth}
+              onChange={actions.setConnzAuth}
+            />
+            <span class="ml-3 text-sm">
+              <span class="text-gray-900 dark:text-white">Auth</span>
+            </span>
+          </div>
 
           {/* Separator */}
           <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />

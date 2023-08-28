@@ -124,6 +124,26 @@ export default function ConnectionItem(props: Props) {
             <span class="text-gray-900 dark:text-white">RTT</span>
             {props.connection.info.rtt}
           </Badge>
+          <Show when={props.connection.account}>
+            <Badge
+              border={false}
+              color="blue"
+              class="flex items-center gap-x-1.5"
+            >
+              <span class="text-gray-900 dark:text-white">Account</span>
+              {props.connection.account}
+            </Badge>
+          </Show>
+          <Show when={props.connection.authorized_user}>
+            <Badge
+              border={false}
+              color="blue"
+              class="flex items-center gap-x-1.5"
+            >
+              <span class="text-gray-900 dark:text-white">User</span>
+              {props.connection.authorized_user}
+            </Badge>
+          </Show>
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">

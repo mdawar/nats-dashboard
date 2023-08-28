@@ -20,6 +20,8 @@ export default function ConnectionDetails(props: Props) {
           Uptime: props.connection.info.uptime,
           'Last Activity': props.connection.info.lastActivity,
           RTT: props.connection.info.rtt,
+          Account: props.connection.account,
+          'Authorized User': props.connection.authorized_user,
         }}
       />
 
