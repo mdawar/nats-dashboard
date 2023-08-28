@@ -7,22 +7,25 @@ interface SettingsState {
   /** Polling interval in milliseconds.. */
   interval: number;
   /** Connz settings. */
-  connz: {
-    /** Connections state (Default: open). */
-    state: ConnState;
-    /** Connection sorting option (Default: cid). */
-    sort: ConnzSortOpt;
-    /** Number of connections to return (Default: 100). */
-    limit: number;
-    /** Include subscriptions info. */
-    subs: SubsOption;
-    /** Include authentication info. */
-    auth: boolean;
-  };
+  connz: ConnzSettings;
+}
+
+interface ConnzSettings {
+  /** Connections state (Default: open). */
+  state: ConnState;
+  /** Connection sorting option (Default: cid). */
+  sort: ConnzSortOpt;
+  /** Number of connections to return (Default: 100). */
+  limit: number;
+  /** Include subscriptions info. */
+  subs: SubsOption;
+  /** Include authentication info. */
+  auth: boolean;
 }
 
 interface SettingsActions {
   setInterval(interval: number): void;
+  setConnzSettings(settings: Partial<ConnzSettings>): void;
   setConnzState(state: ConnState): void;
   setConnzSort(opt: ConnzSortOpt): void;
   setConnzLimit(limit: number): void;
@@ -43,6 +46,7 @@ const defaultSettings: SettingsState = {
 
 const defaultActions: SettingsActions = {
   setInterval() {},
+  setConnzSettings() {},
   setConnzState() {},
   setConnzSort() {},
   setConnzLimit() {},
@@ -70,6 +74,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
   const actions: SettingsActions = {
     setInterval(interval) {
       setState('interval', interval);
+    },
+    setConnzSettings(settings) {
+      setState('connz', settings);
     },
     setConnzState(state) {
       setState('connz', 'state', state);

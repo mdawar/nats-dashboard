@@ -33,10 +33,13 @@ function sortOptions(state: ConnState): Options<ConnzSortOpt> {
     { value: 'pending', label: 'Pending Data' },
     { value: 'start', label: 'Connection Start' },
     // Only valid for closed connections.
-    { value: 'stop', label: 'Connection Stop', disabled: state === 'open' },
-    { value: 'reason', label: 'Close Reason', disabled: state === 'open' },
+    { value: 'stop', label: 'Connection Stop', disabled: state !== 'closed' },
+    { value: 'reason', label: 'Close Reason', disabled: state !== 'closed' },
   ];
 }
+
+/** Sorting options valid only for closed connections. */
+const closedConnSortOpts: readonly ConnzSortOpt[] = ['stop', 'reason'];
 
 const limitOptions: Options<number> = [
   { value: 1, label: '1' },
@@ -153,7 +156,17 @@ export default function ConnectionsList() {
           <Dropdown
             options={stateOptions}
             active={settings.connz.state}
-            onChange={actions.setConnzState}
+            onChange={(state) => {
+              // If we're fetching `open` or `any` connections, check if the sorting option is
+              // set for closed connections only and reset it to it's initial value.
+              const sort =
+                state !== 'closed' &&
+                closedConnSortOpts.includes(settings.connz.sort)
+                  ? 'cid'
+                  : settings.connz.sort;
+
+              actions.setConnzSettings({ state, sort });
+            }}
           >
             <button
               type="button"
