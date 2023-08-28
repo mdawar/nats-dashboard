@@ -11,14 +11,16 @@ export interface Option<T> {
 
 export type Options<T> = Option<T>[];
 
-interface Props<T extends keyof any> extends ParentProps {
+type OptionType = PropertyKey | boolean;
+
+interface Props<T extends OptionType> extends ParentProps {
   options: Options<T>;
   active: T;
   onChange: (id: T) => void;
   class?: string;
 }
 
-export default function Dropdown<T extends keyof any>(props: Props<T>) {
+export default function Dropdown<T extends OptionType>(props: Props<T>) {
   const [show, setShow] = createSignal(false);
 
   return (
