@@ -137,6 +137,7 @@ export default function ConnectionsList() {
           </div>
 
           <Dropdown
+            width="20"
             options={limitOptions}
             active={settings.connz.limit}
             onChange={(limit) => actions.setConnz({ limit })}
@@ -154,6 +155,7 @@ export default function ConnectionsList() {
           <div class="h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
+            width="20"
             options={stateOptions}
             active={settings.connz.state}
             onChange={(state) => {
