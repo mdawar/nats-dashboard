@@ -22,7 +22,6 @@ import {
 } from '~/components/icons';
 import {
   sortOptions,
-  closedConnSortOpts,
   limitOptions,
   stateOptions,
   subsOptions,
@@ -105,7 +104,7 @@ export default function ConnectionsList() {
             width="20"
             options={limitOptions}
             active={settings.connz.limit}
-            onChange={(limit) => actions.setConnz({ limit })}
+            onChange={actions.setConnzLimit}
           >
             <button
               type="button"
@@ -124,16 +123,7 @@ export default function ConnectionsList() {
             width="20"
             options={stateOptions}
             active={settings.connz.state}
-            onChange={(state) => {
-              // Reset the sort option if invalid for the new connections state.
-              const sort =
-                state !== 'closed' &&
-                closedConnSortOpts.includes(settings.connz.sort)
-                  ? 'cid'
-                  : settings.connz.sort;
-
-              actions.setConnz({ state, sort });
-            }}
+            onChange={actions.setConnzState}
           >
             <button
               type="button"
@@ -151,7 +141,7 @@ export default function ConnectionsList() {
             class="hidden xl:block"
             options={subsOptions}
             active={settings.connz.subs}
-            onChange={(subs) => actions.setConnz({ subs })}
+            onChange={actions.setConnzSubs}
           >
             <button
               type="button"
@@ -168,7 +158,7 @@ export default function ConnectionsList() {
           <div class="hidden xl:flex items-center">
             <Toggle
               checked={settings.connz.auth}
-              onChange={(auth) => actions.setConnz({ auth })}
+              onChange={actions.setConnzAuth}
             />
             <span class="ml-3 text-sm">
               <span class="text-gray-900 dark:text-white">Auth</span>
@@ -182,7 +172,7 @@ export default function ConnectionsList() {
             class="hidden xl:block"
             options={sortOptions(settings.connz.state)}
             active={settings.connz.sort}
-            onChange={(sort) => actions.setConnz({ sort })}
+            onChange={actions.setConnzSort}
           >
             <button
               type="button"

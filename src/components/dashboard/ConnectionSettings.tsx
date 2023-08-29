@@ -5,7 +5,6 @@ import Select from '~/components/Select';
 import Toggle from '~/components/Toggle';
 import {
   sortOptions,
-  closedConnSortOpts,
   limitOptions,
   stateOptions,
   subsOptions,
@@ -30,7 +29,7 @@ export default function ConnectionSettings() {
             <Select
               options={sortOptions(settings.connz.state)}
               value={settings.connz.sort}
-              onChange={(sort) => actions.setConnz({ sort })}
+              onChange={actions.setConnzSort}
             />
           </SettingSection>
 
@@ -38,7 +37,7 @@ export default function ConnectionSettings() {
             <Select
               options={limitOptions}
               value={settings.connz.limit}
-              onChange={(limit) => actions.setConnz({ limit })}
+              onChange={actions.setConnzLimit}
             />
           </SettingSection>
 
@@ -46,16 +45,7 @@ export default function ConnectionSettings() {
             <Select
               options={stateOptions}
               value={settings.connz.state}
-              onChange={(state) => {
-                // Reset the sort option if invalid for the new connections state.
-                const sort =
-                  state !== 'closed' &&
-                  closedConnSortOpts.includes(settings.connz.sort)
-                    ? 'cid'
-                    : settings.connz.sort;
-
-                actions.setConnz({ state, sort });
-              }}
+              onChange={actions.setConnzState}
             />
           </SettingSection>
 
@@ -63,14 +53,14 @@ export default function ConnectionSettings() {
             <Select
               options={subsOptions}
               value={settings.connz.subs}
-              onChange={(subs) => actions.setConnz({ subs })}
+              onChange={actions.setConnzSubs}
             />
           </SettingSection>
 
           <SettingSection title="Authentication">
             <Toggle
               checked={settings.connz.auth}
-              onChange={(auth) => actions.setConnz({ auth })}
+              onChange={actions.setConnzAuth}
             />
           </SettingSection>
         </div>

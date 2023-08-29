@@ -2,6 +2,7 @@ import { createContext, useContext, type ParentProps } from 'solid-js';
 
 import type { ConnState, ConnzSortOpt, SubsOption } from '~/types';
 import { createLocalStore } from '~/lib/localstate';
+import { closedConnSortOpts } from '~/components/dashboard/options';
 
 interface SettingsState {
   /** Polling interval in milliseconds.. */
@@ -26,8 +27,17 @@ interface ConnzSettings {
 interface SettingsActions {
   /** Set the polling interval in milliseconds. */
   setInterval(interval: number): void;
-  /** Set the connz settings. */
+  /**
+   * Set the connz settings.
+   *
+   * To be used when setting multiple values at once.
+   */
   setConnz(settings: Partial<ConnzSettings>): void;
+  setConnzState(state: ConnState): void;
+  setConnzSort(opt: ConnzSortOpt): void;
+  setConnzLimit(limit: number): void;
+  setConnzSubs(subs: SubsOption): void;
+  setConnzAuth(auth: boolean): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -44,6 +54,11 @@ const defaultSettings: SettingsState = {
 const defaultActions: SettingsActions = {
   setInterval() {},
   setConnz() {},
+  setConnzState() {},
+  setConnzSort() {},
+  setConnzLimit() {},
+  setConnzSubs() {},
+  setConnzAuth() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -58,7 +73,7 @@ interface Props {
 }
 
 export function SettingsProvider(props: ParentProps<Props>) {
-  const [state, setState] = createLocalStore<SettingsState>(
+  const [settings, setState] = createLocalStore<SettingsState>(
     'settings',
     props.initialState ?? defaultSettings
   );
@@ -70,10 +85,31 @@ export function SettingsProvider(props: ParentProps<Props>) {
     setConnz(settings) {
       setState('connz', settings);
     },
+    setConnzState(state) {
+      // Reset the sort option if invalid for the new connections state.
+      const sort =
+        state !== 'closed' && closedConnSortOpts.includes(settings.connz.sort)
+          ? 'cid'
+          : settings.connz.sort;
+
+      setState('connz', { state, sort });
+    },
+    setConnzSort(sort) {
+      setState('connz', { sort });
+    },
+    setConnzLimit(limit) {
+      setState('connz', { limit });
+    },
+    setConnzSubs(subs) {
+      setState('connz', { subs });
+    },
+    setConnzAuth(auth) {
+      setState('connz', { auth });
+    },
   };
 
   return (
-    <SettingsContext.Provider value={[state, actions]}>
+    <SettingsContext.Provider value={[settings, actions]}>
       {props.children}
     </SettingsContext.Provider>
   );
