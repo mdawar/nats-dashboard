@@ -18,12 +18,12 @@ export interface Option<T> {
 
 export type Options<T> = Option<T>[];
 
-type OptionType = PropertyKey | boolean;
+export type OptionType = PropertyKey | boolean;
 
 interface Props<T extends OptionType> extends ParentProps {
   options: Options<T>;
   active: T;
-  onChange: (id: T) => void;
+  onChange: (value: T) => void;
   class?: string;
   /** Dropdown width (Default: content). */
   width?: '20' | '40' | '60' | 'content';
