@@ -1,74 +1,38 @@
 import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
-import type { ConnState, ConnzSortOpt, SubsOption } from '~/types';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
+import Button from '~/components/Button';
 import Badge from '~/components/Badge';
 import Toggle from '~/components/Toggle';
+import Modal from '~/components/Modal';
 import SlideOver from '~/components/SlideOver';
-import Dropdown, { type Options } from '~/components/Dropdown';
+import Dropdown from '~/components/Dropdown';
 import ConnectionItem from '~/components/dashboard/ConnectionItem';
 import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
+import ConnectionSettings from '~/components/dashboard/ConnectionSettings';
 import {
   ChevronUpDownIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
   LoadingIcon,
+  Cog6ToothIcon,
 } from '~/components/icons';
-
-function sortOptions(state: ConnState): Options<ConnzSortOpt> {
-  return [
-    { value: 'cid', label: 'CID' },
-    { value: 'rtt', label: 'RTT' },
-    { value: 'uptime', label: 'Uptime' },
-    { value: 'last', label: 'Last Activity' },
-    { value: 'idle', label: 'Idle Time' },
-    { value: 'subs', label: 'Subscriptions' },
-    { value: 'msgs_from', label: 'Msgs. Sent' },
-    { value: 'msgs_to', label: 'Msgs. Received' },
-    { value: 'bytes_from', label: 'Data Size Sent' },
-    { value: 'bytes_to', label: 'Data Size Received' },
-    { value: 'pending', label: 'Pending Data' },
-    { value: 'start', label: 'Connection Start' },
-    // Only valid for closed connections.
-    { value: 'stop', label: 'Connection Stop', disabled: state !== 'closed' },
-    { value: 'reason', label: 'Close Reason', disabled: state !== 'closed' },
-  ];
-}
-
-/** Sorting options valid only for closed connections. */
-const closedConnSortOpts: readonly ConnzSortOpt[] = ['stop', 'reason'];
-
-const limitOptions: Options<number> = [
-  { value: 1, label: '1' },
-  { value: 2, label: '2' },
-  { value: 5, label: '5' },
-  { value: 10, label: '10' },
-  { value: 50, label: '50' },
-  { value: 100, label: '100' },
-  { value: 250, label: '250' },
-  { value: 500, label: '500' },
-  { value: 1000, label: '1000' },
-];
-
-const stateOptions: Options<ConnState> = [
-  { value: 'open', label: 'Open' },
-  { value: 'closed', label: 'Closed' },
-  { value: 'any', label: 'Any' },
-];
-
-const subsOptions: Options<SubsOption> = [
-  { value: false, label: 'No Subscriptions' },
-  { value: true, label: 'Include Subscriptions' },
-  { value: 'detail', label: 'Detailed Subscriptions' },
-];
+import {
+  sortOptions,
+  closedConnSortOpts,
+  limitOptions,
+  stateOptions,
+  subsOptions,
+} from '~/components/dashboard/options';
 
 export default function ConnectionsList() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
   const [offset, setOffset] = createSignal(0);
+  const [showSettings, setShowSettings] = createSignal(false);
 
   const connz = useConnz(() => ({
     state: settings.connz.state,
@@ -137,7 +101,7 @@ export default function ConnectionsList() {
           </div>
 
           <Dropdown
-            class="hidden sm:block"
+            class="hidden xl:block"
             width="20"
             options={limitOptions}
             active={settings.connz.limit}
@@ -212,9 +176,10 @@ export default function ConnectionsList() {
           </div>
 
           {/* Separator */}
-          <div class="hidden sm:block h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
 
           <Dropdown
+            class="hidden xl:block"
             options={sortOptions(settings.connz.state)}
             active={settings.connz.sort}
             onChange={(sort) => actions.setConnz({ sort })}
@@ -227,6 +192,33 @@ export default function ConnectionsList() {
               <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
             </button>
           </Dropdown>
+
+          {/* Separator */}
+          <div class="hidden sm:block xl:hidden h-6 w-px bg-gray-300 dark:bg-white/10" />
+
+          {/* Settings button */}
+          <button
+            type="button"
+            class="xl:hidden relative text-gray-900 dark:text-white"
+            onClick={() => setShowSettings(true)}
+          >
+            <Cog6ToothIcon class="h-5 w-5" />
+            <span class="absolute -inset-2.5"></span>
+          </button>
+          <Show when={showSettings()}>
+            <Modal onClose={() => setShowSettings(false)} size="lg">
+              {(close) => (
+                <>
+                  <ConnectionSettings />
+                  <div class="mt-5 sm:mt-6">
+                    <Button class="w-full" onClick={close}>
+                      Go back to dashboard
+                    </Button>
+                  </div>
+                </>
+              )}
+            </Modal>
+          </Show>
         </div>
       </header>
 

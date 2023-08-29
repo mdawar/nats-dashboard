@@ -19,3 +19,4 @@ export * from './Plus';
 export * from './ArrowUp';
 export * from './ArrowDown';
 export * from './Desktop';
+export * from './Cog6ToothIcon';
