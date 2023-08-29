@@ -68,7 +68,7 @@ export default function Dropdown<T extends OptionType>(props: Props<T>) {
                 <For each={props.options}>
                   {({ value, label, disabled = false }) => (
                     <button
-                      class="block w-full text-left px-3 py-1 text-sm leading-6 text-gray-900 dark:text-white dark:disabled:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      class="block w-full text-left px-3 py-1 text-sm leading-6 text-gray-900 disabled:text-gray-500 dark:text-white dark:disabled:text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800"
                       classList={{
                         'bg-gray-50 dark:bg-gray-800': props.active === value,
                         // Make the dropdown take the content's width.
