@@ -90,6 +90,24 @@ export default function ConnectionItem(props: Props) {
         </div>
 
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
+          <Badge
+            border={false}
+            color="gray"
+            class="flex items-center justify-between gap-x-1.5"
+          >
+            <span class="text-gray-900 dark:text-white">Started</span>
+            {props.connection.info.start}
+          </Badge>
+          <Show when={props.connection.info.stop}>
+            <Badge
+              border={false}
+              color="red"
+              class="flex items-center justify-between gap-x-1.5"
+            >
+              <span class="text-gray-900 dark:text-white">Stopped</span>
+              {props.connection.info.stop}
+            </Badge>
+          </Show>
           <Show when={props.connection.reason}>
             <Badge
               border={false}

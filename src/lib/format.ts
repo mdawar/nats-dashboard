@@ -114,6 +114,10 @@ interface ConnectionInfo {
   uptime: string;
   /** Formatted RTT string. */
   rtt: string;
+  /** Human readable start time. */
+  start: string;
+  /** Human readable stop time. */
+  stop: string | undefined;
   /** Number of seconds since the client's last activity. */
   lastActive: number;
   /** Human readable last activity of the client. */
@@ -212,6 +216,8 @@ export function formatConnz(
           isActive: lastActive <= activityWindow,
           uptime: formatDuration(conn.uptime),
           rtt: formatRTT(conn.rtt ?? ''),
+          start: formatDistance(conn.start),
+          stop: conn.stop ? formatDistance(conn.stop) : undefined,
           lastActive,
           lastActivity: lastActivity,
           pending: formatBytes(conn.pending_bytes),

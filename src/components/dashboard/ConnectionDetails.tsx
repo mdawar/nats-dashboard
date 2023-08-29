@@ -14,9 +14,11 @@ export default function ConnectionDetails(props: Props) {
       <InfoList
         info={{
           CID: props.connection.cid,
-          State: <ConnState connection={props.connection} />,
-          Reason: props.connection.reason,
           Name: props.connection.name,
+          State: <ConnState connection={props.connection} />,
+          Started: props.connection.info.start,
+          Stopped: props.connection.info.stop,
+          Reason: props.connection.reason,
           Uptime: props.connection.info.uptime,
           'Last Activity': props.connection.info.lastActivity,
           RTT: props.connection.info.rtt,
@@ -30,7 +32,9 @@ export default function ConnectionDetails(props: Props) {
         data={{
           'IP Address': props.connection.ip,
           'Port Number': props.connection.port,
-          'Language and Version': `${props.connection.lang} ${props.connection.version}`,
+          'Language and Version': `${props.connection.lang ?? 'unknown'} ${
+            props.connection.version ?? ''
+          }`.trim(),
           Subscriptions: props.connection.subscriptions,
         }}
       />
