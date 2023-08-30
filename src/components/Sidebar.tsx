@@ -9,8 +9,8 @@ import {
 } from 'solid-js';
 import { useMobileMenu } from '~/lib/global';
 import { ThemeProvider, useTheme } from '~/components/context/theme';
-// @ts-expect-error
 import { clickOutside } from '~/lib/directives';
+clickOutside; // Preserve the import.
 import { Transition } from 'solid-transition-group';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
@@ -145,10 +145,14 @@ function Menu() {
   return (
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white dark:border-none dark:bg-black/10 dark:ring-1 dark:ring-white/5 px-6 pb-4">
       <a href="/" class="flex gap-4 h-16 shrink-0 items-center">
-        <img class="h-8 w-auto dark:hidden" src={natsIconBlack} alt="NATS" />
+        <img
+          class="h-8 w-auto dark:hidden"
+          src={natsIconBlack.src}
+          alt="NATS"
+        />
         <img
           class="h-8 w-auto hidden dark:block"
-          src={natsIconWhite}
+          src={natsIconWhite.src}
           alt="NATS"
         />
         <h1 class="text-gray-900 dark:text-white font-bold">Dashboard</h1>

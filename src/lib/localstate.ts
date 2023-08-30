@@ -87,6 +87,8 @@ function isSecurityError(error: unknown): boolean {
  * Note: A `SecurityError` exception is thrown in the case of denied access to `localStorage`.
  */
 function setItem(key: string, value: string): void {
+  if (import.meta.env.SSR) return;
+
   try {
     localStorage.setItem(key, value);
   } catch (error) {
@@ -102,6 +104,8 @@ function setItem(key: string, value: string): void {
  * Note: A `SecurityError` exception is thrown in the case of denied access to `localStorage`.
  */
 function removeItem(key: string): void {
+  if (import.meta.env.SSR) return;
+
   try {
     localStorage.removeItem(key);
   } catch (error) {
@@ -117,6 +121,8 @@ function removeItem(key: string): void {
  * Note: A `SecurityError` exception is thrown in the case of denied access to `localStorage`
  */
 function getItem(key: string): string | null {
+  if (import.meta.env.SSR) return null;
+
   try {
     return localStorage.getItem(key);
   } catch (error) {

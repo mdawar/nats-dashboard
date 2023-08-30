@@ -2,8 +2,8 @@ import { createSignal, mergeProps, Show, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
-// @ts-expect-error
 import { clickOutside } from '~/lib/directives';
+clickOutside; // Preserve the import.
 import { CloseIcon } from '~/components/icons';
 
 const slideOverSizes = {

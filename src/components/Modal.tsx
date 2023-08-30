@@ -2,8 +2,8 @@ import { createSignal, mergeProps, Show, type JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
-// @ts-expect-error
 import { clickOutside } from '~/lib/directives';
+clickOutside; // Preserve the import.
 
 const modalSizes = {
   xs: 'sm:max-w-xs',

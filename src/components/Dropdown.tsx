@@ -7,8 +7,8 @@ import {
 } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-// @ts-expect-error
 import { clickOutside } from '~/lib/directives';
+clickOutside; // Preserve the import.
 
 export interface Option<T> {
   value: T;
