@@ -32,7 +32,7 @@ make clean
 #### Run the tests
 
 ```sh
-npm run test
+npm test
 # Run the tests and watch for changes
 npm run test:watch
 ```
