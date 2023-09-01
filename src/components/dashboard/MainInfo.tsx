@@ -10,14 +10,23 @@ export default function MainInfo() {
     <div class="flex flex-col items-start justify-between gap-x-8 gap-y-4 bg-gray-50 dark:bg-gray-700/10 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8 tabular-nums">
       <div>
         <div class="flex items-center gap-x-3">
-          <Indicator color={store.active ? 'green' : 'gray'} />
+          <Indicator
+            color={store.active ? 'green' : 'gray'}
+            title={store.active ? 'Monitoring' : 'Not Monitoring'}
+          />
 
           <h1 class="flex gap-x-3 text-base leading-7">
-            <span class="font-semibold text-gray-900 dark:text-white">
+            <span
+              class="font-semibold text-gray-900 dark:text-white"
+              title="Server Name"
+            >
               {varz.data?.serverName}
             </span>
             <span class="text-gray-600">/</span>
-            <span class="font-semibold text-gray-900 dark:text-white">
+            <span
+              class="font-semibold text-gray-900 dark:text-white"
+              title="Uptime"
+            >
               {varz.data?.uptime}
             </span>
           </h1>
