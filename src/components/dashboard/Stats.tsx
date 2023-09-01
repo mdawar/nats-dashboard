@@ -10,71 +10,71 @@ export default function Stats() {
         <StatCell title="CPU Load" stat={varz.data?.cpu} unit="%" />
         <StatCell
           title="Memory Usage"
-          stat={varz.data?.memory.value}
-          unit={varz.data?.memory.unit}
+          stat={varz.data?.info.memory.value}
+          unit={varz.data?.info.memory.unit}
         />
         <StatCell
           title="Connections"
-          stat={varz.data?.conns.value}
-          unit={varz.data?.conns.unit}
+          stat={varz.data?.info.conns.value}
+          unit={varz.data?.info.conns.unit}
         />
         <StatCell
           title="Total Connections"
-          stat={varz.data?.totalConns.value}
-          unit={varz.data?.totalConns.unit}
+          stat={varz.data?.info.totalConns.value}
+          unit={varz.data?.info.totalConns.unit}
         />
         <StatCell
           title="Subscriptions"
-          stat={varz.data?.subs.value}
-          unit={varz.data?.subs.unit}
+          stat={varz.data?.info.subs.value}
+          unit={varz.data?.info.subs.unit}
         />
         <StatCell
           title="Slow Consumers"
-          stat={varz.data?.slowCons.value}
-          unit={varz.data?.slowCons.unit}
+          stat={varz.data?.info.slowCons.value}
+          unit={varz.data?.info.slowCons.unit}
         />
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px mt-px">
         <StatCell
           title="Total Messages Received"
-          stat={varz.data?.inMsgs.value}
-          unit={varz.data?.inMsgs.unit}
+          stat={varz.data?.info.inMsgs.value}
+          unit={varz.data?.info.inMsgs.unit}
         />
         <StatCell
           title="Total Messages Sent"
-          stat={varz.data?.outMsgs.value}
-          unit={varz.data?.outMsgs.unit}
+          stat={varz.data?.info.outMsgs.value}
+          unit={varz.data?.info.outMsgs.unit}
         />
         <StatCell
           title="Total Data Received"
-          stat={varz.data?.inBytes.value}
-          unit={varz.data?.inBytes.unit}
+          stat={varz.data?.info.inBytes.value}
+          unit={varz.data?.info.inBytes.unit}
         />
         <StatCell
           title="Total Data Sent"
-          stat={varz.data?.outBytes.value}
-          unit={varz.data?.outBytes.unit}
+          stat={varz.data?.info.outBytes.value}
+          unit={varz.data?.info.outBytes.unit}
         />
         <StatCell
           title="Messages Received Rate"
-          stat={varz.data?.inMsgsRate.value}
-          unit={`${varz.data?.inMsgsRate.unit}/s`}
+          stat={varz.data?.info.inMsgsRate.value}
+          unit={`${varz.data?.info.inMsgsRate.unit}/s`}
         />
         <StatCell
           title="Messages Sent Rate"
-          stat={varz.data?.outMsgsRate.value}
-          unit={`${varz.data?.outMsgsRate.unit}/s`}
+          stat={varz.data?.info.outMsgsRate.value}
+          unit={`${varz.data?.info.outMsgsRate.unit}/s`}
         />
         <StatCell
           title="Data Received Rate"
-          stat={varz.data?.inBytesRate.value}
-          unit={`${varz.data?.inBytesRate.unit}/s`}
+          stat={varz.data?.info.inBytesRate.value}
+          unit={`${varz.data?.info.inBytesRate.unit}/s`}
         />
         <StatCell
           title="Data Sent Rate"
-          stat={varz.data?.outBytesRate.value}
-          unit={`${varz.data?.outBytesRate.unit}/s`}
+          stat={varz.data?.info.outBytesRate.value}
+          unit={`${varz.data?.info.outBytesRate.unit}/s`}
         />
       </div>
     </div>

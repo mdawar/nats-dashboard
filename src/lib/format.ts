@@ -1,5 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { Connz, ConnInfo, SubDetail } from '~/types';
+import type { Varz, Connz, ConnInfo, SubDetail } from '~/types';
 import {
   formatBytes,
   abbreviateNum,
@@ -12,18 +12,19 @@ import {
   type AbbreviatedNumber,
 } from '~/lib/utils';
 
+/** Formatted server information.
+ *
+ * Includes the original server data returned by the server
+ * plus an `info` property that holds the formatted server information.
+ */
+export interface FormattedVarz extends Partial<Varz> {
+  info: FormattedServerInfo;
+}
+
 /** Formatted server information. */
-export interface FormattedVarz {
-  /** Server ID. */
-  serverID: string;
-  /** Server name. */
-  serverName: string;
-  /** Server version. */
-  version: string;
+export interface FormattedServerInfo {
   /** Server uptime. */
   uptime: string;
-  /** Server CPU usage in percentage. */
-  cpu: number;
   /** Server memory usage. */
   memory: FormattedBytes;
   /** Number of current connections. */
@@ -66,21 +67,20 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
   });
 
   return {
-    serverID: current?.server_id ?? '',
-    serverName: current?.server_name ?? '',
-    version: current?.version ?? '',
-    uptime: formatDuration(current?.uptime ?? ''),
-    cpu: current?.cpu ?? 0,
-    memory: formatBytes(current?.mem ?? 0),
-    conns: abbreviateNum(current?.connections ?? 0),
-    totalConns: abbreviateNum(current?.total_connections ?? 0),
-    subs: abbreviateNum(current?.subscriptions ?? 0),
-    slowCons: abbreviateNum(current?.slow_consumers ?? 0),
-    inMsgs: abbreviateNum(current?.in_msgs ?? 0),
-    outMsgs: abbreviateNum(current?.out_msgs ?? 0),
-    inBytes: formatBytes(current?.in_bytes ?? 0),
-    outBytes: formatBytes(current?.out_bytes ?? 0),
-    ...rates,
+    ...current,
+    info: {
+      uptime: formatDuration(current?.uptime ?? ''),
+      memory: formatBytes(current?.mem ?? 0),
+      conns: abbreviateNum(current?.connections ?? 0),
+      totalConns: abbreviateNum(current?.total_connections ?? 0),
+      subs: abbreviateNum(current?.subscriptions ?? 0),
+      slowCons: abbreviateNum(current?.slow_consumers ?? 0),
+      inMsgs: abbreviateNum(current?.in_msgs ?? 0),
+      outMsgs: abbreviateNum(current?.out_msgs ?? 0),
+      inBytes: formatBytes(current?.in_bytes ?? 0),
+      outBytes: formatBytes(current?.out_bytes ?? 0),
+      ...rates,
+    },
   };
 }
 

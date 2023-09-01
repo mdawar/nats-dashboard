@@ -20,7 +20,7 @@ export default function MainInfo() {
               class="font-semibold text-gray-900 dark:text-white"
               title="Server Name"
             >
-              {varz.data?.serverName}
+              {varz.data?.server_name}
             </span>
             <span class="text-gray-600">/</span>
             <span
@@ -35,7 +35,7 @@ export default function MainInfo() {
           <span class="font-semibold text-gray-900 dark:text-white">
             Server ID
           </span>
-          :<span class="break-all ml-1">{varz.data?.serverID}</span>
+          :<span class="break-all ml-1">{varz.data?.server_id}</span>
         </p>
       </div>
 
