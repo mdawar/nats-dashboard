@@ -18,7 +18,6 @@ export function useVarz() {
     queryKey: [store.url, 'varz'] as VarzFetchParams,
     queryFn: ({ queryKey }) => fetchInfo(...queryKey),
     select: formatVarz, // Fromat the data for display.
-    placeholderData: {},
     enabled: store.active,
     refetchInterval: settings.interval,
     reconcile: false,
@@ -38,7 +37,6 @@ export function useConnz(options?: () => ConnzOptions) {
     queryKey: [store.url, 'connz', optsMemo()] as ConnzFetchParams,
     queryFn: ({ queryKey }) => fetchInfo(...queryKey),
     select: formatConnz, // Fromat the data for display.
-    placeholderData: {},
     enabled: store.active,
     refetchInterval: settings.interval,
     reconcile: false,

@@ -213,14 +213,13 @@ export default function ConnectionsList() {
       </header>
 
       <Switch>
-        <Match when={!store.active && !connz.isFetched}>
+        <Match when={!store.active && connz.isPending}>
           <p class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
             Start monitoring to display connections.
           </p>
         </Match>
 
-        {/* Note: Cannot check isLoading (New query is created on options change). */}
-        <Match when={store.active && !connz.isFetched}>
+        <Match when={store.active && connz.isLoading}>
           <div class="flex items-center justify-center h-40 px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
             <LoadingIcon class="h-5 w-5" />
           </div>
