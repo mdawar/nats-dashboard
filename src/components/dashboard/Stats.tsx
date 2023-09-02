@@ -6,7 +6,7 @@ export default function Stats() {
 
   return (
     <div class="bg-gray-200 dark:bg-gray-700/50 border-y border-gray-200 dark:border-gray-700/50 tabular-nums">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-px">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px">
         <StatCell title="CPU Load" stat={varz.data?.cpu} unit="%" />
         <StatCell
           title="Memory Usage"
@@ -35,7 +35,7 @@ export default function Stats() {
         />
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px mt-px">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-px mt-px">
         <StatCell
           title="Total Messages Received"
           stat={varz.data?.info.inMsgs.value}
