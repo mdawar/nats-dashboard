@@ -4,6 +4,7 @@ import Provider from '~/components/dashboard/Provider';
 import InputHeader from '~/components/dashboard/InputHeader';
 import Navigation from '~/components/dashboard/Navigation';
 import Overview from '~/components/dashboard/pages/Overview';
+import Info from '~/components/dashboard/pages/Info';
 import Connections from '~/components/dashboard/pages/Connections';
 import JetStream from '~/components/dashboard/pages/JetStream';
 
@@ -27,6 +28,7 @@ export default function App(props: AppProps) {
 
           <Routes>
             <Route path="/" component={Overview} />
+            <Route path="/info" component={Info} />
             <Route path="/connections" component={Connections} />
             <Route path="/jetstream" component={JetStream} />
           </Routes>

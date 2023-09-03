@@ -1,7 +1,16 @@
+import { mergeProps, Show } from 'solid-js';
+
 import { useVarz } from '~/lib/queries';
+import { abbreviateNum, formatBytes, durationFromMs } from '~/lib/utils';
 import StatCell from '~/components/dashboard/StatCell';
 
-export default function Stats() {
+interface Props {
+  details?: boolean;
+}
+
+export default function Stats(props: Props) {
+  props = mergeProps({ details: false } satisfies Props, props);
+
   const varz = useVarz();
 
   return (
@@ -77,6 +86,61 @@ export default function Stats() {
           unit={`${varz.data?.info.outBytesRate.unit}/s`}
         />
       </div>
+
+      <Show when={props.details}>
+        <ServerDetails varz={varz} />
+      </Show>
+    </div>
+  );
+}
+
+function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
+  return (
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-px mt-px">
+      <StatCell title="Leaf Nodes" stat={props.varz.data?.leafnodes} />
+      <StatCell title="Routes" stat={props.varz.data?.routes} />
+      <StatCell title="Remotes" stat={props.varz.data?.remotes} />
+      <StatCell
+        title="Max Connections"
+        stat={abbreviateNum(props.varz.data?.max_connections ?? 0).value}
+        unit={abbreviateNum(props.varz.data?.max_connections ?? 0).unit}
+      />
+      <StatCell
+        title="Max Payload"
+        stat={formatBytes(props.varz.data?.max_payload ?? 0).value}
+        unit={formatBytes(props.varz.data?.max_payload ?? 0).unit}
+      />
+      <StatCell
+        title="Max Pending"
+        stat={formatBytes(props.varz.data?.max_pending ?? 0).value}
+        unit={formatBytes(props.varz.data?.max_pending ?? 0).unit}
+      />
+      <StatCell
+        title="Max Control Line"
+        stat={formatBytes(props.varz.data?.max_control_line ?? 0).value}
+        unit={formatBytes(props.varz.data?.max_control_line ?? 0).unit}
+      />
+      <StatCell
+        title="Ping Interval"
+        stat={durationFromMs((props.varz.data?.ping_interval ?? 0) / 1_000_000)}
+      />
+      <StatCell title="Max Pings Out" stat={props.varz.data?.ping_max} />
+      <StatCell
+        title="Write Deadline"
+        stat={durationFromMs(
+          (props.varz.data?.write_deadline ?? 0) / 1_000_000
+        )}
+      />
+      <StatCell
+        title="Auth. Timeout"
+        stat={props.varz.data?.auth_timeout}
+        unit="s"
+      />
+      <StatCell
+        title="TLS Timeout"
+        stat={props.varz.data?.tls_timeout}
+        unit="s"
+      />
     </div>
   );
 }

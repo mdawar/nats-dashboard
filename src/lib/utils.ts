@@ -4,6 +4,46 @@ import {
   formatDistanceToNowStrict,
 } from 'date-fns';
 
+/**
+ * Create a duration string from a number of milliseconds.
+ */
+export function durationFromMs(milliseconds: number) {
+  const ms = milliseconds % 1000;
+  const s = Math.floor((milliseconds / 1000) % 60);
+  const m = Math.floor((milliseconds / (1000 * 60)) % 60);
+  const h = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
+  const d = Math.floor((milliseconds / (1000 * 60 * 60 * 24)) % 365);
+  const y = Math.floor(milliseconds / (1000 * 60 * 60 * 24 * 365));
+
+  const parts = [];
+
+  if (y > 0) {
+    parts.push(`${y}y`);
+  }
+
+  if (d > 0) {
+    parts.push(`${d}d`);
+  }
+
+  if (h > 0) {
+    parts.push(`${h}h`);
+  }
+
+  if (m > 0) {
+    parts.push(`${m}m`);
+  }
+
+  if (s > 0) {
+    parts.push(`${s}s`);
+  }
+
+  if (ms > 0) {
+    parts.push(`${ms}ms`);
+  }
+
+  return parts.join(' ');
+}
+
 export interface FormattedBytes {
   /** Original number of bytes. */
   bytes: number;
@@ -251,5 +291,21 @@ export function formatDistance(datetime: string): string {
 
   return formatDistanceToNowStrict(date, {
     addSuffix: true,
+  });
+}
+
+/**
+ * Format a date-time string.
+ */
+export function formatDate(dateString: string, timeZone?: string): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: timeZone,
+    hour12: false,
   });
 }

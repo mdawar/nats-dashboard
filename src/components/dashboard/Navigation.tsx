@@ -16,6 +16,9 @@ export default function Navigation() {
           <Link href={path('/')}>Overview</Link>
         </li>
         <li>
+          <Link href={path('/info')}>Info</Link>
+        </li>
+        <li>
           <Link href={path('/connections')}>Connections</Link>
         </li>
         <li>
