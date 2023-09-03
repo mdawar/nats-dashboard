@@ -53,6 +53,14 @@ export interface FormattedServerInfo {
   inBytesRate: FormattedBytes;
   /** Rate of data size sent per second. */
   outBytesRate: FormattedBytes;
+  /** Is JetStream enabled. */
+  jsEnabled: boolean;
+  /** Are WebSocket connections enabled. */
+  wsEnabled: boolean;
+  /** Is leaf node enabled. */
+  leafEnabled: boolean;
+  /** Is MQTT enabled. */
+  mqttEnabled: boolean;
 }
 
 /** Format the server information for display. */
@@ -80,6 +88,10 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
       inBytes: formatBytes(current?.in_bytes ?? 0),
       outBytes: formatBytes(current?.out_bytes ?? 0),
       ...rates,
+      jsEnabled: Object.keys(current?.jetstream ?? {}).length !== 0,
+      wsEnabled: Object.keys(current?.websocket ?? {}).length !== 0,
+      leafEnabled: Object.keys(current?.leaf ?? {}).length !== 0,
+      mqttEnabled: Object.keys(current?.mqtt ?? {}).length !== 0,
     },
   };
 }

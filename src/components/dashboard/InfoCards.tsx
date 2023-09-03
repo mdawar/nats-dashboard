@@ -7,11 +7,6 @@ import DataCard from '~/components/DataCard';
 export default function InfoCards() {
   const varz = useVarz();
 
-  const jsEnabled = () => !!Object.keys(varz.data?.jetstream ?? {}).length;
-  const wsEnabled = () => !!Object.keys(varz.data?.websocket ?? {}).length;
-  const leafEnabled = () => !!Object.keys(varz.data?.leaf ?? {}).length;
-  const mqttEnabled = () => !!Object.keys(varz.data?.mqtt ?? {}).length;
-
   return (
     <div class="px-4 py-8 sm:px-6 lg:px-8 tabular-nums slashed-zero">
       <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
@@ -23,7 +18,7 @@ export default function InfoCards() {
               Port: varz.data?.port,
               'Protocol Version': varz.data?.proto,
               Version: varz.data?.version,
-              JetStream: jsEnabled() ? 'Enabled' : 'Disabled',
+              JetStream: varz.data?.info.jsEnabled ? 'Enabled' : 'Disabled',
               Cores: varz.data?.cores,
               GOMAXPROCS: varz.data?.gomaxprocs,
               'Auth. Required': varz.data?.auth_required ? 'Yes' : 'No',
@@ -33,7 +28,7 @@ export default function InfoCards() {
             }}
           />
 
-          <Show when={leafEnabled()}>
+          <Show when={varz.data?.info.leafEnabled}>
             <DataCard
               title="Leaf Node"
               data={{
@@ -47,7 +42,7 @@ export default function InfoCards() {
           </Show>
         </div>
 
-        <Show when={jsEnabled()}>
+        <Show when={varz.data?.info.jsEnabled}>
           <div class="flex flex-col gap-8">
             <DataCard
               title="JetStream Stats"
@@ -91,9 +86,9 @@ export default function InfoCards() {
           </div>
         </Show>
 
-        <Show when={wsEnabled() || mqttEnabled()}>
+        <Show when={varz.data?.info.wsEnabled || varz.data?.info.mqttEnabled}>
           <div class="flex flex-col gap-8">
-            <Show when={wsEnabled()}>
+            <Show when={varz.data?.info.wsEnabled}>
               <DataCard
                 title="WebSocket"
                 data={{
@@ -108,7 +103,7 @@ export default function InfoCards() {
               />
             </Show>
 
-            <Show when={mqttEnabled()}>
+            <Show when={varz.data?.info.mqttEnabled}>
               <DataCard
                 title="MQTT"
                 data={{
