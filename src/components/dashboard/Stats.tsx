@@ -1,7 +1,7 @@
 import { mergeProps, Show } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
-import { abbreviateNum, formatBytes, durationFromNs } from '~/lib/utils';
+import { durationFromNs } from '~/lib/utils';
 import StatCell from '~/components/dashboard/StatCell';
 
 interface Props {
@@ -102,23 +102,23 @@ function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
       <StatCell title="Remotes" stat={props.varz.data?.remotes} />
       <StatCell
         title="Max Connections"
-        stat={abbreviateNum(props.varz.data?.max_connections ?? 0).value}
-        unit={abbreviateNum(props.varz.data?.max_connections ?? 0).unit}
+        stat={props.varz.data?.info.maxConns.value}
+        unit={props.varz.data?.info.maxConns.unit}
       />
       <StatCell
         title="Max Payload"
-        stat={formatBytes(props.varz.data?.max_payload ?? 0).value}
-        unit={formatBytes(props.varz.data?.max_payload ?? 0).unit}
+        stat={props.varz.data?.info.maxPayload.value}
+        unit={props.varz.data?.info.maxPayload.unit}
       />
       <StatCell
         title="Max Pending"
-        stat={formatBytes(props.varz.data?.max_pending ?? 0).value}
-        unit={formatBytes(props.varz.data?.max_pending ?? 0).unit}
+        stat={props.varz.data?.info.maxPending.value}
+        unit={props.varz.data?.info.maxPending.unit}
       />
       <StatCell
         title="Max Control Line"
-        stat={formatBytes(props.varz.data?.max_control_line ?? 0).value}
-        unit={formatBytes(props.varz.data?.max_control_line ?? 0).unit}
+        stat={props.varz.data?.info.maxControlLine.value}
+        unit={props.varz.data?.info.maxControlLine.unit}
       />
       <StatCell
         title="Ping Interval"

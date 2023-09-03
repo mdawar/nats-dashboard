@@ -61,6 +61,14 @@ export interface FormattedServerInfo {
   leafEnabled: boolean;
   /** Is MQTT enabled. */
   mqttEnabled: boolean;
+  /** Maximum server connections. */
+  maxConns: AbbreviatedNumber;
+  /** Maximum payload size. */
+  maxPayload: FormattedBytes;
+  /** Maximum pending data size. */
+  maxPending: FormattedBytes;
+  /** Maximum control line size. */
+  maxControlLine: FormattedBytes;
 }
 
 /** Format the server information for display. */
@@ -87,11 +95,15 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
       outMsgs: abbreviateNum(current?.out_msgs ?? 0),
       inBytes: formatBytes(current?.in_bytes ?? 0),
       outBytes: formatBytes(current?.out_bytes ?? 0),
-      ...rates,
       jsEnabled: Object.keys(current?.jetstream ?? {}).length !== 0,
       wsEnabled: Object.keys(current?.websocket ?? {}).length !== 0,
       leafEnabled: Object.keys(current?.leaf ?? {}).length !== 0,
       mqttEnabled: Object.keys(current?.mqtt ?? {}).length !== 0,
+      maxConns: abbreviateNum(current?.max_connections ?? 0),
+      maxPayload: formatBytes(current?.max_payload ?? 0),
+      maxPending: formatBytes(current?.max_pending ?? 0),
+      maxControlLine: formatBytes(current?.max_control_line ?? 0),
+      ...rates,
     },
   };
 }
