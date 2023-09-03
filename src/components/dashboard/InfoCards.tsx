@@ -1,7 +1,12 @@
 import { Show } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
-import { formatBytes, abbreviateNum, durationFromNs } from '~/lib/utils';
+import {
+  formatBytes,
+  abbreviateNum,
+  durationFromNs,
+  abbreviateObjectValues,
+} from '~/lib/utils';
 import DataCard from '~/components/DataCard';
 
 export default function InfoCards() {
@@ -133,24 +138,10 @@ export default function InfoCards() {
           />
           <DataCard
             title="HTTP Request Stats"
-            data={formatReqStats(varz.data?.http_req_stats) ?? {}}
+            data={abbreviateObjectValues(varz.data?.http_req_stats) ?? {}}
           />
         </div>
       </div>
     </div>
   );
-}
-
-function formatReqStats(
-  stats: Record<string, number> | undefined
-): Record<string, string> | undefined {
-  if (!stats) return stats;
-
-  const fmt: Record<string, string> = {};
-
-  for (const [key, value] of Object.entries(stats)) {
-    fmt[key] = abbreviateNum(value).str;
-  }
-
-  return fmt;
 }

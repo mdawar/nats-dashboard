@@ -123,6 +123,25 @@ export function abbreviateNum(num: number): AbbreviatedNumber {
 }
 
 /**
+ * Abbreviate an object's values.
+ *
+ * Returns a new object.
+ */
+export function abbreviateObjectValues(
+  obj: Record<string, number> | undefined
+): Record<string, string> | undefined {
+  if (!obj) return obj;
+
+  const abv: Record<string, string> = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    abv[key] = abbreviateNum(value).str;
+  }
+
+  return abv;
+}
+
+/**
  * Format a duration string.
  *
  * For example `1d12h30m12s` becomes `1d 12h 30m 12s`.
