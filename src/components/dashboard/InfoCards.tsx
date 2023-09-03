@@ -14,7 +14,7 @@ export default function InfoCards() {
 
   return (
     <div class="px-4 py-8 sm:px-6 lg:px-8 tabular-nums slashed-zero">
-      <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
+      <div class="space-y-8 sm:space-y-0 sm:grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
         <div class="flex flex-col gap-8">
           <DataCard
             title="Server"
