@@ -1,12 +1,22 @@
 import { createMemo, For, type ParentProps } from 'solid-js';
 
 interface CardProps extends ParentProps {
+  /** Card title. */
   title: string;
+  /**
+   * Object of the data to display as key value pairs.
+   *
+   * If the object is empty, the card won't be displayed.
+   * Individual values that are `undefined` are not displayed.
+   */
   data: Record<string, number | string | undefined>;
 }
 
 export default function DataCard(props: CardProps) {
   const data = createMemo(() => Object.entries(props.data));
+
+  // Do not display the card if there's no data to display.
+  if (!data().length) return null;
 
   return (
     <div class="divide-y divide-gray-800/10 dark:divide-white/10 overflow-hidden bg-gray-50 dark:bg-gray-700/10 border border-gray-800/10 dark:border-white/10 shadow-sm">
