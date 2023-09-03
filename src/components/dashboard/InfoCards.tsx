@@ -1,7 +1,7 @@
 import { createMemo, Show, For, type ParentProps } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
-import { formatBytes, abbreviateNum, durationFromMs } from '~/lib/utils';
+import { formatBytes, abbreviateNum, durationFromNs } from '~/lib/utils';
 
 export default function InfoCards() {
   const varz = useVarz();
@@ -105,8 +105,8 @@ export default function InfoCards() {
                     Host: varz.data?.websocket?.host,
                     Port: varz.data?.websocket?.port,
                     'No Auth. User': varz.data?.websocket?.no_auth_user,
-                    'Handshake Timeout': durationFromMs(
-                      (varz.data?.websocket?.handshake_timeout ?? 0) / 1_000_000
+                    'Handshake Timeout': durationFromNs(
+                      varz.data?.websocket?.handshake_timeout ?? 0
                     ),
                     Compression: varz.data?.websocket?.compression
                       ? 'Yes'
@@ -124,9 +124,7 @@ export default function InfoCards() {
                     Port: varz.data?.mqtt?.port,
                     'No Auth. User': varz.data?.mqtt?.no_auth_user,
                     'TLS Timeout': `${varz.data?.mqtt?.tls_timeout}s`,
-                    'ACK Wait': durationFromMs(
-                      (varz.data?.mqtt?.ack_wait ?? 0) / 1_000_000
-                    ),
+                    'ACK Wait': durationFromNs(varz.data?.mqtt?.ack_wait ?? 0),
                     'Max ACK Pending': formatBytes(
                       varz.data?.mqtt?.max_ack_pending ?? 0
                     ).str,

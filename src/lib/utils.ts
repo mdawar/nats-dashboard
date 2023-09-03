@@ -44,6 +44,13 @@ export function durationFromMs(milliseconds: number) {
   return parts.join(' ');
 }
 
+/**
+ * Create a duration string from a number of nanoseconds.
+ */
+export function durationFromNs(nanoseconds: number): string {
+  return durationFromMs(nanoseconds / 1_000_000);
+}
+
 export interface FormattedBytes {
   /** Original number of bytes. */
   bytes: number;
