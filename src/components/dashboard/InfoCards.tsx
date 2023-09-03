@@ -1,7 +1,8 @@
-import { createMemo, Show, For, type ParentProps } from 'solid-js';
+import { Show } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
 import { formatBytes, abbreviateNum, durationFromNs } from '~/lib/utils';
+import DataCard from '~/components/DataCard';
 
 export default function InfoCards() {
   const varz = useVarz();
@@ -15,7 +16,7 @@ export default function InfoCards() {
     <div class="px-4 py-8 sm:px-6 lg:px-8 tabular-nums slashed-zero">
       <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-8">
         <div class="flex flex-col gap-8">
-          <Card
+          <DataCard
             title="Server"
             data={{
               Host: varz.data?.host,
@@ -33,7 +34,7 @@ export default function InfoCards() {
           />
 
           <Show when={leafEnabled()}>
-            <Card
+            <DataCard
               title="Leaf Node"
               data={{
                 Host: varz.data?.leaf?.host,
@@ -48,7 +49,7 @@ export default function InfoCards() {
 
         <Show when={jsEnabled()}>
           <div class="flex flex-col gap-8">
-            <Card
+            <DataCard
               title="JetStream Stats"
               data={{
                 Memory: formatBytes(varz.data?.jetstream?.stats?.memory ?? 0)
@@ -72,7 +73,7 @@ export default function InfoCards() {
               }}
             />
 
-            <Card
+            <DataCard
               title="JetStream Config"
               data={{
                 'Max Memory': formatBytes(
@@ -93,7 +94,7 @@ export default function InfoCards() {
         <Show when={wsEnabled() || mqttEnabled()}>
           <div class="flex flex-col gap-8">
             <Show when={wsEnabled()}>
-              <Card
+              <DataCard
                 title="WebSocket"
                 data={{
                   Host: varz.data?.websocket?.host,
@@ -108,7 +109,7 @@ export default function InfoCards() {
             </Show>
 
             <Show when={mqttEnabled()}>
-              <Card
+              <DataCard
                 title="MQTT"
                 data={{
                   Host: varz.data?.mqtt?.host,
@@ -126,7 +127,7 @@ export default function InfoCards() {
         </Show>
 
         <div class="flex flex-col gap-8">
-          <Card
+          <DataCard
             title="Monitoring Server"
             data={{
               Host: varz.data?.http_host,
@@ -135,7 +136,7 @@ export default function InfoCards() {
               'Base Path': varz.data?.http_base_path || '/',
             }}
           />
-          <Card
+          <DataCard
             title="HTTP Request Stats"
             data={formatReqStats(varz.data?.http_req_stats) ?? {}}
           />
@@ -157,33 +158,4 @@ function formatReqStats(
   }
 
   return fmt;
-}
-
-interface CardProps extends ParentProps {
-  title: string;
-  data: Record<string, number | string | undefined>;
-}
-
-function Card(props: CardProps) {
-  const data = createMemo(() => Object.entries(props.data));
-
-  return (
-    <div class="divide-y divide-gray-800/10 dark:divide-white/10 overflow-hidden bg-gray-50 dark:bg-gray-700/10 border border-gray-800/10 dark:border-white/10 shadow-sm">
-      <h4 class="px-4 py-5 sm:px-6 dark:text-white text-sm font-semibold">
-        {props.title}
-      </h4>
-      <div>
-        <dl class="divide-y divide-gray-200 dark:divide-white/10">
-          <For each={data()}>
-            {([key, value]) => (
-              <div class="flex justify-between p-4 py-3 sm:px-6 text-sm font-medium">
-                <dt class="text-gray-500 dark:text-gray-400 truncate">{key}</dt>
-                <dd class="text-gray-900 dark:text-white truncate">{value}</dd>
-              </div>
-            )}
-          </For>
-        </dl>
-      </div>
-    </div>
-  );
 }
