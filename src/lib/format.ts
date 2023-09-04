@@ -8,8 +8,10 @@ import {
   formatRTT,
   formatDistance,
   diffInSecondsToNow,
+  durationFromNs,
   type FormattedBytes,
   type AbbreviatedNumber,
+  type Duration,
 } from '~/lib/utils';
 
 /** Formatted server information.
@@ -69,6 +71,10 @@ export interface FormattedServerInfo {
   maxPending: FormattedBytes;
   /** Maximum control line size. */
   maxControlLine: FormattedBytes;
+  /** Ping interval. */
+  pingInterval: Duration;
+  /** Write deadline. */
+  writeDeadline: Duration;
 }
 
 /** Format the server information for display. */
@@ -103,6 +109,8 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
       maxPayload: formatBytes(current?.max_payload ?? 0),
       maxPending: formatBytes(current?.max_pending ?? 0),
       maxControlLine: formatBytes(current?.max_control_line ?? 0),
+      pingInterval: durationFromNs(current?.ping_interval ?? 0),
+      writeDeadline: durationFromNs(current?.write_deadline ?? 0),
       ...rates,
     },
   };

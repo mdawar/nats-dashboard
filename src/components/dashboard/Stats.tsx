@@ -1,7 +1,6 @@
 import { mergeProps, Show } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
-import { durationFromNs } from '~/lib/utils';
 import StatCell from '~/components/dashboard/StatCell';
 
 interface Props {
@@ -122,14 +121,14 @@ function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
       />
       <StatCell
         title="Ping Interval"
-        stat={durationFromNs(props.varz.data?.ping_interval ?? 0).value}
-        unit={durationFromNs(props.varz.data?.ping_interval ?? 0).unit}
+        stat={props.varz.data?.info.pingInterval.value}
+        unit={props.varz.data?.info.pingInterval.unit}
       />
       <StatCell title="Max Pings Out" stat={props.varz.data?.ping_max} />
       <StatCell
         title="Write Deadline"
-        stat={durationFromNs(props.varz.data?.write_deadline ?? 0).value}
-        unit={durationFromNs(props.varz.data?.write_deadline ?? 0).unit}
+        stat={props.varz.data?.info.writeDeadline.value}
+        unit={props.varz.data?.info.writeDeadline.unit}
       />
       <StatCell
         title="Auth. Timeout"
