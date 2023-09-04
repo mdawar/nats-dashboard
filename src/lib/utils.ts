@@ -4,10 +4,34 @@ import {
   formatDistanceToNowStrict,
 } from 'date-fns';
 
+export interface Duration {
+  /** Number of milliseconds for this duration. */
+  ms: number;
+  /**
+   * Formatted duration value.
+   *
+   * Holds the duration value without the unit for single unit durations
+   * and the full duration string with units for composite durations.
+   */
+  value: string;
+  /**
+   * Unit of the formatted duration.
+   *
+   * Holds the unit for a single unit duration and `undefined` for a composite duration.
+   */
+  unit: string | undefined;
+  /**
+   * Formatted duration string with units.
+   *
+   * Holds the full duration string with units.
+   */
+  str: string;
+}
+
 /**
- * Create a duration string from a number of milliseconds.
+ * Create a human readable duration from a number of milliseconds.
  */
-export function durationFromMs(milliseconds: number) {
+export function durationFromMs(milliseconds: number): Duration {
   const ms = milliseconds % 1000;
   const s = Math.floor((milliseconds / 1000) % 60);
   const m = Math.floor((milliseconds / (1000 * 60)) % 60);
@@ -15,39 +39,47 @@ export function durationFromMs(milliseconds: number) {
   const d = Math.floor((milliseconds / (1000 * 60 * 60 * 24)) % 365);
   const y = Math.floor(milliseconds / (1000 * 60 * 60 * 24 * 365));
 
-  const parts = [];
+  const parts: { value: number; unit: string }[] = [];
 
   if (y > 0) {
-    parts.push(`${y}y`);
+    parts.push({ value: y, unit: 'y' });
   }
 
   if (d > 0) {
-    parts.push(`${d}d`);
+    parts.push({ value: d, unit: 'd' });
   }
 
   if (h > 0) {
-    parts.push(`${h}h`);
+    parts.push({ value: h, unit: 'h' });
   }
 
   if (m > 0) {
-    parts.push(`${m}m`);
+    parts.push({ value: m, unit: 'm' });
   }
 
   if (s > 0) {
-    parts.push(`${s}s`);
+    parts.push({ value: s, unit: 's' });
   }
 
   if (ms > 0) {
-    parts.push(`${ms}ms`);
+    parts.push({ value: ms, unit: 'ms' });
   }
 
-  return parts.join(' ');
+  const isComposite = parts.length > 1;
+  const str = parts.map(({ value, unit }) => `${value}${unit}`).join(' ');
+
+  return {
+    ms: milliseconds,
+    value: isComposite ? str : parts[0]?.value.toString() ?? '',
+    unit: isComposite ? undefined : parts[0]?.unit,
+    str,
+  };
 }
 
 /**
- * Create a duration string from a number of nanoseconds.
+ * Create a human readable duration from a number of nanoseconds.
  */
-export function durationFromNs(nanoseconds: number): string {
+export function durationFromNs(nanoseconds: number): Duration {
   return durationFromMs(nanoseconds / 1_000_000);
 }
 

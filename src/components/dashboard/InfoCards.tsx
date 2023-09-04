@@ -102,7 +102,7 @@ export default function InfoCards() {
                   'No Auth. User': varz.data?.websocket?.no_auth_user,
                   'Handshake Timeout': durationFromNs(
                     varz.data?.websocket?.handshake_timeout ?? 0
-                  ),
+                  ).str,
                   Compression: varz.data?.websocket?.compression ? 'Yes' : 'No',
                 }}
               />
@@ -116,7 +116,8 @@ export default function InfoCards() {
                   Port: varz.data?.mqtt?.port,
                   'No Auth. User': varz.data?.mqtt?.no_auth_user,
                   'TLS Timeout': `${varz.data?.mqtt?.tls_timeout}s`,
-                  'ACK Wait': durationFromNs(varz.data?.mqtt?.ack_wait ?? 0),
+                  'ACK Wait': durationFromNs(varz.data?.mqtt?.ack_wait ?? 0)
+                    .str,
                   'Max ACK Pending': formatBytes(
                     varz.data?.mqtt?.max_ack_pending ?? 0
                   ).str,
