@@ -16,11 +16,11 @@
   "license": "MIT",
   "dependencies": {
     "@astrojs/check": "^0.2.0",
-    "@astrojs/solid-js": "^3.0.0",
+    "@astrojs/solid-js": "^3.0.1",
     "@astrojs/tailwind": "^5.0.0",
     "@solidjs/router": "^0.8.3",
     "@tanstack/solid-query": "^5.0.0-beta.21",
-    "astro": "^3.0.10",
+    "astro": "^3.0.11",
     "date-fns": "^2.30.0",
     "solid-js": "^1.7.11",
     "solid-transition-group": "^0.2.3",
@@ -31,6 +31,6 @@
     "prettier": "^3.0.3",
     "prettier-plugin-astro": "^0.12.0",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.4"
   }
 }
