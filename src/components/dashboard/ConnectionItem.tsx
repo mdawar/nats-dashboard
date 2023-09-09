@@ -3,6 +3,7 @@ import { Show } from 'solid-js';
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
+import { ListItem } from '~/components/dashboard/DataList';
 import {
   ArrowUpIcon,
   ArrowDownIcon,
@@ -59,12 +60,12 @@ export default function ConnectionItem(props: Props) {
   };
 
   return (
-    <li class="relative flex items-center space-x-4 px-4 py-6 sm:px-6 lg:px-8">
+    <ListItem class="relative flex items-center space-x-4">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <Indicator color={indicator()} />
 
-          <h2 class="min-w-0 text-sm font-semibold leading-6 text-gray-900 dark:text-white">
+          <h2 class="min-w-0 text-sm font-semibold leading-6">
             <a
               href="#"
               class="flex gap-x-2"
@@ -358,6 +359,6 @@ export default function ConnectionItem(props: Props) {
         aria-hidden="true"
         class="h-5 w-5 flex-none text-gray-500 dark:text-gray-400"
       />
-    </li>
+    </ListItem>
   );
 }

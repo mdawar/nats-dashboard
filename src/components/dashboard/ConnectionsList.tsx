@@ -26,6 +26,17 @@ import {
   stateOptions,
   subsOptions,
 } from '~/components/dashboard/options';
+import {
+  DataListContainer,
+  Header,
+  HeaderTitle,
+  HeaderButton,
+  HeaderSeparator,
+  HeaderControls,
+  ContentContainer,
+  DataList,
+  ListItem,
+} from '~/components/dashboard/DataList';
 
 export default function ConnectionsList() {
   const [store] = useStore();
@@ -66,9 +77,9 @@ export default function ConnectionsList() {
   };
 
   return (
-    <section class="tabular-nums slashed-zero">
-      <header class="flex items-center justify-between border-b border-gray-200 dark:border-white/5 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
-        <h1 class="text-base font-semibold leading-7 text-gray-900 dark:text-white">
+    <DataListContainer>
+      <Header>
+        <HeaderTitle>
           Connections
           <Badge
             type="pill"
@@ -77,9 +88,9 @@ export default function ConnectionsList() {
           >
             {numConnections()}
           </Badge>
-        </h1>
+        </HeaderTitle>
 
-        <div class="flex items-center gap-6">
+        <HeaderControls>
           <div class="hidden sm:flex items-center gap-2">
             <button
               type="button"
@@ -106,17 +117,13 @@ export default function ConnectionsList() {
             active={settings.connz.limit}
             onChange={actions.setConnzLimit}
           >
-            <button
-              type="button"
-              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
-            >
+            <HeaderButton class="flex items-center gap-x-1">
               Limit
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
-            </button>
+            </HeaderButton>
           </Dropdown>
 
-          {/* Separator */}
-          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <HeaderSeparator class="hidden xl:block" />
 
           <Dropdown
             class="hidden xl:block"
@@ -125,17 +132,13 @@ export default function ConnectionsList() {
             active={settings.connz.state}
             onChange={actions.setConnzState}
           >
-            <button
-              type="button"
-              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
-            >
+            <HeaderButton class="flex items-center gap-x-1">
               State
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
-            </button>
+            </HeaderButton>
           </Dropdown>
 
-          {/* Separator */}
-          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <HeaderSeparator class="hidden xl:block" />
 
           <Dropdown
             class="hidden xl:block"
@@ -143,17 +146,13 @@ export default function ConnectionsList() {
             active={settings.connz.subs}
             onChange={actions.setConnzSubs}
           >
-            <button
-              type="button"
-              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
-            >
+            <HeaderButton class="flex items-center gap-x-1">
               Subs
               <ChevronDownIcon class="h-4 w-4 text-gray-500" />
-            </button>
+            </HeaderButton>
           </Dropdown>
 
-          {/* Separator */}
-          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <HeaderSeparator class="hidden xl:block" />
 
           <div class="hidden xl:flex items-center">
             <Toggle
@@ -165,8 +164,7 @@ export default function ConnectionsList() {
             </span>
           </div>
 
-          {/* Separator */}
-          <div class="hidden xl:block h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <HeaderSeparator class="hidden xl:block" />
 
           <Dropdown
             class="hidden xl:block"
@@ -174,17 +172,13 @@ export default function ConnectionsList() {
             active={settings.connz.sort}
             onChange={actions.setConnzSort}
           >
-            <button
-              type="button"
-              class="flex items-center gap-x-1 text-sm font-medium leading-6 text-gray-900 dark:text-white"
-            >
+            <HeaderButton class="flex items-center gap-x-1">
               Sort by
               <ChevronUpDownIcon class="h-5 w-5 text-gray-500" />
-            </button>
+            </HeaderButton>
           </Dropdown>
 
-          {/* Separator */}
-          <div class="hidden sm:block xl:hidden h-6 w-px bg-gray-300 dark:bg-white/10" />
+          <HeaderSeparator class="hidden sm:block xl:hidden" />
 
           {/* Settings button */}
           <button
@@ -209,37 +203,33 @@ export default function ConnectionsList() {
               )}
             </Modal>
           </Show>
-        </div>
-      </header>
+        </HeaderControls>
+      </Header>
 
       <Switch>
         <Match when={!store.active && connz.isPending}>
-          <p class="px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
-            Start monitoring to display connections.
-          </p>
+          <ContentContainer>
+            <p>Start monitoring to display connections.</p>
+          </ContentContainer>
         </Match>
 
         <Match when={store.active && connz.isLoading}>
-          <div class="flex items-center justify-center h-40 px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+          <ContentContainer class="flex items-center justify-center h-40">
             <LoadingIcon class="h-5 w-5" />
-          </div>
+          </ContentContainer>
         </Match>
 
         <Match when={connz.isSuccess}>
-          <ul role="list" class="divide-y divide-gray-200 dark:divide-white/5">
+          <DataList>
             <For
               each={connz.data?.connections}
-              fallback={
-                <li class="px-4 py-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
-                  No connections to display.
-                </li>
-              }
+              fallback={<ListItem>No connections to display.</ListItem>}
             >
               {(conn) => (
                 <ConnectionItem connection={conn} onClick={setSelectedID} />
               )}
             </For>
-          </ul>
+          </DataList>
         </Match>
       </Switch>
 
@@ -253,6 +243,6 @@ export default function ConnectionsList() {
           <ConnectionDetails connection={selectedConn()!} />
         </SlideOver>
       </Show>
-    </section>
+    </DataListContainer>
   );
 }
