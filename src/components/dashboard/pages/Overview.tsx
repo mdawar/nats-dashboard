@@ -2,7 +2,7 @@ import { Switch, Match } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
-import MainInfo from '~/components/dashboard/MainInfo';
+import ServerInfo from '~/components/dashboard/ServerInfo';
 import Stats from '~/components/dashboard/Stats';
 import ConnectionsList from '~/components/dashboard/ConnectionsList';
 import GetStarted from '~/components/dashboard/GetStarted';
@@ -26,7 +26,7 @@ export default function Overview() {
         </Match>
 
         <Match when={varz.isSuccess}>
-          <MainInfo />
+          <ServerInfo />
           <Stats />
         </Match>
       </Switch>

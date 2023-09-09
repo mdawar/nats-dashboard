@@ -4,7 +4,7 @@ import { useVarz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
-import MainInfo from '~/components/dashboard/MainInfo';
+import ServerInfo from '~/components/dashboard/ServerInfo';
 import Stats from '~/components/dashboard/Stats';
 import InfoCards from '~/components/dashboard/InfoCards';
 
@@ -25,7 +25,7 @@ export default function Info() {
       </Match>
 
       <Match when={varz.isSuccess}>
-        <MainInfo details />
+        <ServerInfo details />
         <Stats details />
         <InfoCards />
       </Match>
