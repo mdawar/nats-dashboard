@@ -1,10 +1,10 @@
 import { createQuery } from '@tanstack/solid-query';
 
-import type { ConnzOptions } from '~/types';
+import type { ConnzOptions, JszOptions } from '~/types';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { fetchInfo } from '~/lib/info';
-import { formatVarz, formatConnz } from '~/lib/format';
+import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
 import { createMemo } from 'solid-js';
 
 type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
@@ -42,3 +42,24 @@ export function useConnz(options?: () => ConnzOptions) {
     reconcile: false,
   }));
 }
+
+type JszFetchParams = Parameters<typeof fetchInfo<'jsz'>>;
+
+/** Start polling for JetSteam information. */
+export function useJsz(options?: () => JszOptions) {
+  const [store] = useStore();
+  const [settings] = useSettings();
+
+  const optsMemo = createMemo(() => options?.());
+
+  return createQuery(() => ({
+    queryKey: [store.url, 'jsz', optsMemo()] as JszFetchParams,
+    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
+    select: formatJsz, // Fromat the data for display.
+    enabled: store.active,
+    refetchInterval: settings.interval,
+    reconcile: false,
+  }));
+}
+
+export type JszQuery = ReturnType<typeof useJsz>;

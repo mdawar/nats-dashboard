@@ -91,3 +91,12 @@ export default function Badge(props: ParentProps<BagdeProps>) {
     />
   );
 }
+
+/**
+ * Defines the `Badge` component color based on the number.
+ *
+ * Returns `green` when the number is positive and `gray` otherwise.
+ */
+export function greenIfNotZero(n: number) {
+  return n > 0 ? 'green' : 'gray';
+}

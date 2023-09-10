@@ -2,7 +2,7 @@ import { Show } from 'solid-js';
 
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
-import Badge from '~/components/Badge';
+import Badge, { greenIfNotZero } from '~/components/Badge';
 import { ListItem } from '~/components/dashboard/DataList';
 import {
   ArrowUpIcon,
@@ -26,13 +26,6 @@ const langColor: Record<string, string> = {
   '.net':
     'bg-lime-50 text-lime-700 ring-lime-600/20 dark:bg-lime-400/10 dark:text-lime-500 dark:ring-lime-400/20',
 };
-
-/**
- * Defines the `Badge` component color based on the number.
- *
- * Returns `green` when the number is positive and `gray` otherwise.
- */
-const greenIfNotZero = (n: number) => (n > 0 ? 'green' : 'gray');
 
 /**
  * Returns a `classList` object for styling contents of a badge.

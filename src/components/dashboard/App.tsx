@@ -6,7 +6,7 @@ import Navigation from '~/components/dashboard/Navigation';
 import Overview from '~/components/dashboard/pages/Overview';
 import Info from '~/components/dashboard/pages/Info';
 import Connections from '~/components/dashboard/pages/Connections';
-import JetStream from '~/components/dashboard/pages/JetStream';
+import JetStream from '~/components/dashboard/pages/jetstream';
 
 interface AppProps {
   /**

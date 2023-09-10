@@ -1,5 +1,5 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { Varz, Connz, ConnInfo, SubDetail } from '~/types';
+import type { Varz, Connz, ConnInfo, SubDetail, Jsz } from '~/types';
 import {
   formatBytes,
   abbreviateNum,
@@ -267,5 +267,49 @@ export function formatConnz(
   return {
     ...current,
     connections,
+  };
+}
+
+/** Formatted JetStream information. */
+export interface FormattedJsz extends Partial<Jsz> {
+  info: {
+    memory: FormattedBytes;
+    storage: FormattedBytes;
+    messages: AbbreviatedNumber;
+    reservedMemory: FormattedBytes;
+    reservedStorage: FormattedBytes;
+    bytes: FormattedBytes;
+    api: {
+      total: AbbreviatedNumber;
+      errors: AbbreviatedNumber;
+    };
+    config: {
+      maxMemory: FormattedBytes;
+      maxStorage: FormattedBytes;
+    };
+  };
+}
+
+/** Format the JetStream data for display. */
+export function formatJsz(jsz: PartialInfoResponse<'jsz'>): FormattedJsz {
+  const { current } = jsz;
+  return {
+    ...current,
+    info: {
+      memory: formatBytes(current?.memory ?? 0),
+      storage: formatBytes(current?.storage ?? 0),
+      messages: abbreviateNum(current?.messages ?? 0),
+      reservedMemory: formatBytes(current?.reserved_memory ?? 0),
+      reservedStorage: formatBytes(current?.reserved_storage ?? 0),
+      bytes: formatBytes(current?.bytes ?? 0),
+      api: {
+        total: abbreviateNum(current?.api.total ?? 0),
+        errors: abbreviateNum(current?.api.errors ?? 0),
+      },
+      config: {
+        maxMemory: formatBytes(current?.config?.max_memory ?? 0),
+        maxStorage: formatBytes(current?.config?.max_storage ?? 0),
+      },
+    },
   };
 }

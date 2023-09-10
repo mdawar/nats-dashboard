@@ -45,14 +45,14 @@ export interface Jsz extends JetStreamStats {
   account_details?: AccountDetail[];
 }
 
-interface AccountDetail extends JetStreamStats {
+export interface AccountDetail extends JetStreamStats {
   name: string;
   id: string;
   stream_detail?: StreamDetail[];
 }
 
 /** Information about the stream state and its consumers. */
-interface StreamDetail {
+export interface StreamDetail {
   name: string;
   /** time.Time */
   created: string;

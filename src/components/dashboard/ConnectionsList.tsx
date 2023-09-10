@@ -4,7 +4,7 @@ import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import { useConnz } from '~/lib/queries';
 import Button from '~/components/Button';
-import Badge from '~/components/Badge';
+import Badge, { greenIfNotZero } from '~/components/Badge';
 import Toggle from '~/components/Toggle';
 import Modal from '~/components/Modal';
 import SlideOver from '~/components/SlideOver';
@@ -83,7 +83,7 @@ export default function ConnectionsList() {
           Connections
           <Badge
             type="pill"
-            color={(connz.data?.total ?? 0) > 0 ? 'green' : 'gray'}
+            color={greenIfNotZero(connz.data?.total ?? 0)}
             class="ml-3"
           >
             {numConnections()}

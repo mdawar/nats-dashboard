@@ -2,7 +2,7 @@ import { createMemo, For, Index, Show, type JSX } from 'solid-js';
 
 import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
 import Indicator from '~/components/Indicator';
-import Badge from '~/components/Badge';
+import Badge, { greenIfNotZero } from '~/components/Badge';
 
 interface Props {
   connection: ClientConnection;
@@ -192,7 +192,7 @@ function SubsListDetails(props: SubsListDetailProps) {
                 </Badge>
                 <Badge
                   class="flex justify-between gap-1"
-                  color={sub.msgs.num > 0 ? 'green' : 'gray'}
+                  color={greenIfNotZero(sub.msgs.num)}
                 >
                   <strong>Msgs.</strong>
                   {sub.msgs.str}
