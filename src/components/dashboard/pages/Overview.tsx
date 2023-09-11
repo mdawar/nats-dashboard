@@ -4,7 +4,7 @@ import { useVarz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
 import ServerInfo from '~/components/dashboard/ServerInfo';
 import ServerStats from '~/components/dashboard/ServerStats';
-import ConnectionsList from '~/components/dashboard/ConnectionsList';
+import Connections from '~/components/dashboard/pages/connections';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
 
@@ -31,7 +31,7 @@ export default function Overview() {
         </Match>
       </Switch>
 
-      <ConnectionsList />
+      <Connections />
     </div>
   );
 }

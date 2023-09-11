@@ -3,12 +3,13 @@ import type { ParentProps } from 'solid-js';
 import { useSettings } from '~/components/context/settings';
 import Select from '~/components/Select';
 import Toggle from '~/components/Toggle';
+
 import {
   sortOptions,
   limitOptions,
   stateOptions,
   subsOptions,
-} from '~/components/dashboard/options';
+} from './options';
 
 export default function ConnectionSettings() {
   const [settings, actions] = useSettings();

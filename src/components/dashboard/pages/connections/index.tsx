@@ -9,23 +9,6 @@ import Toggle from '~/components/Toggle';
 import Modal from '~/components/Modal';
 import SlideOver from '~/components/SlideOver';
 import Dropdown from '~/components/Dropdown';
-import ConnectionItem from '~/components/dashboard/ConnectionItem';
-import ConnectionDetails from '~/components/dashboard/ConnectionDetails';
-import ConnectionSettings from '~/components/dashboard/ConnectionSettings';
-import {
-  ChevronUpDownIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  LoadingIcon,
-  Cog6ToothIcon,
-} from '~/components/icons';
-import {
-  sortOptions,
-  limitOptions,
-  stateOptions,
-  subsOptions,
-} from '~/components/dashboard/options';
 import {
   DataListContainer,
   Header,
@@ -37,8 +20,26 @@ import {
   DataList,
   ListItem,
 } from '~/components/dashboard/DataList';
+import {
+  ChevronUpDownIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  LoadingIcon,
+  Cog6ToothIcon,
+} from '~/components/icons';
 
-export default function ConnectionsList() {
+import ConnectionItem from './ConnectionItem';
+import ConnectionDetails from './ConnectionDetails';
+import ConnectionSettings from './ConnectionSettings';
+import {
+  sortOptions,
+  limitOptions,
+  stateOptions,
+  subsOptions,
+} from './options';
+
+export default function Connections() {
   const [store] = useStore();
   const [settings, actions] = useSettings();
   const [offset, setOffset] = createSignal(0);
