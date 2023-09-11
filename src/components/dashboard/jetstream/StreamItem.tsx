@@ -1,7 +1,7 @@
 import { Show } from 'solid-js';
 
 import type { FormattedStreamDetail } from '~/lib/format';
-import { ListItem } from '~/components/dashboard/DataList';
+import { ListItem } from '~/components/dashboard/StackedList';
 import Badge, { greenIfNotZero, redIfNotZero } from '~/components/Badge';
 import { ChevronRightIcon } from '~/components/icons';
 
@@ -15,6 +15,7 @@ const streamColor = {
 
 interface StreamItemProps {
   stream: FormattedStreamDetail;
+  onClick: (name: string) => void;
 }
 
 export default function StreamItem(props: StreamItemProps) {
@@ -23,7 +24,14 @@ export default function StreamItem(props: StreamItemProps) {
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <h2 class="min-w-0 text-sm font-semibold leading-6">
-            <a href="#" class="flex gap-x-2">
+            <a
+              href="#"
+              class="flex gap-x-2"
+              onClick={(e) => {
+                e.preventDefault();
+                props.onClick(props.stream.name);
+              }}
+            >
               <span class="whitespace-nowrap">{props.stream.name}</span>
               <Show when={props.stream.cluster?.name}>
                 <span class="text-gray-500 dark:text-gray-400">/</span>
@@ -40,20 +48,20 @@ export default function StreamItem(props: StreamItemProps) {
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.state?.consumer_count ?? 0)}
+            color={greenIfNotZero(props.stream.info.state.consumerCount)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Consumers</span>
-            {props.stream.state?.consumer_count ?? 0}
+            {props.stream.info.state.consumerCount}
           </Badge>
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.state?.num_subjects ?? 0)}
+            color={greenIfNotZero(props.stream.info.state.numSubjects.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Subjects</span>
-            {props.stream.state?.num_subjects ?? 0}
+            {props.stream.info.state.numSubjects.str}
           </Badge>
 
           <Badge

@@ -343,6 +343,8 @@ interface StreamInfo {
   created: string;
   /** Stream state. */
   state: {
+    consumerCount: number;
+    numSubjects: AbbreviatedNumber;
     messages: AbbreviatedNumber;
     data: FormattedBytes;
     numDeleted: AbbreviatedNumber;
@@ -387,13 +389,15 @@ export function formatStream(stream: StreamDetail): FormattedStreamDetail {
       label,
       created: formatDate(stream.created),
       state: {
+        consumerCount: stream.state?.consumer_count ?? 0,
+        numSubjects: abbreviateNum(stream.state?.num_subjects ?? 0),
+        messages: abbreviateNum(stream.state?.messages ?? 0),
+        data: formatBytes(stream.state?.bytes ?? 0),
+        numDeleted: abbreviateNum(stream.state?.num_deleted ?? 0),
         firstSeq: stream.state?.first_seq ?? 0,
         lastSeq: stream.state?.last_seq ?? 0,
         firstTS: formatDate(stream.state?.first_ts ?? ''),
         lastTS: formatDate(stream.state?.last_ts ?? ''),
-        messages: abbreviateNum(stream.state?.messages ?? 0),
-        data: formatBytes(stream.state?.bytes ?? 0),
-        numDeleted: abbreviateNum(stream.state?.num_deleted ?? 0),
       },
     },
   };
