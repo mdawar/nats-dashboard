@@ -25,10 +25,31 @@ export default function StreamDetails(props: Props) {
           Messages: props.stream.info.state.messages.str,
           'Data Size': props.stream.info.state.data.str,
           'Num. Deleted': props.stream.info.state.numDeleted.str,
-          'First Sequence': props.stream.info.state.firstSeq,
-          'Last Sequence': props.stream.info.state.lastSeq,
-          'First Timestamp': props.stream.info.state.firstTS,
-          'Last Timestamp': props.stream.info.state.lastTS,
+          'First Sequence':
+            props.stream.info.state.messages.num > 0
+              ? props.stream.info.state.firstSeq
+              : undefined,
+          'Last Sequence':
+            props.stream.info.state.messages.num > 0
+              ? props.stream.info.state.lastSeq
+              : undefined,
+          'First Timestamp':
+            props.stream.info.state.messages.num > 0
+              ? props.stream.info.state.firstTS
+              : undefined,
+          'Last Timestamp':
+            props.stream.info.state.messages.num > 0
+              ? props.stream.info.state.lastTS
+              : undefined,
+        }}
+      />
+
+      <DataList
+        title="Cluster"
+        data={{
+          Name: props.stream.cluster?.name,
+          Leader: props.stream.cluster?.leader,
+          Replicas: props.stream.cluster?.replicas?.length,
         }}
       />
     </div>
