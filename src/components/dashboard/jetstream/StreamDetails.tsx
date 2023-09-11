@@ -23,7 +23,7 @@ export default function StreamDetails(props: Props) {
           Consumers: props.stream.info.state.consumerCount,
           Subjects: props.stream.info.state.numSubjects.str,
           Messages: props.stream.info.state.messages.str,
-          Data: props.stream.info.state.data.str,
+          'Data Size': props.stream.info.state.data.str,
           'Num. Deleted': props.stream.info.state.numDeleted.str,
           'First Sequence': props.stream.info.state.firstSeq,
           'Last Sequence': props.stream.info.state.lastSeq,

@@ -2,7 +2,7 @@ import { Show } from 'solid-js';
 
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
-import Badge, { greenIfNotZero } from '~/components/Badge';
+import Badge, { greenIfPositive } from '~/components/Badge';
 import { ListItem } from '~/components/dashboard/StackedList';
 import {
   ArrowUpIcon,
@@ -163,7 +163,7 @@ export default function ConnectionItem(props: Props) {
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
-            color={greenIfNotZero(props.connection.subscriptions)}
+            color={greenIfPositive(props.connection.subscriptions)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Subs</span>
@@ -172,7 +172,7 @@ export default function ConnectionItem(props: Props) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(
+            color={greenIfPositive(
               props.connection.info.inMsgs.num ||
                 props.connection.info.outMsgs.num
             )}
@@ -209,7 +209,7 @@ export default function ConnectionItem(props: Props) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(
+            color={greenIfPositive(
               props.connection.info.inBytes.bytes ||
                 props.connection.info.outBytes.bytes
             )}
@@ -247,7 +247,7 @@ export default function ConnectionItem(props: Props) {
           <Show when={props.connection.info.isOpen}>
             <Badge
               border={false}
-              color={greenIfNotZero(
+              color={greenIfPositive(
                 props.connection.info.inMsgsRate.num ||
                   props.connection.info.outMsgsRate.num
               )}
@@ -284,7 +284,7 @@ export default function ConnectionItem(props: Props) {
 
             <Badge
               border={false}
-              color={greenIfNotZero(
+              color={greenIfPositive(
                 props.connection.info.inBytesRate.bytes ||
                   props.connection.info.outBytesRate.bytes
               )}
@@ -329,7 +329,7 @@ export default function ConnectionItem(props: Props) {
 
             <Badge
               border={false}
-              color={greenIfNotZero(props.connection.info.pending.bytes)}
+              color={greenIfPositive(props.connection.info.pending.bytes)}
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">Pending</span>

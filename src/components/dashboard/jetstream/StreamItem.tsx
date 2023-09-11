@@ -2,7 +2,7 @@ import { Show } from 'solid-js';
 
 import type { FormattedStreamDetail } from '~/lib/format';
 import { ListItem } from '~/components/dashboard/StackedList';
-import Badge, { greenIfNotZero, redIfNotZero } from '~/components/Badge';
+import Badge, { greenIfPositive, redIfPositive } from '~/components/Badge';
 import { ChevronRightIcon } from '~/components/icons';
 
 const streamColor = {
@@ -48,7 +48,7 @@ export default function StreamItem(props: StreamItemProps) {
         <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.info.state.consumerCount)}
+            color={greenIfPositive(props.stream.info.state.consumerCount)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Consumers</span>
@@ -57,7 +57,7 @@ export default function StreamItem(props: StreamItemProps) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.info.state.numSubjects.num)}
+            color={greenIfPositive(props.stream.info.state.numSubjects.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Subjects</span>
@@ -66,7 +66,7 @@ export default function StreamItem(props: StreamItemProps) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.info.state.messages.num)}
+            color={greenIfPositive(props.stream.info.state.messages.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Messages</span>
@@ -75,7 +75,7 @@ export default function StreamItem(props: StreamItemProps) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.info.state.data.bytes)}
+            color={greenIfPositive(props.stream.info.state.data.bytes)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data</span>
@@ -84,7 +84,7 @@ export default function StreamItem(props: StreamItemProps) {
 
           <Badge
             border={false}
-            color={redIfNotZero(props.stream.info.state.numDeleted.num)}
+            color={redIfPositive(props.stream.info.state.numDeleted.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Deleted</span>

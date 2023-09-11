@@ -2,7 +2,7 @@ import { createMemo, createSignal, For, Show } from 'solid-js';
 
 import type { AccountDetail, StreamDetail } from '~/types';
 import { formatStream } from '~/lib/format';
-import Badge, { greenIfNotZero } from '~/components/Badge';
+import Badge, { greenIfPositive } from '~/components/Badge';
 import {
   StackedListContainer,
   Header,
@@ -40,7 +40,7 @@ export default function StreamsList(props: { account: AccountDetail }) {
             Streams
             <Badge
               type="pill"
-              color={greenIfNotZero(streams().length)}
+              color={greenIfPositive(streams().length)}
               class="ml-3"
             >
               {streams().length}

@@ -2,7 +2,7 @@ import { For, Index, Show } from 'solid-js';
 
 import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
 import Indicator from '~/components/Indicator';
-import Badge, { greenIfNotZero } from '~/components/Badge';
+import Badge, { greenIfPositive } from '~/components/Badge';
 import InfoList from '~/components/dashboard/InfoList';
 import DataList from '~/components/dashboard/DataList';
 
@@ -140,7 +140,7 @@ function SubsListDetails(props: SubsListDetailProps) {
                 </Badge>
                 <Badge
                   class="flex justify-between gap-1"
-                  color={greenIfNotZero(sub.msgs.num)}
+                  color={greenIfPositive(sub.msgs.num)}
                 >
                   <strong>Msgs.</strong>
                   {sub.msgs.str}
