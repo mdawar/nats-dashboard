@@ -2,7 +2,7 @@ import { createContext, useContext, type ParentProps } from 'solid-js';
 
 import type { ConnState, ConnzSortOpt, SubsOption } from '~/types';
 import { createLocalStore } from '~/lib/localstate';
-import { closedConnSortOpts } from '~/components/dashboard/pages/connections/options';
+import { closedConnSortOpts } from '~/components/dashboard/connections/options';
 
 interface SettingsState {
   /** Polling interval in milliseconds.. */

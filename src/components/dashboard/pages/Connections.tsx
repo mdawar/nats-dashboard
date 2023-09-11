@@ -29,15 +29,15 @@ import {
   Cog6ToothIcon,
 } from '~/components/icons';
 
-import ConnectionItem from './ConnectionItem';
-import ConnectionDetails from './ConnectionDetails';
-import ConnectionSettings from './ConnectionSettings';
+import ConnectionItem from '~/components/dashboard/connections/ConnectionItem';
+import ConnectionDetails from '~/components/dashboard/connections/ConnectionDetails';
+import ConnectionSettings from '~/components/dashboard/connections/ConnectionSettings';
 import {
   sortOptions,
   limitOptions,
   stateOptions,
   subsOptions,
-} from './options';
+} from '~/components/dashboard/connections/options';
 
 export default function Connections() {
   const [store] = useStore();

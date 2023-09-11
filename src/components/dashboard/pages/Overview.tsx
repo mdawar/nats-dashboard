@@ -2,11 +2,12 @@ import { Switch, Match } from 'solid-js';
 
 import { useVarz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
-import ServerInfo from '~/components/dashboard/ServerInfo';
-import ServerStats from '~/components/dashboard/ServerStats';
-import Connections from '~/components/dashboard/pages/connections';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
+
+import ServerInfo from '~/components/dashboard/server/ServerInfo';
+import ServerStats from '~/components/dashboard/server/ServerStats';
+import Connections from '~/components/dashboard/pages/Connections';
 
 export default function Overview() {
   const [store] = useStore();

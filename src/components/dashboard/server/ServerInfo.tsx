@@ -70,13 +70,15 @@ function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
       />
       <DetailItem
         name="Start Time"
-        value={props.varz.data?.start && formatDate(props.varz.data?.start)}
+        value={
+          props.varz.data?.start && formatDate(props.varz.data?.start, 'UTC')
+        }
       />
       <DetailItem
         name="Config Load Time"
         value={
           props.varz.data?.config_load_time &&
-          formatDate(props.varz.data?.config_load_time)
+          formatDate(props.varz.data?.config_load_time, 'UTC')
         }
       />
     </>

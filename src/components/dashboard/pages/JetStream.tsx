@@ -12,11 +12,11 @@ import { useStore } from '~/components/context/store';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
 
-import JetStreamInfo from './JetStreamInfo';
-import JetStreamStats from './JetStreamStats';
-import AccountTabs from './AccountTabs';
-import AccountInfo from './AccountInfo';
-import StreamsList from './StreamsList';
+import JetStreamInfo from '~/components/dashboard/jetstream/JetStreamInfo';
+import JetStreamStats from '~/components/dashboard/jetstream/JetStreamStats';
+import AccountTabs from '~/components/dashboard/jetstream/AccountTabs';
+import AccountInfo from '~/components/dashboard/jetstream/AccountInfo';
+import StreamsList from '~/components/dashboard/jetstream/StreamsList';
 
 export default function JetStream() {
   const [store] = useStore();

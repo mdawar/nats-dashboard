@@ -88,7 +88,7 @@ export default function StreamItem(props: StreamItemProps) {
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Created</span>
-            {formatDate(props.stream.created)}
+            {formatDate(props.stream.created, 'UTC')}
           </Badge>
         </div>
 
@@ -118,7 +118,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">First TS</span>
-              {formatDate(props.stream.state?.first_ts ?? '')}
+              {formatDate(props.stream.state?.first_ts ?? '', 'UTC')}
             </Badge>
 
             <Badge
@@ -127,7 +127,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">Last TS</span>
-              {formatDate(props.stream.state?.last_ts ?? '')}
+              {formatDate(props.stream.state?.last_ts ?? '', 'UTC')}
             </Badge>
           </div>
         </Show>
