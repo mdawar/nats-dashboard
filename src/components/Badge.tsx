@@ -97,7 +97,7 @@ export default function Badge(props: ParentProps<BagdeProps>) {
  *
  * Returns `green` when the number is positive and `gray` otherwise.
  */
-export function greenIfNotZero(n: number): BadgeColor {
+export function greenIfNotZero(n: number) {
   return n > 0 ? 'green' : 'gray';
 }
 
@@ -106,6 +106,6 @@ export function greenIfNotZero(n: number): BadgeColor {
  *
  * Returns `red` when the number is positive and `gray` otherwise.
  */
-export function redIfNotZero(n: number): BadgeColor {
+export function redIfNotZero(n: number) {
   return n > 0 ? 'red' : 'gray';
 }

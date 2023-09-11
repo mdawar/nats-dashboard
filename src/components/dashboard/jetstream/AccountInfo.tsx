@@ -1,6 +1,6 @@
 import type { AccountDetail } from '~/types';
 import { formatBytes, abbreviateNum } from '~/lib/utils';
-import Badge, { greenIfNotZero } from '~/components/Badge';
+import Badge, { greenIfNotZero, redIfNotZero } from '~/components/Badge';
 
 export default function AccountInfo(props: { account: AccountDetail }) {
   return (
@@ -23,7 +23,7 @@ export default function AccountInfo(props: { account: AccountDetail }) {
       <Badge color={greenIfNotZero(props.account.api.total)}>
         API Total {abbreviateNum(props.account.api.total).str}
       </Badge>
-      <Badge color="red">
+      <Badge color={redIfNotZero(props.account.api.errors)}>
         API Errors {abbreviateNum(props.account.api.errors).str}
       </Badge>
     </div>
