@@ -20,3 +20,6 @@ export * from './ArrowUp';
 export * from './ArrowDown';
 export * from './Desktop';
 export * from './Cog6ToothIcon';
+export * from './CheckCircle';
+export * from './ExclamationTriangle';
+export * from './XCircle';
