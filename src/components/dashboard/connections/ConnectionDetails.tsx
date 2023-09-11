@@ -1,8 +1,10 @@
-import { createMemo, For, Index, Show, type JSX } from 'solid-js';
+import { For, Index, Show } from 'solid-js';
 
 import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
 import Indicator from '~/components/Indicator';
 import Badge, { greenIfNotZero } from '~/components/Badge';
+import InfoList from '~/components/dashboard/InfoList';
+import DataList from '~/components/dashboard/DataList';
 
 interface Props {
   connection: ClientConnection;
@@ -89,60 +91,6 @@ export default function ConnectionDetails(props: Props) {
           }}
         />
       </Show>
-    </div>
-  );
-}
-
-interface InfoListProps {
-  info: Record<string, JSX.Element | undefined>;
-}
-
-function InfoList(props: InfoListProps) {
-  const info = createMemo(() => Object.entries(props.info));
-
-  return (
-    <div>
-      <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200 dark:sm:divide-white/10">
-        <For each={info()}>
-          {([key, value]) => (
-            <Show when={value}>
-              <div class="sm:flex sm:py-5">
-                <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-40 sm:flex-shrink-0 lg:w-48">
-                  {key}
-                </dt>
-                <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:col-span-2 sm:ml-6 sm:mt-0 break-all">
-                  {value}
-                </dd>
-              </div>
-            </Show>
-          )}
-        </For>
-      </dl>
-    </div>
-  );
-}
-
-interface DataListProps {
-  title: string;
-  data: Record<string, number | string | undefined>;
-}
-
-function DataList(props: DataListProps) {
-  const data = createMemo(() => Object.entries(props.data));
-
-  return (
-    <div>
-      <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
-      <dl class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
-        <For each={data()}>
-          {([key, value]) => (
-            <div class="flex justify-between py-3 text-sm font-medium">
-              <dt class="text-gray-500 dark:text-gray-400">{key}</dt>
-              <dd class="text-gray-900 dark:text-white">{value}</dd>
-            </div>
-          )}
-        </For>
-      </dl>
     </div>
   );
 }
