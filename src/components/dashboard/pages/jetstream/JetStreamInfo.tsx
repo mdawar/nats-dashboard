@@ -32,7 +32,7 @@ export default function JetStreamInfo(props: { jsz: JszQuery }) {
         <DetailList>
           <DetailItem
             name="Server Time"
-            value={formatDate(props.jsz.data?.now ?? '')}
+            value={formatDate(props.jsz.data?.now ?? '', 'UTC')}
           />
           <DetailItem
             name="Store Directory"
