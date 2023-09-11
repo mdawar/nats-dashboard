@@ -29,10 +29,10 @@ export default function StreamsList(props: { account: AccountDetail }) {
           Streams
           <Badge
             type="pill"
-            color={greenIfNotZero(streams().length ?? 0)}
+            color={greenIfNotZero(streams().length)}
             class="ml-3"
           >
-            {streams().length ?? 0}
+            {streams().length}
           </Badge>
         </HeaderTitle>
       </Header>
