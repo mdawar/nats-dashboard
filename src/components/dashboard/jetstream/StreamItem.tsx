@@ -1,9 +1,8 @@
 import { Show } from 'solid-js';
 
 import type { FormattedStreamDetail } from '~/lib/format';
-import { formatBytes, abbreviateNum, formatDate } from '~/lib/utils';
 import { ListItem } from '~/components/dashboard/DataList';
-import Badge, { greenIfNotZero } from '~/components/Badge';
+import Badge, { greenIfNotZero, redIfNotZero } from '~/components/Badge';
 import { ChevronRightIcon } from '~/components/icons';
 
 const streamColor = {
@@ -59,29 +58,29 @@ export default function StreamItem(props: StreamItemProps) {
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.state?.messages ?? 0)}
+            color={greenIfNotZero(props.stream.info.state.messages.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Messages</span>
-            {abbreviateNum(props.stream.state?.messages ?? 0).str}
+            {props.stream.info.state.messages.str}
           </Badge>
 
           <Badge
             border={false}
-            color={greenIfNotZero(props.stream.state?.bytes ?? 0)}
+            color={greenIfNotZero(props.stream.info.state.data.bytes)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Data</span>
-            {formatBytes(props.stream.state?.bytes ?? 0).str}
+            {props.stream.info.state.data.str}
           </Badge>
 
           <Badge
             border={false}
-            color="gray"
+            color={redIfNotZero(props.stream.info.state.numDeleted.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Deleted</span>
-            {abbreviateNum(props.stream.state?.num_deleted ?? 0).str}
+            {props.stream.info.state.numDeleted.str}
           </Badge>
 
           <Badge
@@ -90,11 +89,11 @@ export default function StreamItem(props: StreamItemProps) {
             class="flex items-center justify-between gap-x-1.5"
           >
             <span class="text-gray-900 dark:text-white">Created</span>
-            {formatDate(props.stream.created, 'UTC')}
+            {props.stream.info.created}
           </Badge>
         </div>
 
-        <Show when={(props.stream.state?.messages ?? 0) > 0}>
+        <Show when={props.stream.info.state.messages.num > 0}>
           <div class="mt-3 flex flex-col sm:flex-row flex-wrap sm:items-center gap-2 sm:gap-3 text-xs leading-5 text-gray-500 dark:text-gray-400">
             <Badge
               border={false}
@@ -102,7 +101,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">First Seq.</span>
-              {props.stream.state?.first_seq ?? 0}
+              {props.stream.info.state.firstSeq}
             </Badge>
 
             <Badge
@@ -111,7 +110,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">Last Seq.</span>
-              {props.stream.state?.last_seq ?? 0}
+              {props.stream.info.state.lastSeq}
             </Badge>
 
             <Badge
@@ -120,7 +119,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">First TS</span>
-              {formatDate(props.stream.state?.first_ts ?? '', 'UTC')}
+              {props.stream.info.state.firstTS}
             </Badge>
 
             <Badge
@@ -129,7 +128,7 @@ export default function StreamItem(props: StreamItemProps) {
               class="flex items-center justify-between gap-x-1.5"
             >
               <span class="text-gray-900 dark:text-white">Last TS</span>
-              {formatDate(props.stream.state?.last_ts ?? '', 'UTC')}
+              {props.stream.info.state.lastTS}
             </Badge>
           </div>
         </Show>

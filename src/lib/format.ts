@@ -13,6 +13,7 @@ import {
   calculateRates,
   formatDuration,
   formatRTT,
+  formatDate,
   formatDistance,
   diffInSecondsToNow,
   durationFromNs,
@@ -338,6 +339,18 @@ interface StreamInfo {
   isMQTT: boolean;
   /** Stream label. */
   label: string;
+  /** Stream creation time. */
+  created: string;
+  /** Stream state. */
+  state: {
+    messages: AbbreviatedNumber;
+    data: FormattedBytes;
+    numDeleted: AbbreviatedNumber;
+    firstSeq: number;
+    lastSeq: number;
+    firstTS: string;
+    lastTS: string;
+  };
 }
 
 /** Format a stream details object. */
@@ -366,6 +379,22 @@ export function formatStream(stream: StreamDetail): FormattedStreamDetail {
 
   return {
     ...stream,
-    info: { isRegular, isKVStore, isObjectStore, isMQTT, label },
+    info: {
+      isRegular,
+      isKVStore,
+      isObjectStore,
+      isMQTT,
+      label,
+      created: formatDate(stream.created),
+      state: {
+        firstSeq: stream.state?.first_seq ?? 0,
+        lastSeq: stream.state?.last_seq ?? 0,
+        firstTS: formatDate(stream.state?.first_ts ?? ''),
+        lastTS: formatDate(stream.state?.last_ts ?? ''),
+        messages: abbreviateNum(stream.state?.messages ?? 0),
+        data: formatBytes(stream.state?.bytes ?? 0),
+        numDeleted: abbreviateNum(stream.state?.num_deleted ?? 0),
+      },
+    },
   };
 }
