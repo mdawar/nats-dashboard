@@ -8,20 +8,28 @@ import {
 import { StoreProvider } from '~/components/context/store';
 import { SettingsProvider } from '~/components/context/settings';
 import { FetchError, TimeoutError } from '~/lib/jsonp';
+import { notify } from '~/components/Notifications';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError(error, query) {
-      // TODO: use toast to display error
-      if (error instanceof FetchError) {
-        console.log('Fetch error:', error);
-      } else if (error instanceof TimeoutError) {
-        console.log('Timeout error:', error);
-      } else {
-        console.log('Other error:', error);
+      let title = query.meta?.errorTitle as string | undefined;
+      let message = query.meta?.errorMessage as string | undefined;
+
+      if (!title || !message) {
+        if (error instanceof FetchError) {
+          title ??= 'Fetch Error';
+          message ??= 'Cannot fetch the data from the server.';
+        } else if (error instanceof TimeoutError) {
+          title ??= 'Timed out';
+          message ??= 'Fetching the data took too long.';
+        } else {
+          title ??= 'Unexpected out';
+          message ??= 'The was an unexpected error while fetching the data.';
+        }
       }
 
-      console.log('fetchFailureCount', query.state.fetchFailureCount);
+      notify({ title, message, icon: 'error', timeout: 5000 });
     },
   }),
 });

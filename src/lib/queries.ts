@@ -21,6 +21,10 @@ export function useVarz() {
     enabled: store.active,
     refetchInterval: settings.interval,
     reconcile: false,
+    meta: {
+      errorTitle: 'Server Information',
+      errorMessage: 'Cannot fetch the server information.',
+    },
   }));
 }
 
@@ -40,6 +44,10 @@ export function useConnz(options?: () => ConnzOptions) {
     enabled: store.active,
     refetchInterval: settings.interval,
     reconcile: false,
+    meta: {
+      errorTitle: 'Connections',
+      errorMessage: 'Cannot fetch the connections information.',
+    },
   }));
 }
 
@@ -59,6 +67,10 @@ export function useJsz(options?: () => JszOptions) {
     enabled: store.active,
     refetchInterval: settings.interval,
     reconcile: false,
+    meta: {
+      errorTitle: 'JetStream',
+      errorMessage: 'Cannot fetch the JetStream server information.',
+    },
   }));
 }
 
