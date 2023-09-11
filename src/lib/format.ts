@@ -1,5 +1,12 @@
 import type { PartialInfoResponse } from '~/lib/info';
-import type { Varz, Connz, ConnInfo, SubDetail, Jsz } from '~/types';
+import type {
+  Varz,
+  Connz,
+  ConnInfo,
+  SubDetail,
+  Jsz,
+  StreamDetail,
+} from '~/types';
 import {
   formatBytes,
   abbreviateNum,
@@ -311,5 +318,54 @@ export function formatJsz(jsz: PartialInfoResponse<'jsz'>): FormattedJsz {
         maxStorage: formatBytes(current?.config?.max_storage ?? 0),
       },
     },
+  };
+}
+
+/** Formatted stream details. */
+export interface FormattedStreamDetail extends StreamDetail {
+  info: StreamInfo;
+}
+
+/** Formatted stream information. */
+interface StreamInfo {
+  /** Regular messages stream. */
+  isRegular: boolean;
+  /** KV store stream. */
+  isKVStore: boolean;
+  /** Object store stream. */
+  isObjectStore: boolean;
+  /** MQTT stream. */
+  isMQTT: boolean;
+  /** Stream label. */
+  label: string;
+}
+
+/** Format a stream details object. */
+export function formatStream(stream: StreamDetail): FormattedStreamDetail {
+  const isKVStore = stream.name.startsWith('KV_');
+  const isObjectStore = stream.name.startsWith('OBJ_');
+  const isMQTT = stream.name.startsWith('$MQTT_');
+  const isRegular = !isKVStore && !isObjectStore && !isMQTT;
+  let label = 'Stream';
+
+  if (!isRegular) {
+    if (isKVStore) {
+      label = 'KV Store';
+    } else if (isObjectStore) {
+      label = 'Object Store';
+    } else if (isMQTT) {
+      if (stream.name.startsWith('$MQTT_msgs')) {
+        label = 'MQTT Messages';
+      } else if (stream.name.startsWith('$MQTT_rmsgs')) {
+        label = 'MQTT Retained Messages';
+      } else if (stream.name.startsWith('$MQTT_sess')) {
+        label = 'MQTT Sessions';
+      }
+    }
+  }
+
+  return {
+    ...stream,
+    info: { isRegular, isKVStore, isObjectStore, isMQTT, label },
   };
 }

@@ -1,19 +1,21 @@
-import { Show, Switch, Match } from 'solid-js';
+import { Show } from 'solid-js';
 
-import type { StreamDetail } from '~/types';
+import type { FormattedStreamDetail } from '~/lib/format';
 import { formatBytes, abbreviateNum, formatDate } from '~/lib/utils';
 import { ListItem } from '~/components/dashboard/DataList';
 import Badge, { greenIfNotZero } from '~/components/Badge';
 import { ChevronRightIcon } from '~/components/icons';
 
-const streamColor: Record<string, string> = {
+const streamColor = {
+  stream:
+    'bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-400/10 dark:text-sky-500 dark:ring-sky-400/20',
   kv: 'bg-cyan-50 text-cyan-700 ring-cyan-600/20 dark:bg-cyan-400/10 dark:text-cyan-500 dark:ring-cyan-400/20',
   obj: 'bg-indigo-50 text-indigo-700 ring-indigo-600/20 dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-indigo-400/20',
   mqtt: 'bg-yellow-50 text-yellow-700 ring-yellow-600/20 dark:bg-yellow-400/10 dark:text-yellow-500 dark:ring-yellow-400/20',
-};
+} as const;
 
 interface StreamItemProps {
-  stream: StreamDetail;
+  stream: FormattedStreamDetail;
 }
 
 export default function StreamItem(props: StreamItemProps) {
@@ -133,30 +135,17 @@ export default function StreamItem(props: StreamItemProps) {
         </Show>
       </div>
 
-      <Show
-        when={
-          props.stream.name.startsWith('OBJ_') ||
-          props.stream.name.startsWith('KV_') ||
-          props.stream.name.startsWith('$MQTT_')
-        }
+      <div
+        class="rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset"
+        classList={{
+          [streamColor['obj']]: props.stream.info.isObjectStore,
+          [streamColor['kv']]: props.stream.info.isKVStore,
+          [streamColor['mqtt']]: props.stream.info.isMQTT,
+          [streamColor['stream']]: props.stream.info.isRegular,
+        }}
       >
-        <div
-          class="rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset"
-          classList={{
-            [streamColor['obj']!]: props.stream.name.startsWith('OBJ_'),
-            [streamColor['kv']!]: props.stream.name.startsWith('KV_'),
-            [streamColor['mqtt']!]: props.stream.name.startsWith('$MQTT_'),
-          }}
-        >
-          <Switch>
-            <Match when={props.stream.name.startsWith('KV_')}>KV Store</Match>
-            <Match when={props.stream.name.startsWith('OBJ_')}>
-              Object Store
-            </Match>
-            <Match when={props.stream.name.startsWith('$MQTT_')}>MQTT</Match>
-          </Switch>
-        </div>
-      </Show>
+        {props.stream.info.label}
+      </div>
 
       <ChevronRightIcon
         aria-hidden="true"

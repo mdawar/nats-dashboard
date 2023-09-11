@@ -1,6 +1,7 @@
 import { createMemo, For } from 'solid-js';
 
 import type { AccountDetail, StreamDetail } from '~/types';
+import { formatStream } from '~/lib/format';
 import Badge, { greenIfNotZero } from '~/components/Badge';
 import {
   DataListContainer,
@@ -18,8 +19,10 @@ function byCreationTime(a: StreamDetail, b: StreamDetail) {
 }
 
 export default function StreamsList(props: { account: AccountDetail }) {
-  const streams = createMemo(
-    () => props.account.stream_detail?.slice().sort(byCreationTime) ?? []
+  const streams = createMemo(() =>
+    (props.account.stream_detail?.slice().sort(byCreationTime) ?? []).map(
+      formatStream
+    )
   );
 
   return (
