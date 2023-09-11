@@ -1,6 +1,6 @@
 import { splitProps, type ComponentProps } from 'solid-js';
 
-export function DataListContainer(props: ComponentProps<'section'>) {
+export function StackedListContainer(props: ComponentProps<'section'>) {
   return <section class="tabular-nums slashed-zero" {...props} />;
 }
 
@@ -63,7 +63,7 @@ export function ContentContainer(props: ComponentProps<'div'>) {
   );
 }
 
-export function DataList(props: ComponentProps<'ul'>) {
+export function StackedList(props: ComponentProps<'ul'>) {
   return (
     <ul
       role="list"

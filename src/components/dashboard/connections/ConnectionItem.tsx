@@ -3,7 +3,7 @@ import { Show } from 'solid-js';
 import type { ClientConnection } from '~/lib/format';
 import Indicator from '~/components/Indicator';
 import Badge, { greenIfNotZero } from '~/components/Badge';
-import { ListItem } from '~/components/dashboard/DataList';
+import { ListItem } from '~/components/dashboard/StackedList';
 import {
   ArrowUpIcon,
   ArrowDownIcon,

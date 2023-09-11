@@ -10,16 +10,16 @@ import Modal from '~/components/Modal';
 import SlideOver from '~/components/SlideOver';
 import Dropdown from '~/components/Dropdown';
 import {
-  DataListContainer,
+  StackedListContainer,
   Header,
   HeaderTitle,
   HeaderButton,
   HeaderSeparator,
   HeaderControls,
   ContentContainer,
-  DataList,
+  StackedList,
   ListItem,
-} from '~/components/dashboard/DataList';
+} from '~/components/dashboard/StackedList';
 import {
   ChevronUpDownIcon,
   ChevronDownIcon,
@@ -78,7 +78,7 @@ export default function Connections() {
   };
 
   return (
-    <DataListContainer>
+    <StackedListContainer>
       <Header>
         <HeaderTitle>
           Connections
@@ -221,7 +221,7 @@ export default function Connections() {
         </Match>
 
         <Match when={connz.isSuccess}>
-          <DataList>
+          <StackedList>
             <For
               each={connz.data?.connections}
               fallback={<ListItem>No connections to display.</ListItem>}
@@ -230,7 +230,7 @@ export default function Connections() {
                 <ConnectionItem connection={conn} onClick={setSelectedID} />
               )}
             </For>
-          </DataList>
+          </StackedList>
         </Match>
       </Switch>
 
@@ -244,6 +244,6 @@ export default function Connections() {
           <ConnectionDetails connection={selectedConn()!} />
         </SlideOver>
       </Show>
-    </DataListContainer>
+    </StackedListContainer>
   );
 }
