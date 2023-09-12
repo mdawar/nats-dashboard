@@ -1,4 +1,4 @@
-import { For, Index, Show } from 'solid-js';
+import { For, Show } from 'solid-js';
 
 import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
 import { SlideOverContent } from '~/components/SlideOver';
@@ -6,6 +6,7 @@ import Indicator from '~/components/Indicator';
 import Badge, { greenIfPositive } from '~/components/Badge';
 import InfoList from '~/components/dashboard/InfoList';
 import DataList from '~/components/dashboard/DataList';
+import ItemsList from '~/components/dashboard/ItemsList';
 
 interface Props {
   connection: ClientConnection;
@@ -44,9 +45,9 @@ export default function ConnectionDetails(props: Props) {
         />
 
         <Show when={props.connection.info.subscriptionsList}>
-          <SubsList
+          <ItemsList
             title="Subscriptions List"
-            subs={props.connection.info.subscriptionsList!}
+            items={props.connection.info.subscriptionsList!}
           />
         </Show>
 
@@ -95,28 +96,6 @@ export default function ConnectionDetails(props: Props) {
         </Show>
       </div>
     </SlideOverContent>
-  );
-}
-
-interface SubsListProps {
-  title: string;
-  subs: string[];
-}
-
-function SubsList(props: SubsListProps) {
-  return (
-    <div>
-      <h3 class="font-medium text-gray-900 dark:text-white">{props.title}</h3>
-      <div class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
-        <Index each={props.subs}>
-          {(subject) => (
-            <p class="py-3 text-sm font-medium text-gray-500 dark:text-gray-400 break-all">
-              {subject()}
-            </p>
-          )}
-        </Index>
-      </div>
-    </div>
   );
 }
 
