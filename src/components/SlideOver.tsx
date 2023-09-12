@@ -1,4 +1,10 @@
-import { createSignal, mergeProps, Show, type JSX } from 'solid-js';
+import {
+  createSignal,
+  mergeProps,
+  Show,
+  type JSX,
+  type ParentProps,
+} from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { Transition } from 'solid-transition-group';
 
@@ -94,7 +100,7 @@ export default function SlideOver(props: Props) {
                     }}
                     use:clickOutside={close}
                   >
-                    <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black/10 py-6 shadow-xl">
+                    <div class="flex h-full flex-col overflow-y-scroll bg-white dark:bg-black/10 py-6 space-y-6 shadow-xl">
                       <div class="px-4 sm:px-6">
                         <div class="flex items-start justify-between">
                           <h2 class="text-base font-semibold leading-6">
@@ -113,11 +119,10 @@ export default function SlideOver(props: Props) {
                           </div>
                         </div>
                       </div>
-                      <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                        {typeof props.children === 'function'
-                          ? props.children(close)
-                          : props.children}
-                      </div>
+
+                      {typeof props.children === 'function'
+                        ? props.children(close)
+                        : props.children}
                     </div>
                   </div>
                 </Show>
@@ -128,4 +133,9 @@ export default function SlideOver(props: Props) {
       </div>
     </Portal>
   );
+}
+
+/** To be used for the slide-over's main content. */
+export function SlideOverContent(props: ParentProps) {
+  return <div class="relative flex-1 px-4 sm:px-6" {...props} />;
 }

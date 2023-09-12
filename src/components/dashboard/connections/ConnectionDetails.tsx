@@ -1,6 +1,7 @@
 import { For, Index, Show } from 'solid-js';
 
 import type { ClientConnection, FormattedSubDetail } from '~/lib/format';
+import { SlideOverContent } from '~/components/SlideOver';
 import Indicator from '~/components/Indicator';
 import Badge, { greenIfPositive } from '~/components/Badge';
 import InfoList from '~/components/dashboard/InfoList';
@@ -12,86 +13,88 @@ interface Props {
 
 export default function ConnectionDetails(props: Props) {
   return (
-    <div class="space-y-6">
-      <InfoList
-        info={{
-          CID: props.connection.cid,
-          Name: props.connection.name,
-          State: <ConnState connection={props.connection} />,
-          Reason: props.connection.reason,
-          Started: props.connection.info.start,
-          Stopped: props.connection.info.stop,
-          Uptime: props.connection.info.uptime,
-          'Last Activity': props.connection.info.lastActivity,
-          RTT: props.connection.info.rtt,
-          Account: props.connection.account,
-          'Authorized User': props.connection.authorized_user,
-        }}
-      />
-
-      <DataList
-        title="Information"
-        data={{
-          'IP Address': props.connection.ip,
-          'Port Number': props.connection.port,
-          'Language and Version': `${props.connection.lang ?? 'unknown'} ${
-            props.connection.version ?? ''
-          }`.trim(),
-          Subscriptions: props.connection.subscriptions,
-        }}
-      />
-
-      <Show when={props.connection.info.subscriptionsList}>
-        <SubsList
-          title="Subscriptions List"
-          subs={props.connection.info.subscriptionsList!}
-        />
-      </Show>
-
-      <Show when={props.connection.info.subscriptionsListDetails}>
-        <SubsListDetails
-          title="Subscriptions List Details"
-          subs={props.connection.info.subscriptionsListDetails!}
-        />
-      </Show>
-
-      <DataList
-        title="Messages"
-        data={{
-          Sent: props.connection.info.inMsgs.str,
-          Received: props.connection.info.outMsgs.str,
-        }}
-      />
-
-      <Show when={props.connection.info.isOpen}>
-        <DataList
-          title="Message Rates"
-          data={{
-            Sent: `${props.connection.info.inMsgsRate.str}/s`,
-            Received: `${props.connection.info.outMsgsRate.str}/s`,
+    <SlideOverContent>
+      <div class="space-y-6">
+        <InfoList
+          info={{
+            CID: props.connection.cid,
+            Name: props.connection.name,
+            State: <ConnState connection={props.connection} />,
+            Reason: props.connection.reason,
+            Started: props.connection.info.start,
+            Stopped: props.connection.info.stop,
+            Uptime: props.connection.info.uptime,
+            'Last Activity': props.connection.info.lastActivity,
+            RTT: props.connection.info.rtt,
+            Account: props.connection.account,
+            'Authorized User': props.connection.authorized_user,
           }}
         />
-      </Show>
 
-      <DataList
-        title="Data"
-        data={{
-          Sent: props.connection.info.inBytes.str,
-          Received: props.connection.info.outBytes.str,
-          Pending: props.connection.info.pending.str,
-        }}
-      />
-
-      <Show when={props.connection.info.isOpen}>
         <DataList
-          title="Data Rates"
+          title="Information"
           data={{
-            Sent: `${props.connection.info.inBytesRate.str}/s`,
-            Received: `${props.connection.info.outBytesRate.str}/s`,
+            'IP Address': props.connection.ip,
+            'Port Number': props.connection.port,
+            'Language and Version': `${props.connection.lang ?? 'unknown'} ${
+              props.connection.version ?? ''
+            }`.trim(),
+            Subscriptions: props.connection.subscriptions,
           }}
         />
-      </Show>
-    </div>
+
+        <Show when={props.connection.info.subscriptionsList}>
+          <SubsList
+            title="Subscriptions List"
+            subs={props.connection.info.subscriptionsList!}
+          />
+        </Show>
+
+        <Show when={props.connection.info.subscriptionsListDetails}>
+          <SubsListDetails
+            title="Subscriptions List Details"
+            subs={props.connection.info.subscriptionsListDetails!}
+          />
+        </Show>
+
+        <DataList
+          title="Messages"
+          data={{
+            Sent: props.connection.info.inMsgs.str,
+            Received: props.connection.info.outMsgs.str,
+          }}
+        />
+
+        <Show when={props.connection.info.isOpen}>
+          <DataList
+            title="Message Rates"
+            data={{
+              Sent: `${props.connection.info.inMsgsRate.str}/s`,
+              Received: `${props.connection.info.outMsgsRate.str}/s`,
+            }}
+          />
+        </Show>
+
+        <DataList
+          title="Data"
+          data={{
+            Sent: props.connection.info.inBytes.str,
+            Received: props.connection.info.outBytes.str,
+            Pending: props.connection.info.pending.str,
+          }}
+        />
+
+        <Show when={props.connection.info.isOpen}>
+          <DataList
+            title="Data Rates"
+            data={{
+              Sent: `${props.connection.info.inBytesRate.str}/s`,
+              Received: `${props.connection.info.outBytesRate.str}/s`,
+            }}
+          />
+        </Show>
+      </div>
+    </SlideOverContent>
   );
 }
 
