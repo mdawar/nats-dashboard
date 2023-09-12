@@ -103,7 +103,7 @@ interface StreamConfig {
   no_ack?: boolean;
   template_owner?: string;
   /** time.Duration */
-  duplicate_window?: string;
+  duplicate_window?: number;
   placement?: Placement;
   mirror?: StreamSource;
   sources?: StreamSource[];

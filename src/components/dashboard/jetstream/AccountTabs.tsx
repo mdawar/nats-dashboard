@@ -54,9 +54,10 @@ export default function AccountTabs(props: Props) {
                   href="#"
                   class="flex whitespace-nowrap border-b-2 py-6 px-1 text-sm font-medium"
                   classList={{
-                    'border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-200 hover:text-gray-700 dark:hover:border-gray-300/10 dark:hover:text-gray-300':
+                    'border-transparent text-gray-500 dark:text-gray-400 hover:border-gray-300 hover:text-gray-700 dark:hover:border-gray-300/10 dark:hover:text-gray-300':
                       props.active !== acc.id,
-                    'border-sky-500 text-sky-600': props.active === acc.id,
+                    'border-sky-500 text-sky-600 dark:text-sky-500':
+                      props.active === acc.id,
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -70,7 +71,7 @@ export default function AccountTabs(props: Props) {
                       classList={{
                         'bg-gray-100 text-gray-900 dark:text-gray-400 dark:bg-gray-400/10':
                           props.active !== acc.id,
-                        'bg-sky-100 text-sky-600 dark:bg-gray-300/10':
+                        'bg-sky-100 text-sky-600 dark:text-sky-500 dark:bg-gray-300/10':
                           props.active === acc.id,
                       }}
                     >
