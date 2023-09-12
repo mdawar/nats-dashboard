@@ -86,7 +86,6 @@ export default function StreamDetails(props: Props) {
             <TabPanel>
               <div class="space-y-6">
                 <DataList
-                  title="Stream Config"
                   data={{
                     Name: props.stream.config?.name,
                     Retention: props.stream.config?.retention,
