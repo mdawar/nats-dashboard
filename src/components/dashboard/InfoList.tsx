@@ -12,7 +12,7 @@ export default function InfoList(props: Props) {
       <dl class="space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-200 dark:sm:divide-white/10">
         <For each={info()}>
           {([key, value]) => (
-            <Show when={value}>
+            <Show when={value !== undefined}>
               <div class="sm:flex sm:py-5">
                 <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-40 sm:flex-shrink-0 lg:w-48">
                   {key}

@@ -14,7 +14,7 @@ export default function DataList(props: Props) {
       <dl class="mt-2 divide-y divide-gray-200 dark:divide-white/10 border-b border-t border-gray-200 dark:border-white/10">
         <For each={data()}>
           {([key, value]) => (
-            <Show when={value}>
+            <Show when={value !== undefined}>
               <div class="flex justify-between py-3 text-sm font-medium">
                 <dt class="text-gray-500 dark:text-gray-400">{key}</dt>
                 <dd class="text-gray-900 dark:text-white">{value}</dd>
