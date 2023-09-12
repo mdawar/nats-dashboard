@@ -85,10 +85,17 @@ export default function StreamDetails(props: Props) {
           <Match when={tab() === 1}>
             <TabPanel>
               <div class="space-y-6">
+                <ItemsList
+                  title="Subjects"
+                  items={props.stream.config?.subjects ?? []}
+                />
+
                 <DataList
+                  title="Stream Config"
                   data={{
                     Name: props.stream.config?.name,
-                    Retention: props.stream.config?.retention,
+                    'Retention Policy': props.stream.config?.retention,
+                    Replicas: props.stream.config?.num_replicas,
                     'Max Consumers': props.stream.config?.max_consumers,
                     'Max Messages': props.stream.config?.max_msgs,
                     'Max Bytes': props.stream.config?.max_bytes,
@@ -96,9 +103,8 @@ export default function StreamDetails(props: Props) {
                     'Max Msgs. Per Subject':
                       props.stream.config?.max_msgs_per_subject,
                     'Max Message Size': props.stream.config?.max_msg_size,
-                    Discard: props.stream.config?.discard,
+                    'Discard Policy': props.stream.config?.discard,
                     Storage: props.stream.config?.storage,
-                    Replicas: props.stream.config?.num_replicas,
                     'Duplicate Window': durationFromNs(
                       props.stream.config?.duplicate_window ?? 0
                     ).str,
@@ -120,11 +126,6 @@ export default function StreamDetails(props: Props) {
                       ? 'Yes'
                       : 'No',
                   }}
-                />
-
-                <ItemsList
-                  title="Subjects"
-                  items={props.stream.config?.subjects ?? []}
                 />
               </div>
             </TabPanel>
