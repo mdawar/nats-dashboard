@@ -1,12 +1,12 @@
 import { createSignal, Switch, Match } from 'solid-js';
 
 import type { FormattedStreamDetail } from '~/lib/format';
-import { durationFromNs } from '~/lib/utils';
 import { Tabs, Tab, TabPanel } from '~/components/Tabs';
 import { SlideOverContent } from '~/components/SlideOver';
 import InfoList from '~/components/dashboard/InfoList';
 import DataList from '~/components/dashboard/DataList';
-import ItemsList from '~/components/dashboard/ItemsList';
+
+import StreamConfig from './StreamConfig';
 
 interface Props {
   stream: FormattedStreamDetail;
@@ -84,50 +84,17 @@ export default function StreamDetails(props: Props) {
 
           <Match when={tab() === 1}>
             <TabPanel>
-              <div class="space-y-6">
-                <ItemsList
-                  title="Subjects"
-                  items={props.stream.config?.subjects ?? []}
-                />
-
-                <DataList
-                  title="Stream Config"
-                  data={{
-                    Name: props.stream.config?.name,
-                    'Retention Policy': props.stream.config?.retention,
-                    Replicas: props.stream.config?.num_replicas,
-                    'Max Consumers': props.stream.config?.max_consumers,
-                    'Max Messages': props.stream.config?.max_msgs,
-                    'Max Bytes': props.stream.config?.max_bytes,
-                    'Max Age': props.stream.config?.max_age,
-                    'Max Msgs. Per Subject':
-                      props.stream.config?.max_msgs_per_subject,
-                    'Max Message Size': props.stream.config?.max_msg_size,
-                    'Discard Policy': props.stream.config?.discard,
-                    Storage: props.stream.config?.storage,
-                    'Duplicate Window': durationFromNs(
-                      props.stream.config?.duplicate_window ?? 0
-                    ).str,
-                    'Allow Direct': props.stream.config?.allow_direct
-                      ? 'Yes'
-                      : 'No',
-                    'Mirror Direct': props.stream.config?.mirror_direct
-                      ? 'Yes'
-                      : 'No',
-                    Sealed: props.stream.config?.sealed ? 'Yes' : 'No',
-                    'Deny Delete': props.stream.config?.deny_delete
-                      ? 'Yes'
-                      : 'No',
-                    'Deny Purge': props.stream.config?.deny_purge
-                      ? 'Yes'
-                      : 'No',
-                    'Allow Rollup Headers': props.stream.config
-                      ?.allow_rollup_hdrs
-                      ? 'Yes'
-                      : 'No',
-                  }}
-                />
-              </div>
+              <Switch>
+                <Match when={props.stream.config}>
+                  <StreamConfig config={props.stream.config!} />
+                </Match>
+                <Match when={!props.stream.config}>
+                  <p>
+                    Fetching configuration must be enabled to display the stream
+                    config.
+                  </p>
+                </Match>
+              </Switch>
             </TabPanel>
           </Match>
         </Switch>

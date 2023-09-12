@@ -66,11 +66,11 @@ export interface StreamDetail {
   consumer_raft_groups?: RaftGroupDetail[];
 }
 
-type RetentionPolicy = 'limits' | 'interest' | 'workqueue';
+export type RetentionPolicy = 'limits' | 'interest' | 'workqueue';
 
-type DiscardPolicy = 'old' | 'new';
+export type DiscardPolicy = 'old' | 'new';
 
-type StorageType = 'memory' | 'file' | 'any';
+export type StorageType = 'memory' | 'file' | 'any';
 
 type DeliverPolicy =
   | 'all'
@@ -85,7 +85,7 @@ type AckPolicy = 'none' | 'all' | 'explicit';
 
 type ReplayPolicy = 'instant' | 'original';
 
-interface StreamConfig {
+export interface StreamConfig {
   name: string;
   description?: string;
   subjects?: string[];

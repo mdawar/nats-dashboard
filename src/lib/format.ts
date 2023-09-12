@@ -6,6 +6,10 @@ import type {
   SubDetail,
   Jsz,
   StreamDetail,
+  StreamConfig,
+  RetentionPolicy,
+  DiscardPolicy,
+  StorageType,
 } from '~/types';
 import {
   formatBytes,
@@ -399,6 +403,82 @@ export function formatStream(stream: StreamDetail): FormattedStreamDetail {
         firstTS: formatDate(stream.state?.first_ts ?? ''),
         lastTS: formatDate(stream.state?.last_ts ?? ''),
       },
+    },
+  };
+}
+
+/** Formatted stream config information. */
+export interface FormattedStreamConfig extends StreamConfig {
+  info: StreamConfigInfo;
+}
+
+interface StreamConfigInfo {
+  retention: string;
+  discard: string;
+  storage: string;
+  maxConsumers: string;
+  maxMsgs: string;
+  maxBytes: string;
+  maxAge: string;
+  maxMsgsPerSubject: string;
+  maxMsgSize: string | undefined;
+  duplicateWindow: string | undefined;
+}
+
+const retentionPolicies: Record<RetentionPolicy, string> = {
+  limits: 'Limits',
+  interest: 'Interest',
+  workqueue: 'WorkQueue',
+};
+
+const discardPolicies: Record<DiscardPolicy, string> = {
+  old: 'Old',
+  new: 'New',
+};
+
+const storageTypes: Record<StorageType, string> = {
+  file: 'File',
+  memory: 'Memory',
+  any: 'Any',
+};
+
+/** Format a stream config object. */
+export function formatStreamConfig(
+  config: StreamConfig
+): FormattedStreamConfig {
+  return {
+    ...config,
+    info: {
+      retention: retentionPolicies[config.retention],
+      discard: discardPolicies[config.discard],
+      storage: storageTypes[config.storage],
+      maxConsumers:
+        config.max_consumers === -1
+          ? 'Unlimited'
+          : String(config.max_consumers),
+      maxMsgs:
+        config.max_msgs === -1
+          ? 'Unlimited'
+          : abbreviateNum(config.max_msgs).str,
+      maxBytes:
+        config.max_bytes === -1
+          ? 'Unlimited'
+          : formatBytes(config.max_bytes).str,
+      maxAge:
+        config.max_age === 0 ? 'Unlimited' : durationFromNs(config.max_age).str,
+      maxMsgsPerSubject:
+        config.max_msgs_per_subject === -1
+          ? 'Unlimited'
+          : abbreviateNum(config.max_msgs_per_subject).str,
+      maxMsgSize:
+        config.max_msg_size === -1
+          ? 'Unlimited'
+          : config.max_msg_size !== undefined
+          ? formatBytes(config.max_msg_size).str
+          : undefined,
+      duplicateWindow: config.duplicate_window
+        ? durationFromNs(config.duplicate_window).str
+        : undefined,
     },
   };
 }
