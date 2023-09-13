@@ -20,8 +20,8 @@ export default function DataList(props: Props) {
           {([key, value]) => (
             <Show when={value !== undefined}>
               <div class="flex justify-between py-3 first:pt-0 text-sm font-medium">
-                <dt class="text-gray-500 dark:text-gray-400">{key}</dt>
-                <dd class="text-gray-900 dark:text-white">{value}</dd>
+                <dt class="text-gray-500 dark:text-gray-400 truncate">{key}</dt>
+                <dd class="text-gray-900 dark:text-white truncate">{value}</dd>
               </div>
             </Show>
           )}
