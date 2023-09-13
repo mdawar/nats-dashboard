@@ -45,17 +45,13 @@ export default function ConnectionDetails(props: Props) {
         />
 
         <Show when={props.connection.info.subscriptionsList}>
-          <ItemsList
-            title="Subscriptions List"
-            items={props.connection.info.subscriptionsList!}
-          />
+          {(subs) => <ItemsList title="Subscriptions List" items={subs()} />}
         </Show>
 
         <Show when={props.connection.info.subscriptionsListDetails}>
-          <SubsListDetails
-            title="Subscriptions List Details"
-            subs={props.connection.info.subscriptionsListDetails!}
-          />
+          {(subs) => (
+            <SubsListDetails title="Subscriptions List Details" subs={subs()} />
+          )}
         </Show>
 
         <DataList

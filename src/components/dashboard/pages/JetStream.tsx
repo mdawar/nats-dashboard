@@ -24,6 +24,7 @@ export default function JetStream() {
     accounts: true,
     streams: true,
     consumers: true,
+    config: true,
   }));
 
   const [selected, setSelected] = createSignal<string | undefined>();
@@ -57,21 +58,23 @@ export default function JetStream() {
           <JetStreamInfo jsz={jsz} />
           <JetStreamStats jsz={jsz} />
 
-          <Show when={(jsz.data?.account_details?.length ?? 0) > 0}>
-            <AccountTabs
-              accounts={jsz.data?.account_details!}
-              active={selected()!}
-              onChange={setSelected}
-              numStreams={true} // TODO: Set to false when streams are not fetched.
-            />
+          <Show when={jsz.data?.account_details}>
+            {(accounts) => (
+              <AccountTabs
+                accounts={accounts()}
+                active={selected()}
+                onChange={setSelected}
+                numStreams={true} // TODO: Set to false when streams are not fetched.
+              />
+            )}
           </Show>
 
           <Show when={account()}>
-            <AccountInfo account={account()!} />
+            {(acc) => <AccountInfo account={acc()} />}
           </Show>
 
           <Show when={account()}>
-            <StreamsList account={account()!} />
+            {(acc) => <StreamsList account={acc()} />}
           </Show>
         </Match>
       </Switch>

@@ -45,7 +45,7 @@ export default function StreamDetails(props: Props) {
             <TabPanel>
               <Switch>
                 <Match when={props.stream.config}>
-                  <StreamConfig config={props.stream.config!} />
+                  {(config) => <StreamConfig config={config()} />}
                 </Match>
                 <Match when={!props.stream.config}>
                   <p class="text-gray-500 dark:text-gray-400">
@@ -61,7 +61,7 @@ export default function StreamDetails(props: Props) {
             <TabPanel>
               <Switch>
                 <Match when={props.stream.consumer_detail}>
-                  <ConsumerDetails consumers={props.stream.consumer_detail!} />
+                  {(consumers) => <ConsumerDetails consumers={consumers()} />}
                 </Match>
                 <Match
                   when={

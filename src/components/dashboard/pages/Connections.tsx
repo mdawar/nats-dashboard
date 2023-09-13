@@ -236,13 +236,15 @@ export default function Connections() {
 
       {/* Slide over connection details. */}
       <Show when={selectedConn()}>
-        <SlideOver
-          title="Connection Info"
-          onClose={() => setSelectedID(undefined)}
-          size="lg"
-        >
-          <ConnectionDetails connection={selectedConn()!} />
-        </SlideOver>
+        {(conn) => (
+          <SlideOver
+            title="Connection Info"
+            onClose={() => setSelectedID(undefined)}
+            size="lg"
+          >
+            <ConnectionDetails connection={conn()} />
+          </SlideOver>
+        )}
       </Show>
     </StackedListContainer>
   );

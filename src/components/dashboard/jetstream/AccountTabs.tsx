@@ -5,7 +5,7 @@ import type { AccountDetail } from '~/types';
 interface Props {
   accounts: AccountDetail[];
   /** Active account ID. */
-  active: string;
+  active: string | undefined;
   onChange: (id: string) => void;
   /** Display/hide the streams number (Default: true). */
   numStreams?: boolean;

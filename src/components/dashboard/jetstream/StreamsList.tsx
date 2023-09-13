@@ -62,13 +62,15 @@ export default function StreamsList(props: { account: AccountDetail }) {
 
       {/* Slide over for stream details. */}
       <Show when={selectedStream()}>
-        <SlideOver
-          title="Stream Info"
-          onClose={() => setSelectedName(undefined)}
-          size="lg"
-        >
-          <StreamDetails stream={selectedStream()!} />
-        </SlideOver>
+        {(stream) => (
+          <SlideOver
+            title="Stream Info"
+            onClose={() => setSelectedName(undefined)}
+            size="lg"
+          >
+            <StreamDetails stream={stream()} />
+          </SlideOver>
+        )}
       </Show>
     </>
   );
