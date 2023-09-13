@@ -1,11 +1,37 @@
-import { createQuery } from '@tanstack/solid-query';
+import { createMemo } from 'solid-js';
+import { QueryClient, QueryCache, createQuery } from '@tanstack/solid-query';
 
 import type { ConnzOptions, JszOptions } from '~/types';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
-import { fetchInfo } from '~/lib/info';
 import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
-import { createMemo } from 'solid-js';
+import { FetchError, TimeoutError } from '~/lib/jsonp';
+import { fetchInfo, type InfoResponse } from '~/lib/info';
+import { notify } from '~/components/Notifications';
+
+export const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError(error, query) {
+      let title = query.meta?.errorTitle as string | undefined;
+      let message = query.meta?.errorMessage as string | undefined;
+
+      if (!title || !message) {
+        if (error instanceof FetchError) {
+          title ??= 'Fetch Error';
+          message ??= 'Cannot fetch the data from the server.';
+        } else if (error instanceof TimeoutError) {
+          title ??= 'Timed out';
+          message ??= 'Fetching the data took too long.';
+        } else {
+          title ??= 'Unexpected out';
+          message ??= 'The was an unexpected error while fetching the data.';
+        }
+      }
+
+      notify({ title, message, icon: 'error', timeout: 5000 });
+    },
+  }),
+});
 
 type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
 
@@ -70,6 +96,18 @@ export function useJsz(options?: () => JszOptions) {
     meta: {
       errorTitle: 'JetStream',
       errorMessage: 'Cannot fetch the JetStream server information.',
+    },
+    // Set the initial data from a previous query to keep the same state
+    // when changing the fetch settings.
+    initialData: () => {
+      // Returns found queries as arrays of [queryKey, data].
+      const data = queryClient.getQueriesData<Partial<InfoResponse<'jsz'>>>({
+        queryKey: [store.url, 'jsz'],
+        exact: false, // We want a partial queryKey match.
+      });
+
+      // Returnt the last query's data or undefined for no initial data.
+      return data[data.length - 1]?.[1] as Partial<InfoResponse<'jsz'>>;
     },
   }));
 }
