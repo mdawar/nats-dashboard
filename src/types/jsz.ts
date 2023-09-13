@@ -72,7 +72,7 @@ export type DiscardPolicy = 'old' | 'new';
 
 export type StorageType = 'memory' | 'file' | 'any';
 
-type DeliverPolicy =
+export type DeliverPolicy =
   | 'all'
   | 'last'
   | 'new'
@@ -81,9 +81,9 @@ type DeliverPolicy =
   | 'last_per_subject'
   | 'undefined';
 
-type AckPolicy = 'none' | 'all' | 'explicit';
+export type AckPolicy = 'none' | 'all' | 'explicit';
 
-type ReplayPolicy = 'instant' | 'original';
+export type ReplayPolicy = 'instant' | 'original';
 
 export interface StreamConfig {
   name: string;
@@ -177,7 +177,7 @@ interface LostStreamData {
   bytes: number;
 }
 
-interface ConsumerInfo {
+export interface ConsumerInfo {
   stream_name: string;
   name: string;
   /** time.Time */

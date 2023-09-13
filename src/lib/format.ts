@@ -10,6 +10,10 @@ import type {
   RetentionPolicy,
   DiscardPolicy,
   StorageType,
+  ConsumerInfo,
+  DeliverPolicy,
+  AckPolicy,
+  ReplayPolicy,
 } from '~/types';
 import {
   formatBytes,
@@ -479,6 +483,119 @@ export function formatStreamConfig(
       duplicateWindow: config.duplicate_window
         ? durationFromNs(config.duplicate_window).str
         : undefined,
+    },
+  };
+}
+
+/** Formatted consumer information. */
+export interface FormattedConsumerInfo extends ConsumerInfo {
+  info: FormattedConsumer;
+}
+
+interface FormattedConsumer {
+  /** Consumer creation time. */
+  created: string;
+  /** Consumer state. */
+  state: {
+    pending: AbbreviatedNumber;
+    waiting: AbbreviatedNumber;
+    ackPending: AbbreviatedNumber;
+    redelivered: AbbreviatedNumber;
+  };
+  /** Formatted consumer config. */
+  config: {
+    deliverPolicy: string;
+    replayPolicy: string;
+    ackPolicy: string;
+    maxDeliver: string | undefined;
+    maxWaiting: AbbreviatedNumber | undefined;
+    ackWait: string | undefined;
+    maxAckPending: AbbreviatedNumber | undefined;
+    backoff: string[] | undefined;
+  };
+  delivered: {
+    lastActive: string | undefined;
+  };
+  ackFloor: {
+    lastActive: string | undefined;
+  };
+}
+
+const deliverPolicies: Record<DeliverPolicy, string> = {
+  all: 'All',
+  last: 'Last',
+  new: 'New',
+  by_start_sequence: 'By Start Sequence',
+  by_start_time: 'By Start Time',
+  last_per_subject: 'Last Per Subject',
+  undefined: 'Undefined',
+};
+
+const replayPolicies: Record<ReplayPolicy, string> = {
+  instant: 'Instant',
+  original: 'Original',
+};
+
+const ackPolicies: Record<AckPolicy, string> = {
+  none: 'None',
+  all: 'All',
+  explicit: 'Explicit',
+};
+
+/** Format consumer information. */
+export function formatConsumerInfo(
+  consumer: ConsumerInfo
+): FormattedConsumerInfo {
+  return {
+    ...consumer,
+    info: {
+      created: formatDate(consumer.created),
+      state: {
+        pending: abbreviateNum(consumer.num_pending),
+        waiting: abbreviateNum(consumer.num_waiting),
+        ackPending: abbreviateNum(consumer.num_ack_pending),
+        redelivered: abbreviateNum(consumer.num_redelivered),
+      },
+      config: {
+        deliverPolicy: consumer.config?.deliver_policy
+          ? deliverPolicies[consumer.config?.deliver_policy]
+          : 'Unknown',
+        replayPolicy: consumer.config?.replay_policy
+          ? replayPolicies[consumer.config?.replay_policy]
+          : 'Unknown',
+        ackPolicy: consumer.config?.ack_policy
+          ? ackPolicies[consumer.config?.ack_policy]
+          : 'Unknown',
+        maxDeliver:
+          consumer.config?.max_deliver !== undefined
+            ? consumer.config?.max_deliver === -1
+              ? 'Unlimited'
+              : abbreviateNum(consumer.config?.max_deliver).str
+            : undefined,
+        maxWaiting:
+          consumer.config?.max_waiting !== undefined
+            ? abbreviateNum(consumer.config?.max_waiting)
+            : undefined,
+        ackWait:
+          consumer.config?.ack_wait !== undefined
+            ? durationFromNs(consumer.config.ack_wait).str
+            : undefined,
+        maxAckPending:
+          consumer.config?.max_ack_pending !== undefined
+            ? abbreviateNum(consumer.config?.max_ack_pending)
+            : undefined,
+        backoff: consumer.config?.backoff?.map((d) => durationFromNs(d).str),
+      },
+      delivered: {
+        lastActive:
+          consumer.delivered.last_active &&
+          formatDate(consumer.delivered.last_active),
+      },
+      ackFloor: {
+        lastActive:
+          consumer.ack_floor.last_active &&
+          formatDate(consumer.ack_floor.last_active),
+      },
     },
   };
 }

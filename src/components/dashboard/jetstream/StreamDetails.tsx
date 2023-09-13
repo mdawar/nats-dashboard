@@ -7,6 +7,7 @@ import InfoList from '~/components/dashboard/InfoList';
 import DataList from '~/components/dashboard/DataList';
 
 import StreamConfig from './StreamConfig';
+import ConsumerDetails from './ConsumerDetails';
 
 interface Props {
   stream: FormattedStreamDetail;
@@ -27,6 +28,9 @@ export default function StreamDetails(props: Props) {
         </Tab>
         <Tab active={tab() === 1} onClick={updateTab(1)}>
           Config
+        </Tab>
+        <Tab active={tab() === 2} onClick={updateTab(2)}>
+          Consumers
         </Tab>
       </Tabs>
 
@@ -92,6 +96,30 @@ export default function StreamDetails(props: Props) {
                   <p>
                     Fetching configuration must be enabled to display the stream
                     config.
+                  </p>
+                </Match>
+              </Switch>
+            </TabPanel>
+          </Match>
+
+          <Match when={tab() === 2}>
+            <TabPanel>
+              <Switch>
+                <Match when={props.stream.consumer_detail}>
+                  <ConsumerDetails consumers={props.stream.consumer_detail!} />
+                </Match>
+                <Match
+                  when={
+                    props.stream.state?.consumer_count !== undefined &&
+                    props.stream.state.consumer_count === 0
+                  }
+                >
+                  <p>No consumers to display.</p>
+                </Match>
+                <Match when={!props.stream.consumer_detail}>
+                  <p>
+                    Fetching consumers must be enabled to display the consumer
+                    information.
                   </p>
                 </Match>
               </Switch>
