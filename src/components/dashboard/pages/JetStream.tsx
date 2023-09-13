@@ -9,6 +9,7 @@ import {
 
 import { useJsz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
+import { useSettings } from '~/components/context/settings';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
 
@@ -20,11 +21,13 @@ import StreamsList from '~/components/dashboard/jetstream/StreamsList';
 
 export default function JetStream() {
   const [store] = useStore();
+  const [settings] = useSettings();
+
   const jsz = useJsz(() => ({
-    accounts: true,
-    streams: true,
-    consumers: true,
-    config: true,
+    accounts: settings.jsz.accounts,
+    streams: settings.jsz.streams,
+    consumers: settings.jsz.consumers,
+    config: settings.jsz.config,
   }));
 
   const [selected, setSelected] = createSignal<string | undefined>();
@@ -64,7 +67,8 @@ export default function JetStream() {
                 accounts={accounts()}
                 active={selected()}
                 onChange={setSelected}
-                numStreams={true} // TODO: Set to false when streams are not fetched.
+                // Display the number of streams only when they're fetched.
+                numStreams={settings.jsz.streams}
               />
             )}
           </Show>
@@ -73,7 +77,7 @@ export default function JetStream() {
             {(acc) => <AccountInfo account={acc()} />}
           </Show>
 
-          <Show when={account()}>
+          <Show when={settings.jsz.streams && account()}>
             {(acc) => <StreamsList account={acc()} />}
           </Show>
         </Match>

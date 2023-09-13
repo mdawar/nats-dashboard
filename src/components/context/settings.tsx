@@ -9,6 +9,8 @@ interface SettingsState {
   interval: number;
   /** Connz settings. */
   connz: ConnzSettings;
+  /** JetStream settings. */
+  jsz: JszSettings;
 }
 
 interface ConnzSettings {
@@ -22,6 +24,17 @@ interface ConnzSettings {
   subs: SubsOption;
   /** Include authentication info. */
   auth: boolean;
+}
+
+interface JszSettings {
+  /** Include account specific JetStream information (Default: false). */
+  accounts: boolean;
+  /** Include streams. When set, implies accounts=true (Default: false). */
+  streams: boolean;
+  /** Include consumers. When set, implies streams=true (Default: false). */
+  consumers: boolean;
+  /** Include the stream and consumer config when they're requested (Default: false). */
+  config: boolean;
 }
 
 interface SettingsActions {
@@ -38,6 +51,10 @@ interface SettingsActions {
   setConnzLimit(limit: number): void;
   setConnzSubs(subs: SubsOption): void;
   setConnzAuth(auth: boolean): void;
+  setJszAccounts(accounts: boolean): void;
+  setJszStreams(streams: boolean): void;
+  setJszConsumers(consumers: boolean): void;
+  setJszConfig(config: boolean): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -49,6 +66,12 @@ const defaultSettings: SettingsState = {
     subs: false,
     auth: false,
   },
+  jsz: {
+    accounts: false,
+    streams: false,
+    consumers: false,
+    config: false,
+  },
 };
 
 const defaultActions: SettingsActions = {
@@ -59,6 +82,10 @@ const defaultActions: SettingsActions = {
   setConnzLimit() {},
   setConnzSubs() {},
   setConnzAuth() {},
+  setJszAccounts() {},
+  setJszStreams() {},
+  setJszConsumers() {},
+  setJszConfig() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -105,6 +132,21 @@ export function SettingsProvider(props: ParentProps<Props>) {
     },
     setConnzAuth(auth) {
       setState('connz', { auth });
+    },
+    setJszAccounts(accounts) {
+      setState('jsz', { accounts });
+    },
+    setJszStreams(streams) {
+      const accounts = streams || settings.jsz.accounts;
+      setState('jsz', { accounts, streams });
+    },
+    setJszConsumers(consumers) {
+      const accounts = consumers || settings.jsz.accounts;
+      const streams = consumers || settings.jsz.streams;
+      setState('jsz', { accounts, streams, consumers });
+    },
+    setJszConfig(config) {
+      setState('jsz', { config });
     },
   };
 

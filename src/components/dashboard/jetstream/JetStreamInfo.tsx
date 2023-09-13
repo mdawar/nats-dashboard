@@ -9,6 +9,8 @@ import {
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
 
+import JetStreamSettings from './JetStreamSettings';
+
 export default function JetStreamInfo(props: { jsz: JszQuery }) {
   const [store] = useStore();
 
@@ -51,6 +53,8 @@ export default function JetStreamInfo(props: { jsz: JszQuery }) {
             value={props.jsz.data?.config?.compress_ok ? 'Yes' : 'No'}
           />
         </DetailList>
+
+        <JetStreamSettings class="mt-6" />
       </div>
 
       <Badge
