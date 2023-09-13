@@ -3,9 +3,8 @@ import { createSignal, Switch, Match } from 'solid-js';
 import type { FormattedStreamDetail } from '~/lib/format';
 import { Tabs, Tab, TabPanel } from '~/components/Tabs';
 import { SlideOverContent } from '~/components/SlideOver';
-import InfoList from '~/components/dashboard/InfoList';
-import DataList from '~/components/dashboard/DataList';
 
+import StreamInfo from './StreamInfo';
 import StreamConfig from './StreamConfig';
 import ConsumerDetails from './ConsumerDetails';
 
@@ -38,51 +37,7 @@ export default function StreamDetails(props: Props) {
         <Switch>
           <Match when={tab() === 0}>
             <TabPanel>
-              <div class="space-y-6">
-                <InfoList
-                  info={{
-                    Name: props.stream.name,
-                    Type: props.stream.info.label,
-                    Created: props.stream.info.created,
-                  }}
-                />
-
-                <DataList
-                  title="State"
-                  data={{
-                    Consumers: props.stream.info.state.consumerCount,
-                    Subjects: props.stream.info.state.numSubjects.str,
-                    Messages: props.stream.info.state.messages.str,
-                    'Data Size': props.stream.info.state.data.str,
-                    'Num. Deleted': props.stream.info.state.numDeleted.str,
-                    'First Sequence':
-                      props.stream.info.state.messages.num > 0
-                        ? props.stream.info.state.firstSeq
-                        : undefined,
-                    'Last Sequence':
-                      props.stream.info.state.messages.num > 0
-                        ? props.stream.info.state.lastSeq
-                        : undefined,
-                    'First Timestamp':
-                      props.stream.info.state.messages.num > 0
-                        ? props.stream.info.state.firstTS
-                        : undefined,
-                    'Last Timestamp':
-                      props.stream.info.state.messages.num > 0
-                        ? props.stream.info.state.lastTS
-                        : undefined,
-                  }}
-                />
-
-                <DataList
-                  title="Cluster"
-                  data={{
-                    Name: props.stream.cluster?.name,
-                    Leader: props.stream.cluster?.leader,
-                    Replicas: props.stream.cluster?.replicas?.length,
-                  }}
-                />
-              </div>
+              <StreamInfo stream={props.stream} />
             </TabPanel>
           </Match>
 
@@ -93,7 +48,7 @@ export default function StreamDetails(props: Props) {
                   <StreamConfig config={props.stream.config!} />
                 </Match>
                 <Match when={!props.stream.config}>
-                  <p>
+                  <p class="text-gray-500 dark:text-gray-400">
                     Fetching configuration must be enabled to display the stream
                     config.
                   </p>
@@ -114,10 +69,12 @@ export default function StreamDetails(props: Props) {
                     props.stream.state.consumer_count === 0
                   }
                 >
-                  <p>No consumers to display.</p>
+                  <p class="text-gray-500 dark:text-gray-400">
+                    No consumers to display.
+                  </p>
                 </Match>
                 <Match when={!props.stream.consumer_detail}>
-                  <p>
+                  <p class="text-gray-500 dark:text-gray-400">
                     Fetching consumers must be enabled to display the consumer
                     information.
                   </p>
