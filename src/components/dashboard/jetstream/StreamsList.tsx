@@ -1,6 +1,6 @@
 import { createMemo, createSignal, For, Show } from 'solid-js';
 
-import type { AccountDetail, StreamDetail } from '~/types';
+import type { StreamDetail } from '~/types';
 import { formatStream } from '~/lib/format';
 import Badge, { greenIfPositive } from '~/components/Badge';
 import {
@@ -20,11 +20,13 @@ function byCreationTime(a: StreamDetail, b: StreamDetail) {
   return new Date(a.created).getTime() - new Date(b.created).getTime();
 }
 
-export default function StreamsList(props: { account: AccountDetail }) {
+interface Props {
+  streams: StreamDetail[];
+}
+
+export default function StreamsList(props: Props) {
   const streams = createMemo(() =>
-    (props.account.stream_detail?.slice().sort(byCreationTime) ?? []).map(
-      formatStream
-    )
+    (props.streams.slice().sort(byCreationTime) ?? []).map(formatStream)
   );
 
   const [selectedName, setSelectedName] = createSignal<string>();

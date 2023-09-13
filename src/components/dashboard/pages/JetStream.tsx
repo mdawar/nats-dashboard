@@ -77,8 +77,8 @@ export default function JetStream() {
             {(acc) => <AccountInfo account={acc()} />}
           </Show>
 
-          <Show when={settings.jsz.streams && account()}>
-            {(acc) => <StreamsList account={acc()} />}
+          <Show when={settings.jsz.streams && account()?.stream_detail}>
+            {(streams) => <StreamsList streams={streams()} />}
           </Show>
         </Match>
       </Switch>
