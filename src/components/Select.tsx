@@ -1,9 +1,10 @@
 import { For } from 'solid-js';
 import type { Option, OptionType } from '~/components/Dropdown';
+export type { Option } from '~/components/Dropdown';
 
-interface Props<T> {
+export interface Props<T> {
   options: Option<T>[];
-  value: T;
+  value: T | undefined;
   onChange(value: T): void;
 }
 
