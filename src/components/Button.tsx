@@ -1,13 +1,19 @@
-import { mergeProps, splitProps, type ComponentProps } from 'solid-js';
+import { mergeProps, splitProps, Show, type ComponentProps } from 'solid-js';
+import { LoadingIcon } from '~/components/icons';
 
 const buttonColors = {
   primary:
-    'bg-sky-600 text-white hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:bg-sky-500 dark:hover:bg-sky-400 dark:focus-visible:outline-sky-500',
+    'bg-sky-600 hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:bg-sky-500 dark:hover:bg-sky-400 dark:focus-visible:outline-sky-500',
   secondary:
-    'bg-white text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:ring-0',
+    'bg-white ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:hover:bg-white/20 dark:ring-0',
 } as const;
 
 type ButtonColor = keyof typeof buttonColors;
+
+const buttonText = {
+  primary: 'text-white',
+  secondary: 'text-gray-900 dark:text-white',
+} as const;
 
 const buttonSizes = {
   xs: 'text-xs',
@@ -28,11 +34,11 @@ const borderRadius = {
 } as const;
 
 const buttonPadding = {
-  xs: 'px-2 py-1',
-  sm: 'px-2 py-1',
-  md: 'px-2.5 py-1.5',
-  lg: 'px-3 py-2',
-  xl: 'px-3.5 py-2.5',
+  xs: 'px-2 py-1 gap-2',
+  sm: 'px-2 py-1 gap-2',
+  md: 'px-2.5 py-1.5 gap-2.5',
+  lg: 'px-3 py-2 gap-3',
+  xl: 'px-3.5 py-2.5 gap-3.5',
 } as const;
 
 const iconPadding = {
@@ -60,6 +66,8 @@ interface Props extends ComponentProps<'button'> {
   rounded?: boolean;
   /** Button containing only an icon (Default: false). */
   icon?: boolean;
+  /** Display a loading icon. */
+  isLoading?: boolean;
 }
 
 export default function Button(props: Props) {
@@ -68,23 +76,31 @@ export default function Button(props: Props) {
     size: 'lg',
     rounded: false,
     icon: false,
+    isLoading: false,
   };
+
   const [local, rest] = splitProps(mergeProps(defaults, props), [
+    'children',
     'class',
     'color',
     'size',
     'rounded',
     'icon',
+    'isLoading',
   ]);
 
   return (
     <button
       type="button"
-      class="inline-flex items-center justify-center font-semibold shadow-sm"
+      class="inline-flex items-center justify-center font-semibold shadow-sm relative"
       classList={{
         [local.class!]: !!local.class,
         // Color.
         [buttonColors[local.color!]]: true,
+        // Text color.
+        [buttonText[local.color!]]: !local.isLoading,
+        // Loading state.
+        'text-transparent pointer-events-none': local.isLoading,
         // Size.
         [buttonSizes[local.size!]]: true,
         // Regular button padding.
@@ -99,6 +115,11 @@ export default function Button(props: Props) {
         [roundedPadding[local.size!]]: local.rounded && !local.icon,
       }}
       {...rest}
-    />
+    >
+      <Show when={local.isLoading}>
+        <LoadingIcon class="absolute w-4 h-4 text-gray-900 dark:text-white" />
+      </Show>
+      {local.children}
+    </button>
   );
 }
