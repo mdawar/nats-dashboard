@@ -23,12 +23,7 @@ export default function JetStream() {
   const [store] = useStore();
   const [settings] = useSettings();
 
-  const jsz = useJsz(() => ({
-    accounts: settings.jsz.accounts,
-    streams: settings.jsz.streams,
-    consumers: settings.jsz.consumers,
-    config: settings.jsz.config,
-  }));
+  const jsz = useJsz(() => settings.jsz);
 
   const [selected, setSelected] = createSignal<string | undefined>();
 

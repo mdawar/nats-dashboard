@@ -46,11 +46,7 @@ export default function Connections() {
   const [showSettings, setShowSettings] = createSignal(false);
 
   const connz = useConnz(() => ({
-    state: settings.connz.state,
-    sort: settings.connz.sort,
-    limit: settings.connz.limit,
-    subs: settings.connz.subs,
-    auth: settings.connz.auth,
+    ...settings.connz,
     offset: offset(),
   }));
 

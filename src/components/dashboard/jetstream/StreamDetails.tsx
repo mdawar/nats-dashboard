@@ -20,12 +20,7 @@ export default function StreamDetails(props: Props) {
   const [store] = useStore();
   const [settings, actions] = useSettings();
 
-  const jsz = useJsz(() => ({
-    accounts: settings.jsz.accounts,
-    streams: settings.jsz.streams,
-    consumers: settings.jsz.consumers,
-    config: settings.jsz.config,
-  }));
+  const jsz = useJsz(() => settings.jsz);
 
   const [tab, setTab] = createSignal(0);
   const updateTab = (i: number) => (e: Event) => {
