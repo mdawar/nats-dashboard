@@ -25,6 +25,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
               class="font-medium text-gray-900 dark:text-white"
               // Disabled style.
               classList={{ 'opacity-60': settings.jsz.streams }}
+              title="Include account specific JetStream information."
             >
               Accounts
             </label>
@@ -46,6 +47,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
               class="font-medium text-gray-900 dark:text-white"
               // Disabled style.
               classList={{ 'opacity-60': settings.jsz.consumers }}
+              title="Include streams information."
             >
               Streams
             </label>
@@ -64,6 +66,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
             <label
               for="consumers-opt"
               class="font-medium text-gray-900 dark:text-white"
+              title="Include consumers information."
             >
               Consumers
             </label>
@@ -82,6 +85,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
             <label
               for="config-opt"
               class="font-medium text-gray-900 dark:text-white"
+              title="Include the configuration of streams and consumers."
             >
               Config
             </label>
