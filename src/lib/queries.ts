@@ -74,6 +74,17 @@ export function useConnz(options?: () => ConnzOptions) {
       errorTitle: 'Connections',
       errorMessage: 'Cannot fetch the connections information.',
     },
+    // Set the initial data from a previous query to keep the same state
+    // when changing the fetch settings.
+    initialData: () => {
+      const data = queryClient.getQueriesData<Partial<InfoResponse<'connz'>>>({
+        queryKey: [store.url, 'connz'],
+        exact: false,
+      });
+
+      // Return the last query's data or undefined for no initial data.
+      return data[data.length - 1]?.[1] as Partial<InfoResponse<'connz'>>;
+    },
   }));
 }
 
@@ -106,7 +117,7 @@ export function useJsz(options?: () => JszOptions) {
         exact: false, // We want a partial queryKey match.
       });
 
-      // Returnt the last query's data or undefined for no initial data.
+      // Return the last query's data or undefined for no initial data.
       return data[data.length - 1]?.[1] as Partial<InfoResponse<'jsz'>>;
     },
   }));

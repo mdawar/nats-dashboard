@@ -89,6 +89,10 @@ export default function Connections() {
           >
             {numConnections()}
           </Badge>
+          {/* Display only for initial requests (e.g. When the settings change). */}
+          <Show when={!connz.isFetched && connz.isFetching}>
+            <LoadingIcon class="inline-flex ml-3 h-4 w-4" />
+          </Show>
         </HeaderTitle>
 
         <HeaderControls>
