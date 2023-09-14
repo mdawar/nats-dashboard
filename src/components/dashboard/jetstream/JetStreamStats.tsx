@@ -1,10 +1,18 @@
 import type { JszQuery } from '~/lib/queries';
 import { Stats, StatCell } from '~/components/dashboard/Stats';
 
-export default function JetStreamStats(props: { jsz: JszQuery }) {
+interface Props {
+  jsz: JszQuery;
+  compact?: boolean;
+}
+
+export default function JetStreamStats(props: Props) {
   return (
     <Stats>
-      <div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-px">
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-px"
+        classList={{ 'xl:grid-cols-6': props.compact }}
+      >
         <StatCell
           title="Memory"
           stat={props.jsz.data?.info.memory.value}

@@ -63,7 +63,11 @@ export default function JetStream() {
             // Display a loading indicator only for initial requests (e.g. When the settings change).
             isLoading={!jsz.isFetched && jsz.isFetching}
           />
-          <JetStreamStats jsz={jsz} />
+          <JetStreamStats
+            jsz={jsz}
+            // Use less space when displaying streams.
+            compact={settings.jsz.streams}
+          />
 
           <Show when={jsz.data?.account_details}>
             {(accounts) => (
