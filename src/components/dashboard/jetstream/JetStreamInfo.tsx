@@ -1,3 +1,5 @@
+import { Show } from 'solid-js';
+
 import type { JszQuery } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
 import { formatDate } from '~/lib/utils';
@@ -8,10 +10,16 @@ import {
 } from '~/components/dashboard/InfoSection';
 import Indicator from '~/components/Indicator';
 import Badge from '~/components/Badge';
+import { LoadingIcon } from '~/components/icons';
 
 import JetStreamSettings from './JetStreamSettings';
 
-export default function JetStreamInfo(props: { jsz: JszQuery }) {
+interface Props {
+  jsz: JszQuery;
+  isLoading: boolean;
+}
+
+export default function JetStreamInfo(props: Props) {
   const [store] = useStore();
 
   return (
@@ -64,6 +72,10 @@ export default function JetStreamInfo(props: { jsz: JszQuery }) {
       >
         {props.jsz.data?.disabled ? 'Disabled' : 'Enabled'}
       </Badge>
+
+      <Show when={props.isLoading}>
+        <LoadingIcon class="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 lg:right-8 w-4 h-4" />
+      </Show>
     </InfoSection>
   );
 }

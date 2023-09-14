@@ -58,7 +58,11 @@ export default function JetStream() {
         </Match>
 
         <Match when={jsz.isSuccess}>
-          <JetStreamInfo jsz={jsz} />
+          <JetStreamInfo
+            jsz={jsz}
+            // Display a loading indicator only for initial requests (e.g. When the settings change).
+            isLoading={!jsz.isFetched && jsz.isFetching}
+          />
           <JetStreamStats jsz={jsz} />
 
           <Show when={jsz.data?.account_details}>
