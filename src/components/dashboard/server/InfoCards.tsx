@@ -127,11 +127,25 @@ export default function InfoCards() {
                 data={{
                   Host: varz.data?.websocket?.host,
                   Port: varz.data?.websocket?.port,
+                  TLS:
+                    varz.data?.websocket?.no_tls !== undefined
+                      ? varz.data?.websocket?.no_tls
+                        ? 'Disabled'
+                        : 'Enabled'
+                      : undefined,
                   'No Auth. User': varz.data?.websocket?.no_auth_user,
-                  'Handshake Timeout': durationFromNs(
-                    varz.data?.websocket?.handshake_timeout ?? 0
-                  ).str,
-                  Compression: varz.data?.websocket?.compression ? 'Yes' : 'No',
+                  'Handshake Timeout':
+                    varz.data?.websocket?.handshake_timeout !== undefined
+                      ? durationFromNs(
+                          varz.data?.websocket?.handshake_timeout ?? 0
+                        ).str
+                      : undefined,
+                  Compression:
+                    varz.data?.websocket?.compression !== undefined
+                      ? varz.data?.websocket?.compression
+                        ? 'Enabled'
+                        : 'Disabled'
+                      : undefined,
                 }}
               />
             </Show>
