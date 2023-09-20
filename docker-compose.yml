@@ -11,7 +11,7 @@ services:
         protocol: tcp
 
   server:
-    image: nats:latest
+    image: nats:2.10
     command: -n local-demo-server -m 8222
     ports:
       - target: 4222
