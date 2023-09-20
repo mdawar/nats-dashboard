@@ -101,8 +101,26 @@ export default function InfoCards() {
           </div>
         </Show>
 
-        <Show when={varz.data?.info.wsEnabled || varz.data?.info.mqttEnabled}>
+        <Show
+          when={
+            varz.data?.slow_consumer_stats ||
+            varz.data?.info.wsEnabled ||
+            varz.data?.info.mqttEnabled
+          }
+        >
           <div class="flex flex-col gap-8">
+            <Show when={varz.data?.slow_consumer_stats}>
+              <DataCard
+                title="Slow Consumer Stats"
+                data={{
+                  Clients: varz.data?.slow_consumer_stats?.clients,
+                  Routes: varz.data?.slow_consumer_stats?.routes,
+                  Gateways: varz.data?.slow_consumer_stats?.gateways,
+                  Leafs: varz.data?.slow_consumer_stats?.leafs,
+                }}
+              />
+            </Show>
+
             <Show when={varz.data?.info.wsEnabled}>
               <DataCard
                 title="WebSocket"
