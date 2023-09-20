@@ -83,6 +83,16 @@ export default function InfoCards() {
                   varz.data?.jetstream?.config?.max_storage ?? 0
                 ).str,
                 'Store Directory': varz.data?.jetstream?.config?.store_dir,
+                'Sync Always':
+                  varz.data?.jetstream?.config?.sync_always !== undefined
+                    ? varz.data?.jetstream?.config?.sync_always
+                      ? 'Yes'
+                      : 'No'
+                    : undefined,
+                'Sync Interval': varz.data?.jetstream?.config?.sync_interval
+                  ? durationFromNs(varz.data?.jetstream?.config?.sync_interval)
+                      .str
+                  : undefined,
                 'Compression Allowed': varz.data?.jetstream?.config?.compress_ok
                   ? 'Yes'
                   : 'No',

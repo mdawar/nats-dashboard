@@ -56,6 +56,18 @@ export default function JetStreamInfo(props: Props) {
             name="Max Storage"
             value={props.jsz.data?.info.config.maxStorage.str}
           />
+          <Show when={props.jsz.data.info.syncInterval}>
+            <DetailItem
+              name="Sync Interval"
+              value={props.jsz.data.info.syncInterval}
+            />
+          </Show>
+          <Show when={props.jsz.data.config?.sync_always !== undefined}>
+            <DetailItem
+              name="Sync Always"
+              value={props.jsz.data.config?.sync_always ? 'Yes' : 'No'}
+            />
+          </Show>
           <DetailItem
             name="Compression Allowed"
             value={props.jsz.data?.config?.compress_ok ? 'Yes' : 'No'}

@@ -303,6 +303,7 @@ export interface FormattedJsz extends Partial<Jsz> {
       maxMemory: FormattedBytes;
       maxStorage: FormattedBytes;
     };
+    syncInterval: string | undefined;
   };
 }
 
@@ -326,6 +327,9 @@ export function formatJsz(jsz: PartialInfoResponse<'jsz'>): FormattedJsz {
         maxMemory: formatBytes(current?.config?.max_memory ?? 0),
         maxStorage: formatBytes(current?.config?.max_storage ?? 0),
       },
+      syncInterval: current?.config?.sync_interval
+        ? durationFromNs(current?.config?.sync_interval).str
+        : undefined,
     },
   };
 }
