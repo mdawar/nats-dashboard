@@ -124,8 +124,12 @@ export interface JetStreamConfig {
   max_memory: number;
   max_storage: number;
   store_dir?: string;
+  /** time.Duration */
+  sync_interval?: number;
+  sync_always?: boolean;
   domain?: string;
   compress_ok?: boolean;
+  unique_tag?: string;
 }
 
 /** Statistics about JetStream for this server. */

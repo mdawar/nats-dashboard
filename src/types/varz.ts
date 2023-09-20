@@ -72,6 +72,8 @@ export interface Varz {
   trusted_operators_claim?: OperatorClaims[];
   system_account?: string;
   pinned_account_fails?: string;
+  ocsp_peer_cache: OCSPResponseCacheVarz;
+  slow_consumer_stats: SlowConsumersStats;
 }
 
 /** Monitoring cluster information. */
@@ -185,4 +187,23 @@ interface Operator extends JWTGenericFields {
   system_account?: string;
   assert_server_version?: string;
   strict_signing_key_usage?: boolean;
+}
+
+/** OCSP response cache information. */
+interface OCSPResponseCacheVarz {
+  cache_type?: string;
+  cache_hits?: number;
+  cache_misses?: number;
+  cached_responses?: number;
+  cached_revoked_responses?: number;
+  cached_good_responses?: number;
+  cached_unknown_responses?: number;
+}
+
+/** Information about the slow consumers from different type of connections. */
+interface SlowConsumersStats {
+  clients: number;
+  routes: number;
+  gateways: number;
+  leafs: number;
 }

@@ -20,6 +20,7 @@ interface AccountStat {
   conns: number;
   leafnodes: number;
   total_conns: number;
+  num_subscriptions: number;
   sent: DataStats;
   received: DataStats;
   slow_consumers: number;
