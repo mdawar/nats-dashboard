@@ -19,6 +19,9 @@ import {
   ContentContainer,
   StackedList,
   ListItem,
+  ListPagination,
+  PrevButton,
+  NextButton,
 } from '~/components/dashboard/StackedList';
 import {
   ChevronUpDownIcon,
@@ -53,6 +56,10 @@ export default function Connections() {
   const [selectedID, setSelectedID] = createSignal<number>();
   const selectedConn = createMemo(
     () => connz.data?.connections.find((c) => c.cid === selectedID())
+  );
+
+  const displayPagination = createMemo(
+    () => (connz.data?.total ?? 0) > (connz.data?.num_connections ?? 0)
   );
 
   const prev = () => setOffset((o) => Math.max(0, o - settings.connz.limit));
@@ -92,24 +99,26 @@ export default function Connections() {
         </HeaderTitle>
 
         <HeaderControls>
-          <div class="hidden sm:flex items-center gap-2">
-            <button
-              type="button"
-              class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
-              onClick={prev}
-              disabled={isFirstPage()}
-            >
-              <ChevronLeftIcon class="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
-              onClick={next}
-              disabled={isLastPage()}
-            >
-              <ChevronRightIcon class="h-4 w-4" />
-            </button>
-          </div>
+          <Show when={displayPagination()}>
+            <div class="hidden sm:flex items-center gap-2">
+              <button
+                type="button"
+                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+                onClick={prev}
+                disabled={!store.active || isFirstPage()}
+              >
+                <ChevronLeftIcon class="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+                onClick={next}
+                disabled={!store.active || isLastPage()}
+              >
+                <ChevronRightIcon class="h-4 w-4" />
+              </button>
+            </div>
+          </Show>
 
           <Dropdown
             class="hidden xl:block"
@@ -233,6 +242,17 @@ export default function Connections() {
           </StackedList>
         </Match>
       </Switch>
+
+      {/* Pagination */}
+      <Show when={displayPagination()}>
+        <ListPagination>
+          <PrevButton
+            onClick={prev}
+            disabled={!store.active || isFirstPage()}
+          />
+          <NextButton onClick={next} disabled={!store.active || isLastPage()} />
+        </ListPagination>
+      </Show>
 
       {/* Slide over connection details. */}
       <Show when={selectedConn()}>
