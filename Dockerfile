@@ -1,4 +1,4 @@
-FROM node:20.6 AS build
+FROM node:20.7 AS build
 WORKDIR /app
 COPY . .
 RUN npm i
