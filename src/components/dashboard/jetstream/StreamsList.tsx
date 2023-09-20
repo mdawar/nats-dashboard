@@ -2,7 +2,7 @@ import { createMemo, createSignal, For, Show } from 'solid-js';
 
 import type { StreamDetail } from '~/types';
 import { formatStream } from '~/lib/format';
-import { paginate } from '~/lib/utils';
+import { paginate } from '~/lib/pagination';
 import Dropdown from '~/components/Dropdown';
 import Badge, { greenIfPositive } from '~/components/Badge';
 import {
@@ -13,6 +13,10 @@ import {
   HeaderButton,
   StackedList,
   ListItem,
+  ListPagination,
+  PrevButton,
+  NextButton,
+  PaginationRange,
 } from '~/components/dashboard/StackedList';
 import {
   ChevronDownIcon,
@@ -94,7 +98,7 @@ export default function StreamsList(props: Props) {
               </Show>
               <button
                 type="button"
-                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:pointer-events-none"
                 onClick={prev}
                 disabled={isFirstPage()}
               >
@@ -102,7 +106,7 @@ export default function StreamsList(props: Props) {
               </button>
               <button
                 type="button"
-                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:cursor-default"
+                class="flex flex-none items-center justify-center p-1.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white disabled:text-gray-400 dark:disabled:text-gray-600 disabled:pointer-events-none"
                 onClick={next}
                 disabled={isLastPage()}
               >
@@ -134,6 +138,18 @@ export default function StreamsList(props: Props) {
             )}
           </For>
         </StackedList>
+
+        <Show when={totalPages() > 1}>
+          <ListPagination>
+            <PrevButton onClick={prev} disabled={isFirstPage()} />
+            <PaginationRange
+              totalPages={totalPages()}
+              currentPage={currentPage()}
+              onChange={setCurrentPage}
+            />
+            <NextButton onClick={next} disabled={isLastPage()} />
+          </ListPagination>
+        </Show>
       </StackedListContainer>
 
       {/* Slide over for stream details. */}

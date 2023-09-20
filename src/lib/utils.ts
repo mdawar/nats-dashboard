@@ -361,12 +361,3 @@ export function formatDate(dateString: string, timeZone?: string): string {
     timeZone,
   });
 }
-
-/**
- * Paginate an array.
- *
- * Returns a new array of the items to display for the specified page number and size.
- */
-export function paginate<T>(arr: T[], pageSize: number, page: number): T[] {
-  return arr.slice((page - 1) * pageSize, page * pageSize);
-}

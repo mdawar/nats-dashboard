@@ -1,4 +1,3 @@
-// sum.test.js
 import { describe, test, expect } from 'vitest';
 import { formatDuration, roundDuration, formatRTT } from './utils';
 
