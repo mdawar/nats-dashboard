@@ -12,6 +12,7 @@ import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
+import Button from '~/components/Button';
 
 import JetStreamInfo from '~/components/dashboard/jetstream/JetStreamInfo';
 import JetStreamStats from '~/components/dashboard/jetstream/JetStreamStats';
@@ -20,7 +21,7 @@ import AccountInfo from '~/components/dashboard/jetstream/AccountInfo';
 import StreamsList from '~/components/dashboard/jetstream/StreamsList';
 
 export default function JetStream() {
-  const [store] = useStore();
+  const [store, actions] = useStore();
   const [settings] = useSettings();
 
   const jsz = useJsz(() => settings.jsz.query);
@@ -47,7 +48,7 @@ export default function JetStream() {
         </Match>
 
         <Match when={store.active && jsz.isLoading}>
-          <div class="flex items-center justify-center h-40 px-4 py-4 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+          <div class="flex items-center justify-center h-40 px-4 py-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
             <LoadingIcon class="h-5 w-5" />
           </div>
         </Match>
@@ -83,6 +84,18 @@ export default function JetStream() {
           <Show when={settings.jsz.query.streams && account()?.stream_detail}>
             {(streams) => <StreamsList streams={streams()} />}
           </Show>
+        </Match>
+
+        <Match when={jsz.isError}>
+          <div class="px-4 py-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white space-y-4">
+            <p>
+              There was an error while fetching the JetStream server
+              information.
+            </p>
+            <Button color="secondary" onClick={() => actions.setActive(true)}>
+              Retry
+            </Button>
+          </div>
         </Match>
       </Switch>
     </div>

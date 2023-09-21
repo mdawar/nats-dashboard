@@ -43,8 +43,8 @@ import {
 } from '~/components/dashboard/connections/options';
 
 export default function Connections() {
-  const [store] = useStore();
-  const [settings, actions] = useSettings();
+  const [store, actions] = useStore();
+  const [settings, settingsActions] = useSettings();
   const [offset, setOffset] = createSignal(0);
   const [showSettings, setShowSettings] = createSignal(false);
 
@@ -126,7 +126,7 @@ export default function Connections() {
             width="20"
             options={limitOptions}
             active={settings.connz.query.limit}
-            onChange={actions.setConnzLimit}
+            onChange={settingsActions.setConnzLimit}
           >
             <HeaderButton class="flex items-center gap-x-1">
               Limit
@@ -141,7 +141,7 @@ export default function Connections() {
             width="20"
             options={stateOptions}
             active={settings.connz.query.state}
-            onChange={actions.setConnzState}
+            onChange={settingsActions.setConnzState}
           >
             <HeaderButton class="flex items-center gap-x-1">
               State
@@ -155,7 +155,7 @@ export default function Connections() {
             class="hidden xl:block"
             options={subsOptions}
             active={settings.connz.query.subs}
-            onChange={actions.setConnzSubs}
+            onChange={settingsActions.setConnzSubs}
           >
             <HeaderButton class="flex items-center gap-x-1">
               Subs
@@ -168,7 +168,7 @@ export default function Connections() {
           <div class="hidden xl:flex items-center">
             <Toggle
               checked={settings.connz.query.auth}
-              onChange={actions.setConnzAuth}
+              onChange={settingsActions.setConnzAuth}
             />
             <span class="ml-3 text-sm">
               <span class="text-gray-900 dark:text-white">Auth</span>
@@ -181,7 +181,7 @@ export default function Connections() {
             class="hidden xl:block"
             options={sortOptions(settings.connz.query.state)}
             active={settings.connz.query.sort}
-            onChange={actions.setConnzSort}
+            onChange={settingsActions.setConnzSort}
           >
             <HeaderButton class="flex items-center gap-x-1">
               Sort by
@@ -241,6 +241,17 @@ export default function Connections() {
               )}
             </For>
           </StackedList>
+        </Match>
+
+        <Match when={connz.isError}>
+          <ContentContainer class="space-y-4">
+            <p>
+              There was an error while fetching the connections information.
+            </p>
+            <Button color="secondary" onClick={() => actions.setActive(true)}>
+              Retry
+            </Button>
+          </ContentContainer>
         </Match>
       </Switch>
 
