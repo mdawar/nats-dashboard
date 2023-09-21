@@ -41,6 +41,8 @@ interface JszSettings {
     /** Include the stream and consumer config when they're requested (Default: false). */
     config: boolean;
   };
+  /** Number of streams to display on each page. */
+  pageSize: number;
 }
 
 interface SettingsActions {
@@ -61,6 +63,7 @@ interface SettingsActions {
   setJszStreams(streams: boolean): void;
   setJszConsumers(consumers: boolean): void;
   setJszConfig(config: boolean): void;
+  setJszStreamsPageSize(size: number): void;
 }
 
 const defaultSettings: SettingsState = {
@@ -81,6 +84,7 @@ const defaultSettings: SettingsState = {
       consumers: false,
       config: false,
     },
+    pageSize: 10,
   },
 };
 
@@ -96,6 +100,7 @@ const defaultActions: SettingsActions = {
   setJszStreams() {},
   setJszConsumers() {},
   setJszConfig() {},
+  setJszStreamsPageSize() {},
 };
 
 export type SettingsStore = [state: SettingsState, actions: SettingsActions];
@@ -163,6 +168,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
     },
     setJszConfig(config) {
       setState('jsz', 'query', { config });
+    },
+    setJszStreamsPageSize(pageSize) {
+      setState('jsz', { pageSize });
     },
   };
 

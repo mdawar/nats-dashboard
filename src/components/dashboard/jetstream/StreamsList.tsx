@@ -1,5 +1,6 @@
 import { createMemo, createSignal, For, Show } from 'solid-js';
 
+import { useSettings } from '~/components/context/settings';
 import type { StreamDetail } from '~/types';
 import { formatStream } from '~/lib/format';
 import { paginate } from '~/lib/pagination';
@@ -39,14 +40,17 @@ interface Props {
 }
 
 export default function StreamsList(props: Props) {
+  const [settings, actions] = useSettings();
+
   const streams = createMemo(() =>
     (props.streams.slice().sort(byCreationTime) ?? []).map(formatStream)
   );
 
-  const [pageSize, setPageSize] = createSignal(10);
   const [currentPage, setCurrentPage] = createSignal(1);
 
-  const totalPages = createMemo(() => Math.ceil(streams().length / pageSize()));
+  const totalPages = createMemo(() =>
+    Math.ceil(streams().length / settings.jsz.pageSize)
+  );
 
   const next = () => setCurrentPage((p) => Math.min(p + 1, totalPages()));
   const prev = () => setCurrentPage((p) => Math.max(p - 1, 1));
@@ -55,7 +59,7 @@ export default function StreamsList(props: Props) {
   const isLastPage = () => currentPage() === totalPages();
 
   const pageStreams = createMemo(() =>
-    paginate(streams(), pageSize(), currentPage())
+    paginate(streams(), settings.jsz.pageSize, currentPage())
   );
 
   const [selectedName, setSelectedName] = createSignal<string>();
@@ -117,8 +121,8 @@ export default function StreamsList(props: Props) {
             <Dropdown
               width="20"
               options={pageSizeOptions}
-              active={pageSize()}
-              onChange={setPageSize}
+              active={settings.jsz.pageSize}
+              onChange={actions.setJszStreamsPageSize}
             >
               <HeaderButton class="flex items-center gap-x-1">
                 Display
