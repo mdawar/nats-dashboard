@@ -1,19 +1,20 @@
 {
-  "name": "natsdashboard",
-  "version": "1.0.0",
+  "name": "nats-dashboard",
+  "version": "0.1.0",
   "description": "NATS Web Dashboard",
+  "author": "Pierre Mdawar <pierre@mdawar.dev>",
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "prebuild": "astro check && tsc --noEmit",
+    "prebuild": "npm run check",
+    "check": "astro check && tsc --noEmit",
     "preview": "astro preview",
     "format": "prettier --write \"./src\"",
     "test": "vitest run",
     "test:watch": "vitest watch"
   },
-  "author": "Pierre Mdawar <pierre@mdawar.dev>",
-  "license": "MIT",
   "dependencies": {
     "@astrojs/check": "^0.2.0",
     "@astrojs/solid-js": "^3.0.1",
