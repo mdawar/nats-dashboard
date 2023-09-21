@@ -48,7 +48,7 @@ export default function JetStreamStats(props: Props) {
           unit={props.jsz.data?.info.bytes.unit}
         />
         <StatCell
-          title="API Total"
+          title="API Requests"
           stat={props.jsz.data?.info.api.total.value}
           unit={props.jsz.data?.info.api.total.unit}
         />

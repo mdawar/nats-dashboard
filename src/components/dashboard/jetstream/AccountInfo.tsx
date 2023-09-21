@@ -21,7 +21,7 @@ export default function AccountInfo(props: { account: AccountDetail }) {
         HA Assets {props.account.ha_assets}
       </Badge>
       <Badge color={greenIfPositive(props.account.api.total)}>
-        API Total {abbreviateNum(props.account.api.total).str}
+        API Requests {abbreviateNum(props.account.api.total).str}
       </Badge>
       <Badge color={redIfPositive(props.account.api.errors)}>
         API Errors {abbreviateNum(props.account.api.errors).str}

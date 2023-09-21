@@ -72,7 +72,7 @@ export default function InfoCards(props: Props) {
                 ).str,
                 Accounts: props.varz.data?.jetstream?.stats?.accounts,
                 'HA Assets': props.varz.data?.jetstream?.stats?.ha_assets,
-                'API Total': abbreviateNum(
+                'API Requests': abbreviateNum(
                   props.varz.data?.jetstream?.stats?.api.total ?? 0
                 ).str,
                 'API Errors': abbreviateNum(
