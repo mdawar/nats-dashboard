@@ -6,12 +6,18 @@ import {
 } from '@tanstack/solid-query';
 
 import { FetchError, TimeoutError } from '~/lib/jsonp';
+import { useStore } from '~/components/context/store';
 import { notify } from '~/components/Notifications';
 
 export default function QueryClientProvider(props: ParentProps) {
+  const [_, actions] = useStore();
+
   const queryClient = new QueryClient({
     queryCache: new QueryCache({
       onError(error, query) {
+        // Disable polling on errors.
+        actions.setActive(false);
+
         let title = query.meta?.errorTitle as string | undefined;
         let message = query.meta?.errorMessage as string | undefined;
 
