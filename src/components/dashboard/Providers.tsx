@@ -1,17 +1,14 @@
 import type { ParentProps } from 'solid-js';
-import { QueryClientProvider } from '@tanstack/solid-query';
 
 import { StoreProvider } from '~/components/context/store';
 import { SettingsProvider } from '~/components/context/settings';
-import { queryClient } from '~/lib/queries';
+import QueryClientProvider from '~/components/dashboard/QueryClientProvider';
 
-export default function Provider(props: ParentProps) {
+export default function Providers(props: ParentProps) {
   return (
     <StoreProvider>
       <SettingsProvider>
-        <QueryClientProvider client={queryClient}>
-          {props.children}
-        </QueryClientProvider>
+        <QueryClientProvider>{props.children}</QueryClientProvider>
       </SettingsProvider>
     </StoreProvider>
   );

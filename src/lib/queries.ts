@@ -1,37 +1,11 @@
 import { createMemo } from 'solid-js';
-import { QueryClient, QueryCache, createQuery } from '@tanstack/solid-query';
+import { createQuery, useQueryClient } from '@tanstack/solid-query';
 
 import type { ConnzOptions, JszOptions } from '~/types';
+import { fetchInfo, type InfoResponse } from '~/lib/info';
+import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
-import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
-import { FetchError, TimeoutError } from '~/lib/jsonp';
-import { fetchInfo, type InfoResponse } from '~/lib/info';
-import { notify } from '~/components/Notifications';
-
-export const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError(error, query) {
-      let title = query.meta?.errorTitle as string | undefined;
-      let message = query.meta?.errorMessage as string | undefined;
-
-      if (!title || !message) {
-        if (error instanceof FetchError) {
-          title ??= 'Fetch Error';
-          message ??= 'Cannot fetch the data from the server.';
-        } else if (error instanceof TimeoutError) {
-          title ??= 'Timed out';
-          message ??= 'Fetching the data took too long.';
-        } else {
-          title ??= 'Unexpected out';
-          message ??= 'The was an unexpected error while fetching the data.';
-        }
-      }
-
-      notify({ title, message, icon: 'error', timeout: 5000 });
-    },
-  }),
-});
 
 type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
 
@@ -62,6 +36,7 @@ type ConnzFetchParams = Parameters<typeof fetchInfo<'connz'>>;
 export function useConnz(options?: () => ConnzOptions) {
   const [store] = useStore();
   const [settings] = useSettings();
+  const queryClient = useQueryClient();
 
   const optsMemo = createMemo(() => options?.());
 
@@ -98,6 +73,7 @@ type JszFetchParams = Parameters<typeof fetchInfo<'jsz'>>;
 export function useJsz(options?: () => JszOptions) {
   const [store] = useStore();
   const [settings] = useSettings();
+  const queryClient = useQueryClient();
 
   const optsMemo = createMemo(() => options?.());
 

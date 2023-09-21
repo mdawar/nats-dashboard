@@ -1,6 +1,6 @@
 import { Router, Routes, Route } from '@solidjs/router';
 
-import Provider from '~/components/dashboard/Provider';
+import Providers from '~/components/dashboard/Providers';
 import Notifications from '~/components/Notifications';
 import InputHeader from '~/components/dashboard/InputHeader';
 import Navigation from '~/components/dashboard/Navigation';
@@ -20,7 +20,7 @@ interface AppProps {
 
 export default function App(props: AppProps) {
   return (
-    <Provider>
+    <Providers>
       <Notifications />
 
       <Router url={props.url}>
@@ -37,6 +37,6 @@ export default function App(props: AppProps) {
           </Routes>
         </main>
       </Router>
-    </Provider>
+    </Providers>
   );
 }
