@@ -13,6 +13,11 @@ export default function QueryClientProvider(props: ParentProps) {
   const [_, actions] = useStore();
 
   const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 2,
+      },
+    },
     queryCache: new QueryCache({
       onError(error, query) {
         // Disable polling on errors.
