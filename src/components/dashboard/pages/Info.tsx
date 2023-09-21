@@ -26,9 +26,9 @@ export default function Info() {
       </Match>
 
       <Match when={varz.isSuccess}>
-        <ServerInfo details />
-        <ServerStats details />
-        <InfoCards />
+        <ServerInfo varz={varz} details />
+        <ServerStats varz={varz} details />
+        <InfoCards varz={varz} />
       </Match>
     </Switch>
   );

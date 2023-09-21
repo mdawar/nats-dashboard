@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Fix inconsistent date formatting
 - [ ] Display cluster info
 - [ ] Sorting options for streams (e.g. by consumer count, data size, msg count...)
 - [ ] Add page to create WebSocket clients that publish and subscribe to subjects

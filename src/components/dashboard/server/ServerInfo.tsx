@@ -1,7 +1,7 @@
 import { mergeProps, Show } from 'solid-js';
 
+import type { VarzQuery } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
-import { useVarz } from '~/lib/queries';
 import { formatDate } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
 import {
@@ -12,14 +12,14 @@ import {
 } from '~/components/dashboard/InfoSection';
 
 interface Props {
+  varz: VarzQuery;
   details?: boolean;
 }
 
 export default function ServerInfo(props: Props) {
-  props = mergeProps({ details: false } satisfies Props, props);
+  props = mergeProps({ details: false } satisfies Partial<Props>, props);
 
   const [store] = useStore();
-  const varz = useVarz();
 
   return (
     <InfoSection>
@@ -35,33 +35,33 @@ export default function ServerInfo(props: Props) {
               class="font-semibold text-gray-900 dark:text-white"
               title="Server Name"
             >
-              {varz.data?.server_name}
+              {props.varz.data?.server_name}
             </span>
             <span class="text-gray-600">/</span>
             <span
               class="font-semibold text-gray-900 dark:text-white"
               title="Uptime"
             >
-              {varz.data?.info.uptime}
+              {props.varz.data?.info.uptime}
             </span>
           </h1>
         </div>
 
         <DetailList>
-          <DetailItem name="Server ID" value={varz.data?.server_id} />
+          <DetailItem name="Server ID" value={props.varz.data?.server_id} />
 
           <Show when={props.details}>
-            <ServerDetails varz={varz} />
+            <ServerDetails varz={props.varz} />
           </Show>
         </DetailList>
       </div>
 
-      <InfoBadge>v{varz.data?.version}</InfoBadge>
+      <InfoBadge>v{props.varz.data?.version}</InfoBadge>
     </InfoSection>
   );
 }
 
-function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
+function ServerDetails(props: { varz: VarzQuery }) {
   return (
     <>
       <DetailItem

@@ -1,99 +1,98 @@
 import { mergeProps, Show } from 'solid-js';
 
-import { useVarz } from '~/lib/queries';
+import type { VarzQuery } from '~/lib/queries';
 import { Stats, StatCell } from '~/components/dashboard/Stats';
 
 interface Props {
+  varz: VarzQuery;
   details?: boolean;
 }
 
 export default function ServerStats(props: Props) {
-  props = mergeProps({ details: false } satisfies Props, props);
-
-  const varz = useVarz();
+  props = mergeProps({ details: false } satisfies Partial<Props>, props);
 
   return (
     <Stats>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-px">
-        <StatCell title="CPU Load" stat={varz.data?.cpu} unit="%" />
+        <StatCell title="CPU Load" stat={props.varz.data?.cpu} unit="%" />
         <StatCell
           title="Memory Usage"
-          stat={varz.data?.info.memory.value}
-          unit={varz.data?.info.memory.unit}
+          stat={props.varz.data?.info.memory.value}
+          unit={props.varz.data?.info.memory.unit}
         />
         <StatCell
           title="Connections"
-          stat={varz.data?.info.conns.value}
-          unit={varz.data?.info.conns.unit}
+          stat={props.varz.data?.info.conns.value}
+          unit={props.varz.data?.info.conns.unit}
         />
         <StatCell
           title="Total Connections"
-          stat={varz.data?.info.totalConns.value}
-          unit={varz.data?.info.totalConns.unit}
+          stat={props.varz.data?.info.totalConns.value}
+          unit={props.varz.data?.info.totalConns.unit}
         />
         <StatCell
           title="Subscriptions"
-          stat={varz.data?.info.subs.value}
-          unit={varz.data?.info.subs.unit}
+          stat={props.varz.data?.info.subs.value}
+          unit={props.varz.data?.info.subs.unit}
         />
         <StatCell
           title="Slow Consumers"
-          stat={varz.data?.info.slowCons.value}
-          unit={varz.data?.info.slowCons.unit}
+          stat={props.varz.data?.info.slowCons.value}
+          unit={props.varz.data?.info.slowCons.unit}
         />
       </div>
 
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-px mt-px">
         <StatCell
           title="Total Messages Received"
-          stat={varz.data?.info.inMsgs.value}
-          unit={varz.data?.info.inMsgs.unit}
+          stat={props.varz.data?.info.inMsgs.value}
+          unit={props.varz.data?.info.inMsgs.unit}
         />
         <StatCell
           title="Total Messages Sent"
-          stat={varz.data?.info.outMsgs.value}
-          unit={varz.data?.info.outMsgs.unit}
+          stat={props.varz.data?.info.outMsgs.value}
+          unit={props.varz.data?.info.outMsgs.unit}
         />
         <StatCell
           title="Total Data Received"
-          stat={varz.data?.info.inBytes.value}
-          unit={varz.data?.info.inBytes.unit}
+          stat={props.varz.data?.info.inBytes.value}
+          unit={props.varz.data?.info.inBytes.unit}
         />
         <StatCell
           title="Total Data Sent"
-          stat={varz.data?.info.outBytes.value}
-          unit={varz.data?.info.outBytes.unit}
+          stat={props.varz.data?.info.outBytes.value}
+          unit={props.varz.data?.info.outBytes.unit}
         />
         <StatCell
           title="Messages Received Rate"
-          stat={varz.data?.info.inMsgsRate.value}
-          unit={`${varz.data?.info.inMsgsRate.unit}/s`}
+          stat={props.varz.data?.info.inMsgsRate.value}
+          unit={`${props.varz.data?.info.inMsgsRate.unit}/s`}
         />
         <StatCell
           title="Messages Sent Rate"
-          stat={varz.data?.info.outMsgsRate.value}
-          unit={`${varz.data?.info.outMsgsRate.unit}/s`}
+          stat={props.varz.data?.info.outMsgsRate.value}
+          unit={`${props.varz.data?.info.outMsgsRate.unit}/s`}
         />
         <StatCell
           title="Data Received Rate"
-          stat={varz.data?.info.inBytesRate.value}
-          unit={`${varz.data?.info.inBytesRate.unit}/s`}
+          stat={props.varz.data?.info.inBytesRate.value}
+          unit={`${props.varz.data?.info.inBytesRate.unit}/s`}
         />
         <StatCell
           title="Data Sent Rate"
-          stat={varz.data?.info.outBytesRate.value}
-          unit={`${varz.data?.info.outBytesRate.unit}/s`}
+          stat={props.varz.data?.info.outBytesRate.value}
+          unit={`${props.varz.data?.info.outBytesRate.unit}/s`}
         />
       </div>
 
       <Show when={props.details}>
-        <ServerDetails varz={varz} />
+        <ServerDetails varz={props.varz} />
       </Show>
     </Stats>
   );
 }
 
-function ServerDetails(props: { varz: ReturnType<typeof useVarz> }) {
+function ServerDetails(props: { varz: VarzQuery }) {
   return (
     <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-px mt-px">
       <StatCell title="Leaf Nodes" stat={props.varz.data?.leafnodes} />

@@ -27,8 +27,8 @@ export default function Overview() {
         </Match>
 
         <Match when={varz.isSuccess}>
-          <ServerInfo />
-          <ServerStats />
+          <ServerInfo varz={varz} />
+          <ServerStats varz={varz} />
         </Match>
       </Switch>
 

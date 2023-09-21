@@ -54,6 +54,8 @@ export function useVarz() {
   }));
 }
 
+export type VarzQuery = ReturnType<typeof useVarz>;
+
 type ConnzFetchParams = Parameters<typeof fetchInfo<'connz'>>;
 
 /** Start polling for connections information. */
@@ -87,6 +89,8 @@ export function useConnz(options?: () => ConnzOptions) {
     },
   }));
 }
+
+export type ConnzQuery = ReturnType<typeof useConnz>;
 
 type JszFetchParams = Parameters<typeof fetchInfo<'jsz'>>;
 
