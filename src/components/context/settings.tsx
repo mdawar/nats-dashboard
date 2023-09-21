@@ -32,9 +32,9 @@ interface ConnzSettings {
 interface JszSettings {
   /** Jsz query specific settings. */
   query: {
-    /** Include account specific JetStream information (Default: false). */
+    /** Include account specific JetStream information (Default: true). */
     accounts: boolean;
-    /** Include streams. When set, implies accounts=true (Default: false). */
+    /** Include streams. When set, implies accounts=true (Default: true). */
     streams: boolean;
     /** Include consumers. When set, implies streams=true (Default: false). */
     consumers: boolean;
@@ -79,8 +79,8 @@ const defaultSettings: SettingsState = {
   },
   jsz: {
     query: {
-      accounts: false,
-      streams: false,
+      accounts: true,
+      streams: true,
       consumers: false,
       config: false,
     },
