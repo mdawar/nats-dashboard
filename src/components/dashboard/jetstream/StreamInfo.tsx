@@ -21,8 +21,10 @@ export default function StreamInfo(props: Props) {
         title="State"
         data={{
           Consumers: props.stream.info.state.consumerCount,
-          Subjects: props.stream.info.state.numSubjects.str,
-          Messages: props.stream.info.state.messages.str,
+          [props.stream.info.isKVStore ? 'Keys (Subjects)' : 'Subjects']:
+            props.stream.info.state.numSubjects.str,
+          [props.stream.info.isKVStore ? 'Revisions (Messages)' : 'Messages']:
+            props.stream.info.state.messages.str,
           'Data Size': props.stream.info.state.data.str,
           'Num. Deleted': props.stream.info.state.numDeleted.str,
           'First Sequence':

@@ -60,7 +60,11 @@ export default function StreamItem(props: StreamItemProps) {
             color={greenIfPositive(props.stream.info.state.numSubjects.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
-            <span class="text-gray-900 dark:text-white">Subjects</span>
+            <span class="text-gray-900 dark:text-white">
+              <Show when={props.stream.info.isKVStore} fallback="Subjects">
+                Keys (Subjects)
+              </Show>
+            </span>
             {props.stream.info.state.numSubjects.str}
           </Badge>
 
@@ -69,7 +73,11 @@ export default function StreamItem(props: StreamItemProps) {
             color={greenIfPositive(props.stream.info.state.messages.num)}
             class="flex items-center justify-between gap-x-1.5"
           >
-            <span class="text-gray-900 dark:text-white">Messages</span>
+            <span class="text-gray-900 dark:text-white">
+              <Show when={props.stream.info.isKVStore} fallback="Messages">
+                Revisions (Msgs)
+              </Show>
+            </span>
             {props.stream.info.state.messages.str}
           </Badge>
 
