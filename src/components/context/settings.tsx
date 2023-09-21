@@ -123,14 +123,15 @@ export function SettingsProvider(props: ParentProps<Props>) {
       setState('connz', settings);
     },
     setConnzState(state) {
-      // Reset the sort option if invalid for the new connections state.
-      const sort =
-        state !== 'closed' &&
-        closedConnSortOpts.includes(settings.connz.query.sort)
-          ? 'cid'
-          : settings.connz.query.sort;
+      setState('connz', 'query', (prev) => {
+        // Reset the sort option if invalid for the new connections state.
+        const sort =
+          state !== 'closed' && closedConnSortOpts.includes(prev.sort)
+            ? 'cid'
+            : prev.sort;
 
-      setState('connz', 'query', { state, sort });
+        return { state, sort };
+      });
     },
     setConnzSort(sort) {
       setState('connz', 'query', { sort });
@@ -148,13 +149,17 @@ export function SettingsProvider(props: ParentProps<Props>) {
       setState('jsz', 'query', { accounts });
     },
     setJszStreams(streams) {
-      const accounts = streams || settings.jsz.query.accounts;
-      setState('jsz', 'query', { accounts, streams });
+      setState('jsz', 'query', (prev) => {
+        const accounts = streams || prev.accounts;
+        return { accounts, streams };
+      });
     },
     setJszConsumers(consumers) {
-      const accounts = consumers || settings.jsz.query.accounts;
-      const streams = consumers || settings.jsz.query.streams;
-      setState('jsz', 'query', { accounts, streams, consumers });
+      setState('jsz', 'query', (prev) => {
+        const accounts = consumers || prev.accounts;
+        const streams = consumers || prev.streams;
+        return { accounts, streams, consumers };
+      });
     },
     setJszConfig(config) {
       setState('jsz', 'query', { config });
