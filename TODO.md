@@ -1,15 +1,14 @@
 # TODO
 
-- [ ] Encapsulate last server stats cache
-- [ ] Customize the polling time
-- [ ] Display raw numbers/bytes
-- [ ] Display detailed server information
-- [ ] Add empty state when no server URL is set
-- [ ] Save theme preference
-- [ ] Save sorting preference
-- [ ] Change transition effects for the mobile menu
-- [ ] Check if dark mode is already set
-- [ ] Add websocket connection support
+- [ ] Display cluster info
+- [ ] Sorting options for streams (e.g. by consumer count, data size, msg count...)
+- [ ] Add page to create WebSocket clients that publish and subscribe to subjects
+- [ ] Accounts page
+- [ ] Account stats page
+- [ ] Routes page
+- [ ] Gateways page
+- [ ] Leaf nodes page
+- [ ] Subscriptions page
 
 # Non Essential Fixes
 
