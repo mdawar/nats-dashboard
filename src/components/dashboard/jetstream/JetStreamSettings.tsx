@@ -14,8 +14,8 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
           <div class="flex h-6 items-center">
             <Checkbox
               id="accounts-opt"
-              checked={settings.jsz.accounts}
-              disabled={settings.jsz.streams}
+              checked={settings.jsz.query.accounts}
+              disabled={settings.jsz.query.streams}
               onChange={(e) => actions.setJszAccounts(e.target.checked)}
             />
           </div>
@@ -24,7 +24,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
               for="accounts-opt"
               class="font-medium text-gray-900 dark:text-white"
               // Disabled style.
-              classList={{ 'opacity-60': settings.jsz.streams }}
+              classList={{ 'opacity-60': settings.jsz.query.streams }}
               title="Include account specific JetStream information."
             >
               Accounts
@@ -36,8 +36,8 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
           <div class="flex h-6 items-center">
             <Checkbox
               id="streams-opt"
-              checked={settings.jsz.streams}
-              disabled={settings.jsz.consumers}
+              checked={settings.jsz.query.streams}
+              disabled={settings.jsz.query.consumers}
               onChange={(e) => actions.setJszStreams(e.target.checked)}
             />
           </div>
@@ -46,7 +46,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
               for="streams-opt"
               class="font-medium text-gray-900 dark:text-white"
               // Disabled style.
-              classList={{ 'opacity-60': settings.jsz.consumers }}
+              classList={{ 'opacity-60': settings.jsz.query.consumers }}
               title="Include streams information."
             >
               Streams
@@ -58,7 +58,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
           <div class="flex h-6 items-center">
             <Checkbox
               id="consumers-opt"
-              checked={settings.jsz.consumers}
+              checked={settings.jsz.query.consumers}
               onChange={(e) => actions.setJszConsumers(e.target.checked)}
             />
           </div>
@@ -77,7 +77,7 @@ export default function JetStreamSettings(props: ComponentProps<'fieldset'>) {
           <div class="flex h-6 items-center">
             <Checkbox
               id="config-opt"
-              checked={settings.jsz.config}
+              checked={settings.jsz.query.config}
               onChange={(e) => actions.setJszConfig(e.target.checked)}
             />
           </div>

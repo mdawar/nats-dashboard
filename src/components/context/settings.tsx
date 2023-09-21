@@ -14,27 +14,33 @@ interface SettingsState {
 }
 
 interface ConnzSettings {
-  /** Connections state (Default: open). */
-  state: ConnState;
-  /** Connection sorting option (Default: cid). */
-  sort: ConnzSortOpt;
-  /** Number of connections to return (Default: 100). */
-  limit: number;
-  /** Include subscriptions info. */
-  subs: SubsOption;
-  /** Include authentication info. */
-  auth: boolean;
+  /** Connz query specific settings. */
+  query: {
+    /** Connections state (Default: open). */
+    state: ConnState;
+    /** Connection sorting option (Default: cid). */
+    sort: ConnzSortOpt;
+    /** Number of connections to return (Default: 100). */
+    limit: number;
+    /** Include subscriptions info. */
+    subs: SubsOption;
+    /** Include authentication info. */
+    auth: boolean;
+  };
 }
 
 interface JszSettings {
-  /** Include account specific JetStream information (Default: false). */
-  accounts: boolean;
-  /** Include streams. When set, implies accounts=true (Default: false). */
-  streams: boolean;
-  /** Include consumers. When set, implies streams=true (Default: false). */
-  consumers: boolean;
-  /** Include the stream and consumer config when they're requested (Default: false). */
-  config: boolean;
+  /** Jsz query specific settings. */
+  query: {
+    /** Include account specific JetStream information (Default: false). */
+    accounts: boolean;
+    /** Include streams. When set, implies accounts=true (Default: false). */
+    streams: boolean;
+    /** Include consumers. When set, implies streams=true (Default: false). */
+    consumers: boolean;
+    /** Include the stream and consumer config when they're requested (Default: false). */
+    config: boolean;
+  };
 }
 
 interface SettingsActions {
@@ -60,17 +66,21 @@ interface SettingsActions {
 const defaultSettings: SettingsState = {
   interval: 1000, // 1s
   connz: {
-    state: 'open',
-    sort: 'cid',
-    limit: 100,
-    subs: false,
-    auth: false,
+    query: {
+      state: 'open',
+      sort: 'cid',
+      limit: 100,
+      subs: false,
+      auth: false,
+    },
   },
   jsz: {
-    accounts: false,
-    streams: false,
-    consumers: false,
-    config: false,
+    query: {
+      accounts: false,
+      streams: false,
+      consumers: false,
+      config: false,
+    },
   },
 };
 
@@ -115,38 +125,39 @@ export function SettingsProvider(props: ParentProps<Props>) {
     setConnzState(state) {
       // Reset the sort option if invalid for the new connections state.
       const sort =
-        state !== 'closed' && closedConnSortOpts.includes(settings.connz.sort)
+        state !== 'closed' &&
+        closedConnSortOpts.includes(settings.connz.query.sort)
           ? 'cid'
-          : settings.connz.sort;
+          : settings.connz.query.sort;
 
-      setState('connz', { state, sort });
+      setState('connz', 'query', { state, sort });
     },
     setConnzSort(sort) {
-      setState('connz', { sort });
+      setState('connz', 'query', { sort });
     },
     setConnzLimit(limit) {
-      setState('connz', { limit });
+      setState('connz', 'query', { limit });
     },
     setConnzSubs(subs) {
-      setState('connz', { subs });
+      setState('connz', 'query', { subs });
     },
     setConnzAuth(auth) {
-      setState('connz', { auth });
+      setState('connz', 'query', { auth });
     },
     setJszAccounts(accounts) {
-      setState('jsz', { accounts });
+      setState('jsz', 'query', { accounts });
     },
     setJszStreams(streams) {
-      const accounts = streams || settings.jsz.accounts;
-      setState('jsz', { accounts, streams });
+      const accounts = streams || settings.jsz.query.accounts;
+      setState('jsz', 'query', { accounts, streams });
     },
     setJszConsumers(consumers) {
-      const accounts = consumers || settings.jsz.accounts;
-      const streams = consumers || settings.jsz.streams;
-      setState('jsz', { accounts, streams, consumers });
+      const accounts = consumers || settings.jsz.query.accounts;
+      const streams = consumers || settings.jsz.query.streams;
+      setState('jsz', 'query', { accounts, streams, consumers });
     },
     setJszConfig(config) {
-      setState('jsz', { config });
+      setState('jsz', 'query', { config });
     },
   };
 

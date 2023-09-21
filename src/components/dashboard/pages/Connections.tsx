@@ -49,7 +49,7 @@ export default function Connections() {
   const [showSettings, setShowSettings] = createSignal(false);
 
   const connz = useConnz(() => ({
-    ...settings.connz,
+    ...settings.connz.query,
     offset: offset(),
   }));
 
@@ -62,12 +62,13 @@ export default function Connections() {
     () => (connz.data?.total ?? 0) > (connz.data?.num_connections ?? 0)
   );
 
-  const prev = () => setOffset((o) => Math.max(0, o - settings.connz.limit));
-  const next = () => setOffset((o) => o + settings.connz.limit);
+  const prev = () =>
+    setOffset((o) => Math.max(0, o - settings.connz.query.limit));
+  const next = () => setOffset((o) => o + settings.connz.query.limit);
 
   const isFirstPage = () => offset() === 0;
   const isLastPage = () =>
-    offset() + settings.connz.limit >= (connz.data?.total ?? 0);
+    offset() + settings.connz.query.limit >= (connz.data?.total ?? 0);
 
   const numConnections = () => {
     const total = connz.data?.total ?? 0;
@@ -124,7 +125,7 @@ export default function Connections() {
             class="hidden xl:block"
             width="20"
             options={limitOptions}
-            active={settings.connz.limit}
+            active={settings.connz.query.limit}
             onChange={actions.setConnzLimit}
           >
             <HeaderButton class="flex items-center gap-x-1">
@@ -139,7 +140,7 @@ export default function Connections() {
             class="hidden xl:block"
             width="20"
             options={stateOptions}
-            active={settings.connz.state}
+            active={settings.connz.query.state}
             onChange={actions.setConnzState}
           >
             <HeaderButton class="flex items-center gap-x-1">
@@ -153,7 +154,7 @@ export default function Connections() {
           <Dropdown
             class="hidden xl:block"
             options={subsOptions}
-            active={settings.connz.subs}
+            active={settings.connz.query.subs}
             onChange={actions.setConnzSubs}
           >
             <HeaderButton class="flex items-center gap-x-1">
@@ -166,7 +167,7 @@ export default function Connections() {
 
           <div class="hidden xl:flex items-center">
             <Toggle
-              checked={settings.connz.auth}
+              checked={settings.connz.query.auth}
               onChange={actions.setConnzAuth}
             />
             <span class="ml-3 text-sm">
@@ -178,8 +179,8 @@ export default function Connections() {
 
           <Dropdown
             class="hidden xl:block"
-            options={sortOptions(settings.connz.state)}
-            active={settings.connz.sort}
+            options={sortOptions(settings.connz.query.state)}
+            active={settings.connz.query.sort}
             onChange={actions.setConnzSort}
           >
             <HeaderButton class="flex items-center gap-x-1">

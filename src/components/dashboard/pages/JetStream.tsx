@@ -23,7 +23,7 @@ export default function JetStream() {
   const [store] = useStore();
   const [settings] = useSettings();
 
-  const jsz = useJsz(() => settings.jsz);
+  const jsz = useJsz(() => settings.jsz.query);
 
   const [selected, setSelected] = createSignal<string | undefined>();
 
@@ -61,7 +61,7 @@ export default function JetStream() {
           <JetStreamStats
             jsz={jsz}
             // Use less space when displaying streams.
-            compact={settings.jsz.streams}
+            compact={settings.jsz.query.streams}
           />
 
           <Show when={jsz.data?.account_details}>
@@ -71,7 +71,7 @@ export default function JetStream() {
                 active={selected()}
                 onChange={setSelected}
                 // Display the number of streams only when they're fetched.
-                numStreams={settings.jsz.streams}
+                numStreams={settings.jsz.query.streams}
               />
             )}
           </Show>
@@ -80,7 +80,7 @@ export default function JetStream() {
             {(acc) => <AccountInfo account={acc()} />}
           </Show>
 
-          <Show when={settings.jsz.streams && account()?.stream_detail}>
+          <Show when={settings.jsz.query.streams && account()?.stream_detail}>
             {(streams) => <StreamsList streams={streams()} />}
           </Show>
         </Match>

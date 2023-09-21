@@ -28,8 +28,8 @@ export default function ConnectionSettings() {
         <div class="divide-y divide-gray-100 dark:divide-white/10">
           <SettingSection title="Sort by">
             <Select
-              options={sortOptions(settings.connz.state)}
-              value={settings.connz.sort}
+              options={sortOptions(settings.connz.query.state)}
+              value={settings.connz.query.sort}
               onChange={actions.setConnzSort}
             />
           </SettingSection>
@@ -37,7 +37,7 @@ export default function ConnectionSettings() {
           <SettingSection title="Limit">
             <Select
               options={limitOptions}
-              value={settings.connz.limit}
+              value={settings.connz.query.limit}
               onChange={actions.setConnzLimit}
             />
           </SettingSection>
@@ -45,7 +45,7 @@ export default function ConnectionSettings() {
           <SettingSection title="State">
             <Select
               options={stateOptions}
-              value={settings.connz.state}
+              value={settings.connz.query.state}
               onChange={actions.setConnzState}
             />
           </SettingSection>
@@ -53,14 +53,14 @@ export default function ConnectionSettings() {
           <SettingSection title="Subscriptions">
             <Select
               options={subsOptions}
-              value={settings.connz.subs}
+              value={settings.connz.query.subs}
               onChange={actions.setConnzSubs}
             />
           </SettingSection>
 
           <SettingSection title="Authentication">
             <Toggle
-              checked={settings.connz.auth}
+              checked={settings.connz.query.auth}
               onChange={actions.setConnzAuth}
             />
           </SettingSection>
