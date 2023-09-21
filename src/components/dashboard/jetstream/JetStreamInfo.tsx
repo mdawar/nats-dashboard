@@ -1,6 +1,6 @@
 import { Show } from 'solid-js';
 
-import type { JszQuery } from '~/lib/queries';
+import type { JszQuery } from '~/components/dashboard/queries';
 import { useStore } from '~/components/context/store';
 import { formatDate } from '~/lib/utils';
 import {

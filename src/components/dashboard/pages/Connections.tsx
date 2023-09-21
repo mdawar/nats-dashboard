@@ -2,7 +2,7 @@ import { createSignal, createMemo, Switch, Match, For, Show } from 'solid-js';
 
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
-import { useConnz } from '~/lib/queries';
+import { useConnz } from '~/components/dashboard/queries';
 import Button from '~/components/Button';
 import Badge, { greenIfPositive } from '~/components/Badge';
 import Toggle from '~/components/Toggle';

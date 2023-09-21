@@ -1,6 +1,6 @@
 import { Show } from 'solid-js';
 
-import type { VarzQuery } from '~/lib/queries';
+import type { VarzQuery } from '~/components/dashboard/queries';
 import {
   formatBytes,
   abbreviateNum,

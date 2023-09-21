@@ -1,7 +1,7 @@
 import { Switch, Match } from 'solid-js';
 
-import { useVarz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
+import { useVarz } from '~/components/dashboard/queries';
 import GetStarted from '~/components/dashboard/GetStarted';
 import { LoadingIcon } from '~/components/icons';
 import Button from '~/components/Button';

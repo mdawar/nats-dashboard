@@ -1,4 +1,4 @@
-import type { JszQuery } from '~/lib/queries';
+import type { JszQuery } from '~/components/dashboard/queries';
 import { Stats, StatCell } from '~/components/dashboard/Stats';
 
 interface Props {

@@ -7,7 +7,7 @@ import {
   Match,
 } from 'solid-js';
 
-import { useJsz } from '~/lib/queries';
+import { useJsz } from '~/components/dashboard/queries';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 import GetStarted from '~/components/dashboard/GetStarted';

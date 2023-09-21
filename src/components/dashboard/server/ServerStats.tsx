@@ -1,6 +1,6 @@
 import { mergeProps, Show } from 'solid-js';
 
-import type { VarzQuery } from '~/lib/queries';
+import type { VarzQuery } from '~/components/dashboard/queries';
 import { Stats, StatCell } from '~/components/dashboard/Stats';
 
 interface Props {

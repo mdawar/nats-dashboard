@@ -1,8 +1,8 @@
 import { createSignal, Switch, Match } from 'solid-js';
 
 import type { FormattedStreamDetail } from '~/lib/format';
-import { useJsz } from '~/lib/queries';
 import { useStore } from '~/components/context/store';
+import { useJsz } from '~/components/dashboard/queries';
 import { useSettings } from '~/components/context/settings';
 import { Tabs, Tab, TabPanel } from '~/components/Tabs';
 import { SlideOverContent } from '~/components/SlideOver';

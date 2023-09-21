@@ -1,6 +1,6 @@
 import { mergeProps, Show } from 'solid-js';
 
-import type { VarzQuery } from '~/lib/queries';
+import type { VarzQuery } from '~/components/dashboard/queries';
 import { useStore } from '~/components/context/store';
 import { formatDate } from '~/lib/utils';
 import Indicator from '~/components/Indicator';
