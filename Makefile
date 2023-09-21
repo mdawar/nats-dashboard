@@ -1,7 +1,7 @@
 build:
 	docker compose build
 
-preview:
+preview: build
 	docker compose up
 
 server:

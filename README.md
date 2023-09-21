@@ -14,6 +14,17 @@ There's **no data retention**, so no historical stats can be displayed, you will
 
 ## Development
 
+#### Requirements
+
+- **Node**: Version defined in `.nvmrc` file (If you have `nvm` installed, run `nvm use`)
+- **Docker** + **Compose Plugin** (Optional): Used for running a local NATS server and the app preview
+
+Install the required packages:
+
+```sh
+npm i
+```
+
 #### Run the web app in dev mode
 
 ```sh
@@ -30,6 +41,8 @@ make clean
 ```
 
 #### Run the tests
+
+There are a few tests for a couple of functions for now, more tests will be added later.
 
 ```sh
 npm test
@@ -50,26 +63,31 @@ npm run build
 
 ```sh
 make build
-# Same as
+# Or
 docker compose build
-```
-
-Without using `docker compose`:
-
-```sh
+# Or
 docker build -t nats-dashboard .
 ```
 
 ## Build and Preview
 
+Build the Docker image and run the server on http://localhost:8000 with a NATS server running on port `4222`.
+
+This is useful for testing **SSG**.
+
 ```sh
-# Build the docker image and run on http://localhost:8000
-# Also runs a local NATS server on port 4222
 make preview
-# Same as
-docker compose up
+# Or
+docker compose build && docker compose up
+```
+
+Cleanup:
+
+```sh
 # Remove containers and volumes
 make clean
+# Or
+docker compose down -v
 ```
 
 ## Data Fetching
