@@ -15,8 +15,9 @@ export function useVarz() {
   const [settings] = useSettings();
 
   return createQuery(() => ({
-    queryKey: [store.url, 'varz'] as VarzFetchParams,
-    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
+    queryKey: [store.url, 'varz'] satisfies VarzFetchParams,
+    queryFn: ({ queryKey, signal }) =>
+      fetchInfo(...queryKey, undefined, signal),
     select: formatVarz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,
@@ -41,8 +42,8 @@ export function useConnz(options?: () => ConnzOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
-    queryKey: [store.url, 'connz', optsMemo()] as ConnzFetchParams,
-    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
+    queryKey: [store.url, 'connz', optsMemo()] satisfies ConnzFetchParams,
+    queryFn: ({ queryKey, signal }) => fetchInfo(...queryKey, signal),
     select: formatConnz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,
@@ -78,8 +79,8 @@ export function useJsz(options?: () => JszOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
-    queryKey: [store.url, 'jsz', optsMemo()] as JszFetchParams,
-    queryFn: ({ queryKey }) => fetchInfo(...queryKey),
+    queryKey: [store.url, 'jsz', optsMemo()] satisfies JszFetchParams,
+    queryFn: ({ queryKey, signal }) => fetchInfo(...queryKey, signal),
     select: formatJsz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,

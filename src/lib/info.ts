@@ -25,7 +25,8 @@ const cache = new Map<string, MonitoringResponse>();
 export async function fetchInfo<T extends Endpoint>(
   baseURL: string,
   endpoint: T,
-  args?: EndpointOptions[T]
+  args?: EndpointOptions[T],
+  signal?: AbortSignal
 ): Promise<PartialInfoResponse<T>> {
   const url = new URL(endpoint, baseURL);
 
@@ -35,7 +36,7 @@ export async function fetchInfo<T extends Endpoint>(
   }
 
   const start = performance.now();
-  const current = await jsonp<EndpointResponse[T]>(url.href);
+  const current = await jsonp<EndpointResponse[T]>(url.href, { signal });
   const end = performance.now();
 
   const response = {

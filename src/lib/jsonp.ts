@@ -6,6 +6,8 @@ export interface JSONPOptions {
   callback?: string;
   /** Timeout in milliseconds */
   timeout?: number;
+  /** Abort signal. */
+  signal?: AbortSignal | undefined;
 }
 
 /**
@@ -15,6 +17,12 @@ export interface JSONPOptions {
  */
 export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
   return new Promise((resolve, reject) => {
+    // Already aborted.
+    if (opts?.signal?.aborted) {
+      reject(opts.signal.reason);
+      return;
+    }
+
     const timeout = opts?.timeout ?? 5000; // 5s
     const name = opts?.callback ?? 'callback';
 
@@ -34,6 +42,12 @@ export async function jsonp<T>(url: string, opts?: JSONPOptions): Promise<T> {
       // which is OK in this case.
       delete window[callback as any];
     };
+
+    // Aborted.
+    opts?.signal?.addEventListener('abort', () => {
+      reject(opts.signal?.reason);
+      cleanup();
+    });
 
     // Script loading errors.
     script.onerror = () => {
