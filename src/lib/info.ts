@@ -21,13 +21,24 @@ export type PartialInfoResponse<T extends Endpoint> = Partial<InfoResponse<T>>;
 // TODO: temporary
 const cache = new Map<string, MonitoringResponse>();
 
+interface FetchInfoOptions<T extends Endpoint> {
+  /** NATS monitoring server URL. */
+  url: string;
+  /** Endpoint to fetch. */
+  endpoint: T;
+  /** Endpoint arguments. */
+  args?: EndpointOptions[T] | undefined;
+  /** Abort signal. */
+  signal?: AbortSignal;
+}
+
 /** Fetch monitoring information for a NATS server by type. */
-export async function fetchInfo<T extends Endpoint>(
-  baseURL: string,
-  endpoint: T,
-  args?: EndpointOptions[T],
-  signal?: AbortSignal
-): Promise<PartialInfoResponse<T>> {
+export async function fetchInfo<T extends Endpoint>({
+  url: baseURL,
+  endpoint,
+  args,
+  signal,
+}: FetchInfoOptions<T>): Promise<PartialInfoResponse<T>> {
   const url = new URL(endpoint, baseURL);
 
   if (args) {

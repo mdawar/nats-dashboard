@@ -7,17 +7,20 @@ import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 
-type VarzFetchParams = Parameters<typeof fetchInfo<'varz'>>;
-
 /** Start polling for general server information. */
 export function useVarz() {
   const [store] = useStore();
   const [settings] = useSettings();
 
   return createQuery(() => ({
-    queryKey: [store.url, 'varz'] satisfies VarzFetchParams,
-    queryFn: ({ queryKey, signal }) =>
-      fetchInfo(...queryKey, undefined, signal),
+    queryKey: [store.url, 'varz'],
+    queryFn: ({ signal }) => {
+      return fetchInfo({
+        url: store.url,
+        endpoint: 'varz',
+        signal,
+      });
+    },
     select: formatVarz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,
@@ -31,8 +34,6 @@ export function useVarz() {
 
 export type VarzQuery = ReturnType<typeof useVarz>;
 
-type ConnzFetchParams = Parameters<typeof fetchInfo<'connz'>>;
-
 /** Start polling for connections information. */
 export function useConnz(options?: () => ConnzOptions) {
   const [store] = useStore();
@@ -42,8 +43,15 @@ export function useConnz(options?: () => ConnzOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
-    queryKey: [store.url, 'connz', optsMemo()] satisfies ConnzFetchParams,
-    queryFn: ({ queryKey, signal }) => fetchInfo(...queryKey, signal),
+    queryKey: [store.url, 'connz', optsMemo()],
+    queryFn: ({ signal }) => {
+      return fetchInfo({
+        url: store.url,
+        endpoint: 'connz',
+        args: optsMemo(),
+        signal,
+      });
+    },
     select: formatConnz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,
@@ -68,8 +76,6 @@ export function useConnz(options?: () => ConnzOptions) {
 
 export type ConnzQuery = ReturnType<typeof useConnz>;
 
-type JszFetchParams = Parameters<typeof fetchInfo<'jsz'>>;
-
 /** Start polling for JetSteam information. */
 export function useJsz(options?: () => JszOptions) {
   const [store] = useStore();
@@ -79,8 +85,15 @@ export function useJsz(options?: () => JszOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery(() => ({
-    queryKey: [store.url, 'jsz', optsMemo()] satisfies JszFetchParams,
-    queryFn: ({ queryKey, signal }) => fetchInfo(...queryKey, signal),
+    queryKey: [store.url, 'jsz', optsMemo()],
+    queryFn: ({ signal }) => {
+      return fetchInfo({
+        url: store.url,
+        endpoint: 'jsz',
+        args: optsMemo(),
+        signal,
+      });
+    },
     select: formatJsz, // Fromat the data for display.
     enabled: store.active,
     refetchInterval: settings.interval,
