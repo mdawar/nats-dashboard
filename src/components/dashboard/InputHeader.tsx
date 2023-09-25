@@ -1,33 +1,22 @@
-import { onMount, createEffect, Show } from 'solid-js';
+import { onMount, createSignal, createEffect, Show } from 'solid-js';
 import { useSearchParams } from '@solidjs/router';
 
 import { useMobileMenu } from '~/lib/global';
 import { useStore } from '~/components/context/store';
-import { useSettings } from '~/components/context/settings';
 import Button from '~/components/Button';
-import Dropdown, { type Options } from '~/components/Dropdown';
+import Modal from '~/components/Modal';
 import {
   BarsIcon,
   ServerIcon,
   PlayIcon,
   StopIcon,
-  EllipsisVerticalIcon,
+  Cog6ToothIcon,
 } from '~/components/icons';
-
-const intervalOptions: Options<number> = [
-  { value: 100, label: '100ms' },
-  { value: 250, label: '250ms' },
-  { value: 500, label: '500ms' },
-  { value: 1000, label: '1s' },
-  { value: 2000, label: '2s' },
-  { value: 3000, label: '3s' },
-  { value: 5000, label: '5s' },
-  { value: 10000, label: '10s' },
-];
+import AppSettings from '~/components/dashboard/AppSettings';
 
 export default function InputHeader() {
   const [store, storeActions] = useStore();
-  const [settings, settingsActions] = useSettings();
+  const [showSettings, setShowSettings] = createSignal(false);
   const [_, menuActions] = useMobileMenu();
   const [params, setParams] = useSearchParams();
 
@@ -98,11 +87,12 @@ export default function InputHeader() {
           <Button
             icon
             rounded
+            size="sm"
             color={store.active ? 'secondary' : 'primary'}
             onClick={toggleMonitor}
           >
-            <Show when={store.active} fallback={<PlayIcon class="h-5 w-5" />}>
-              <StopIcon class="h-5 w-5" />
+            <Show when={store.active} fallback={<PlayIcon class="h-4 w-4" />}>
+              <StopIcon class="h-4 w-4" />
             </Show>
           </Button>
 
@@ -112,15 +102,28 @@ export default function InputHeader() {
             aria-hidden="true"
           />
 
-          <Dropdown
-            options={intervalOptions}
-            active={settings.interval}
-            onChange={settingsActions.setInterval}
+          <button
+            type="button"
+            class="relative text-gray-900 dark:text-white"
+            onClick={() => setShowSettings(true)}
           >
-            <Button icon rounded color="secondary">
-              <EllipsisVerticalIcon class="h-5 w-5" />
-            </Button>
-          </Dropdown>
+            <Cog6ToothIcon class="h-5 w-5" />
+            <span class="absolute -inset-2.5"></span>
+          </button>
+          <Show when={showSettings()}>
+            <Modal onClose={() => setShowSettings(false)} size="lg">
+              {(close) => (
+                <>
+                  <AppSettings />
+                  <div class="mt-4 sm:mt-6">
+                    <Button class="w-full" onClick={close}>
+                      Go back to dashboard
+                    </Button>
+                  </div>
+                </>
+              )}
+            </Modal>
+          </Show>
         </div>
       </div>
     </div>

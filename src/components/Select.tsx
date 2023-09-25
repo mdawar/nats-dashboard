@@ -1,15 +1,15 @@
 import { For } from 'solid-js';
-import type { Option, OptionType } from '~/components/Dropdown';
-export type { Option } from '~/components/Dropdown';
+import type { Options, OptionType } from '~/components/Dropdown';
+export type { Option, Options } from '~/components/Dropdown';
 
 export interface Props<T> {
-  options: Option<T>[];
+  options: Options<T>;
   value: T | undefined;
   onChange(value: T): void;
 }
 
 /** Get the option value from the label. */
-function valueFromLabel<T>(options: Option<T>[], label: string): T {
+function valueFromLabel<T>(options: Options<T>, label: string): T {
   const opt = options.find((option) => option.label === label);
   return opt?.value!;
 }
