@@ -5,6 +5,7 @@ import {
   SettingSection,
 } from '~/components/dashboard/Settings';
 import Select, { type Options } from '~/components/Select';
+import Toggle from '~/components/Toggle';
 
 const intervalOptions: Options<number> = [
   { value: 100, label: '100ms' },
@@ -35,6 +36,17 @@ export default function AppSettings() {
             value={settings.interval}
             onChange={actions.setInterval}
           />
+        </SettingSection>
+        <SettingSection
+          title="JSONP Requests"
+          description={
+            <>
+              Required for NATS server prior to{' '}
+              <span class="font-bold">v2.9.22</span>
+            </>
+          }
+        >
+          <Toggle checked={settings.jsonp} onChange={actions.setJSONP} />
         </SettingSection>
       </SettingsBody>
     </div>

@@ -7,6 +7,8 @@ import { closedConnSortOpts } from '~/components/dashboard/connections/options';
 interface SettingsState {
   /** Polling interval in milliseconds.. */
   interval: number;
+  /** Use JSONP to fetch the data (For servers prior to v2.9.22). */
+  jsonp: boolean;
   /** Connz settings. */
   connz: ConnzSettings;
   /** JetStream settings. */
@@ -48,6 +50,8 @@ interface JszSettings {
 interface SettingsActions {
   /** Set the polling interval in milliseconds. */
   setInterval(interval: number): void;
+  /** Set the option to use JSONP for the requests. */
+  setJSONP(jsonp: boolean): void;
   /**
    * Set the connz settings.
    *
@@ -68,6 +72,7 @@ interface SettingsActions {
 
 const defaultSettings: SettingsState = {
   interval: 1000, // 1s
+  jsonp: false,
   connz: {
     query: {
       state: 'open',
@@ -90,6 +95,7 @@ const defaultSettings: SettingsState = {
 
 const defaultActions: SettingsActions = {
   setInterval() {},
+  setJSONP() {},
   setConnz() {},
   setConnzState() {},
   setConnzSort() {},
@@ -123,6 +129,9 @@ export function SettingsProvider(props: ParentProps<Props>) {
   const actions: SettingsActions = {
     setInterval(interval) {
       setState('interval', interval);
+    },
+    setJSONP(jsonp) {
+      setState('jsonp', jsonp);
     },
     setConnz(settings) {
       setState('connz', settings);

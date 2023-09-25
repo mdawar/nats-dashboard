@@ -1,4 +1,4 @@
-import { Show, type ParentProps } from 'solid-js';
+import { Show, type ParentProps, type JSX } from 'solid-js';
 
 export function SettingsBody(props: ParentProps) {
   return (
@@ -30,17 +30,25 @@ export function SettingsHeader(props: HeaderProps) {
 
 interface SectionProps extends ParentProps {
   title: string;
+  description?: JSX.Element;
 }
 
 export function SettingSection(props: SectionProps) {
   return (
-    <div class="px-4 py-4 sm:py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-      <div class="text-sm font-medium text-gray-900 dark:text-white">
-        {props.title}
+    <div>
+      <div class="px-4 py-4 sm:py-6 items-center sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+        <div class="text-sm font-medium text-gray-900 dark:text-white">
+          {props.title}
+        </div>
+        <div class="mt-2 text-sm text-gray-700 dark:text-gray-400 sm:col-span-2 sm:mt-0">
+          {props.children}
+        </div>
       </div>
-      <div class="mt-2 text-sm text-gray-700 dark:text-gray-400 sm:col-span-2 sm:mt-0">
-        {props.children}
-      </div>
+      <Show when={props.description}>
+        <p class="px-4 pb-4 sm:pb-6 sm:px-0 text-gray-500 dark:text-gray-400 text-sm">
+          {props.description}
+        </p>
+      </Show>
     </div>
   );
 }
