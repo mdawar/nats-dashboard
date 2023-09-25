@@ -205,7 +205,7 @@ export default function Connections() {
               {(close) => (
                 <>
                   <ConnectionSettings />
-                  <div class="mt-5 sm:mt-6">
+                  <div class="mt-4 sm:mt-6">
                     <Button class="w-full" onClick={close}>
                       Go back to dashboard
                     </Button>
