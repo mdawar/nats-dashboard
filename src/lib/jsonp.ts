@@ -7,7 +7,7 @@ export interface JSONPOptions {
   /** Timeout in milliseconds */
   timeout?: number;
   /** Abort signal. */
-  signal?: AbortSignal | undefined;
+  signal?: AbortSignal | undefined | null;
 }
 
 /**

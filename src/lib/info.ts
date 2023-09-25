@@ -28,6 +28,8 @@ interface FetchInfoOptions<T extends Endpoint> {
   endpoint: T;
   /** Endpoint arguments. */
   args?: EndpointOptions[T] | undefined;
+  /** Use JSONP requests to fetch the data. */
+  jsonp?: boolean;
   /** Abort signal. */
   signal?: AbortSignal;
 }
@@ -37,6 +39,7 @@ export async function fetchInfo<T extends Endpoint>({
   url: baseURL,
   endpoint,
   args,
+  jsonp = false,
   signal,
 }: FetchInfoOptions<T>): Promise<PartialInfoResponse<T>> {
   const url = new URL(endpoint, baseURL);
@@ -47,7 +50,10 @@ export async function fetchInfo<T extends Endpoint>({
   }
 
   const start = performance.now();
-  const current = await jsonp<EndpointResponse[T]>(url.href, { signal });
+  const current = await fetchData<EndpointResponse[T]>(url.href, {
+    jsonp,
+    signal,
+  });
   const end = performance.now();
 
   const response = {
@@ -59,4 +65,23 @@ export async function fetchInfo<T extends Endpoint>({
   cache.set(url.href, current);
 
   return response;
+}
+
+interface FetchDataOptions {
+  jsonp?: boolean;
+  signal?: AbortSignal | undefined | null;
+}
+
+/** Fetch the server data using either JSONP requests or the Fetch API. */
+async function fetchData<T>(
+  url: string,
+  { jsonp: useJSONP = false, signal = null }: FetchDataOptions
+): Promise<T> {
+  // Required for NATS servers prior to v2.9.22.
+  if (useJSONP) {
+    return jsonp(url, { signal });
+  }
+
+  const response = await fetch(url, { signal });
+  return response.json();
 }

@@ -18,6 +18,7 @@ export function useVarz() {
       return fetchInfo({
         url: store.url,
         endpoint: 'varz',
+        jsonp: settings.jsonp,
         signal,
       });
     },
@@ -49,6 +50,7 @@ export function useConnz(options?: () => ConnzOptions) {
         url: store.url,
         endpoint: 'connz',
         args: optsMemo(),
+        jsonp: settings.jsonp,
         signal,
       });
     },
@@ -91,6 +93,7 @@ export function useJsz(options?: () => JszOptions) {
         url: store.url,
         endpoint: 'jsz',
         args: optsMemo(),
+        jsonp: settings.jsonp,
         signal,
       });
     },
