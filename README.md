@@ -92,9 +92,9 @@ docker compose down -v
 
 ## Data Fetching
 
-NATS monitoring server does not support [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), but it does support [JSONP](https://en.wikipedia.org/wiki/JSONP) which can be used to fetch the data using a workaround by injecting a `<script>` tag that executes and calls a JavaScript function that receives the data, otherwise we would have to proxy these requests using a reverse proxy or make these requests on a backend.
+By default the data is fetched using the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) since NATS server started supporting [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) since [v2.9.22](https://github.com/nats-io/nats-server/releases/tag/v2.9.22).
 
-This is a workaround until NATS starts supporting CORS (Server HTTP headers required) but this method will be kept for the servers without CORS support.
+For NATS servers `< v2.9.22` there's an option to use [JSONP](https://en.wikipedia.org/wiki/JSONP) requests that fetch the data by injecting a `<script>` tag that executes and calls a JavaScript function that receives the data.
 
 ## Alternatives
 
