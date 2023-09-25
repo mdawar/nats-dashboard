@@ -189,7 +189,7 @@ export default function Connections() {
             </HeaderButton>
           </Dropdown>
 
-          <HeaderSeparator class="hidden sm:block xl:hidden" />
+          <HeaderSeparator class="hidden xl:hidden" />
 
           {/* Settings button */}
           <button
