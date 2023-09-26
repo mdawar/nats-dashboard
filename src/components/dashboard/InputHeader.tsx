@@ -84,17 +84,24 @@ export default function InputHeader() {
         </form>
 
         <div class="flex items-center gap-x-4 lg:gap-x-6">
-          <Button
-            icon
-            rounded
-            size="sm"
-            color={store.active ? 'secondary' : 'primary'}
+          <button
+            type="button"
+            class="relative text-gray-900 dark:text-white"
             onClick={toggleMonitor}
           >
-            <Show when={store.active} fallback={<PlayIcon class="h-4 w-4" />}>
-              <StopIcon class="h-4 w-4" />
+            <Show
+              when={store.active}
+              fallback={
+                <>
+                  <PlayIcon class="h-5 w-5" />
+                  <span class="absolute -inset-2.5"></span>
+                </>
+              }
+            >
+              <StopIcon class="h-5 w-5" />
+              <span class="absolute -inset-2.5"></span>
             </Show>
-          </Button>
+          </button>
 
           {/* Separator */}
           <div
