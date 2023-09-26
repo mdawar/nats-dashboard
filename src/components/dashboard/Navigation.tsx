@@ -24,12 +24,6 @@ export default function Navigation() {
         <li>
           <Link href={path('/jetstream')}>JetStream</Link>
         </li>
-        <li>
-          <Link href={path('/accounts')}>Accounts</Link>
-        </li>
-        <li>
-          <Link href={path('/routes')}>Routes</Link>
-        </li>
       </ul>
     </nav>
   );

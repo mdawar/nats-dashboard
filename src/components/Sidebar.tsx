@@ -170,12 +170,6 @@ function Menu() {
               </li>
               <li>
                 <MenuItem href="#" active={false}>
-                  <SignalIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
-                  Connect
-                </MenuItem>
-              </li>
-              <li>
-                <MenuItem href="#" active={false}>
                   <ChatBubbleIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
                   FAQ
                 </MenuItem>
