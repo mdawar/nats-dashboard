@@ -7,18 +7,18 @@ import {
   type ParentProps,
   type ComponentProps,
 } from 'solid-js';
+import { Transition } from 'solid-transition-group';
+
 import { useMobileMenu } from '~/lib/global';
-import { ThemeProvider, useTheme } from '~/components/context/theme';
 import { clickOutside } from '~/lib/directives';
 clickOutside; // Preserve the import.
-import { Transition } from 'solid-transition-group';
+import { ThemeProvider, useTheme } from '~/components/context/theme';
 import natsIconBlack from '~/assets/nats-icon-black.svg';
 import natsIconWhite from '~/assets/nats-icon-white.svg';
 import {
   ChartBarSquareIcon,
   ChatBubbleIcon,
   InfoCircleIcon,
-  SignalIcon,
   CloseIcon,
   SunIcon,
   MoonIcon,
