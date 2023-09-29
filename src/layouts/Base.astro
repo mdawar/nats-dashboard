@@ -1,15 +1,19 @@
 ---
 import '~/styles/global.css';
+import HeadMeta, {
+  type Props as HeadMetaProps,
+} from '~/components/HeadMeta.astro';
 import Sidebar from '~/components/Sidebar';
+
+interface Props {
+  meta?: HeadMetaProps;
+}
+
+const { meta } = Astro.props;
 ---
 
 <html lang="en" class="h-full">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>NATS Web Dashboard</title>
-    <meta name="generator" content={Astro.generator} />
-
+  <HeadMeta {...meta}>
     <!-- Site Theme -->
     <script is:inline>
       try {
@@ -27,7 +31,8 @@ import Sidebar from '~/components/Sidebar';
 
     <!-- Font -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-  </head>
+  </HeadMeta>
+
   <body class="h-full bg-white dark:bg-gray-900">
     <div>
       <Sidebar client:load />

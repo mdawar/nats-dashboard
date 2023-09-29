@@ -4,6 +4,7 @@ import solid from '@astrojs/solid-js';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'http://localhost:4321', // TODO: change
   output: 'static',
   build: {
     // Generate an HTML file for each page.

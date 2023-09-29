@@ -1,0 +1,42 @@
+---
+import { site } from '~/config';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  /** Page path (Used to set a custom canonical URL instead of the default page path). */
+  path?: string;
+}
+
+const { title: pageTitle, description, keywords, path } = Astro.props;
+
+const title = pageTitle ? `${pageTitle} - ${site.title}` : site.title;
+const canonicalURL = new URL(path ?? Astro.url.pathname, Astro.site);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+{description && <meta name="description" content={description} />}
+{keywords && <meta name="keywords" content={keywords.join(', ')} />}
+<link rel="canonical" href={canonicalURL} />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:site_name" content={site.title} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter Meta Tags -->
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+{description && <meta property="twitter:description" content={description} />}
+
+<slot />

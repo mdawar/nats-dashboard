@@ -1,4 +1,5 @@
 ---
+import { site } from '~/config';
 import Layout from '~/layouts/Base.astro';
 import DashboardApp from '~/components/dashboard/App';
 
@@ -17,6 +18,11 @@ export function getStaticPaths() {
 const { path } = Astro.params;
 ---
 
-<Layout>
+<Layout
+  meta={{
+    description: site.description,
+    keywords: site.keywords as unknown as string[],
+  }}
+>
   <DashboardApp url={path ?? '/'} client:load />
 </Layout>
