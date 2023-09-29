@@ -1,12 +1,11 @@
 import { onMount, createSignal, createEffect, Show } from 'solid-js';
 import { useSearchParams } from '@solidjs/router';
 
-import { useMobileMenu } from '~/lib/global';
 import { useStore } from '~/components/context/store';
+import MenuToggle from '~/components/MenuToggle';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal';
 import {
-  BarsIcon,
   ServerIcon,
   PlayIcon,
   StopIcon,
@@ -17,7 +16,6 @@ import AppSettings from '~/components/dashboard/AppSettings';
 export default function InputHeader() {
   const [store, storeActions] = useStore();
   const [showSettings, setShowSettings] = createSignal(false);
-  const [_, menuActions] = useMobileMenu();
   const [params, setParams] = useSearchParams();
 
   onMount(() => {
@@ -42,14 +40,7 @@ export default function InputHeader() {
 
   return (
     <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white dark:border-white/5 dark:bg-gray-900 px-4 sm:gap-x-6 sm:px-6 lg:px-8">
-      <button
-        type="button"
-        class="-m-2.5 p-2.5 text-gray-700 dark:text-white lg:hidden"
-        onClick={menuActions.displayMenu}
-      >
-        <span class="sr-only">Open sidebar</span>
-        <BarsIcon class="h-6 w-6" />
-      </button>
+      <MenuToggle class="lg:hidden" />
 
       {/* Separator */}
       <div
