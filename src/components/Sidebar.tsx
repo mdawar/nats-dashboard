@@ -24,6 +24,8 @@ import {
   MoonIcon,
   DesktopIcon,
 } from '~/components/icons';
+import Badge from '~/components/Badge';
+import pkg from '../../package.json';
 
 export default function Sidebar() {
   return (
@@ -155,7 +157,10 @@ function Menu() {
           src={natsIconWhite.src}
           alt="NATS"
         />
-        <h1 class="text-gray-900 dark:text-white font-bold">Dashboard</h1>
+        <h1 class="text-gray-900 dark:text-white font-bold">
+          Dashboard
+          <Badge class="ml-3">v{pkg.version}</Badge>
+        </h1>
       </a>
 
       <nav class="flex flex-1 flex-col">
