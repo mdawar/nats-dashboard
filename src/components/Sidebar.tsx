@@ -4,6 +4,7 @@ import {
   splitProps,
   onMount,
   Show,
+  For,
   type ParentProps,
   type ComponentProps,
 } from 'solid-js';
@@ -25,6 +26,7 @@ import {
   DesktopIcon,
 } from '~/components/icons';
 import Badge from '~/components/Badge';
+import { externalLinks } from '~/config';
 import pkg from '../../package.json';
 
 interface Props {
@@ -196,25 +198,13 @@ function Menu(props: Props) {
               External Links
             </div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
-              <li>
-                <SecondaryMenuItem
-                  href="https://github.com/mdawar/nats-dashboard"
-                  letter="G"
-                  target="_blank"
-                >
-                  GitHub
-                </SecondaryMenuItem>
-              </li>
-              <li>
-                <SecondaryMenuItem href="https://nats.io/" letter="N">
-                  NATS.io
-                </SecondaryMenuItem>
-              </li>
-              <li>
-                <SecondaryMenuItem href="https://docs.nats.io/" letter="D">
-                  NATS Docs
-                </SecondaryMenuItem>
-              </li>
+              <For each={externalLinks}>
+                {(link) => (
+                  <li>
+                    <SecondaryMenuItem {...link} />
+                  </li>
+                )}
+              </For>
             </ul>
           </li>
 
@@ -289,7 +279,7 @@ function MenuItem(props: ParentProps<MenuItemProps>) {
   );
 }
 
-interface SecondaryMenuItemProps extends ComponentProps<'a'> {
+export interface SecondaryMenuItemProps extends ComponentProps<'a'> {
   href: string;
   letter: string;
 }
