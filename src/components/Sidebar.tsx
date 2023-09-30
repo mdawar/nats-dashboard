@@ -27,17 +27,21 @@ import {
 import Badge from '~/components/Badge';
 import pkg from '../../package.json';
 
-export default function Sidebar() {
+interface Props {
+  activePage: string;
+}
+
+export default function Sidebar(props: Props) {
   return (
     <ThemeProvider>
-      <MobileSidebar />
-      <DesktopSidebar />
+      <MobileSidebar {...props} />
+      <DesktopSidebar {...props} />
     </ThemeProvider>
   );
 }
 
 // Off-canvas menu for mobile, show/hide based on off-canvas menu state.
-function MobileSidebar() {
+function MobileSidebar(props: Props) {
   const [menuActive, actions] = useMobileMenu();
   // Workaround to keep the container element until the animation ends.
   // Without this workaround the animated child elements are removed from the DOM before any animations are applied.
@@ -115,7 +119,7 @@ function MobileSidebar() {
                   </button>
                 </div>
 
-                <Menu />
+                <Menu {...props} />
               </div>
             </Show>
           </Transition>
@@ -125,15 +129,15 @@ function MobileSidebar() {
   );
 }
 
-function DesktopSidebar() {
+function DesktopSidebar(props: Props) {
   return (
     <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      <Menu />
+      <Menu {...props} />
     </div>
   );
 }
 
-function Menu() {
+function Menu(props: Props) {
   const theme = useTheme();
 
   const [showThemeToggle, setShowThemeToggle] = createSignal(false);
@@ -168,20 +172,20 @@ function Menu() {
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <li>
-                <MenuItem href="/" active={true}>
-                  <ChartBarSquareIcon class="h-6 w-6 shrink-0 text-sky-600 dark:text-white" />
+                <MenuItem href="/" active={props.activePage === '/'}>
+                  <ChartBarSquareIcon class="h-6 w-6 shrink-0" />
                   Dashboard
                 </MenuItem>
               </li>
               <li>
-                <MenuItem href="#" active={false}>
-                  <ChatBubbleIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                <MenuItem href="/faq" active={props.activePage === '/faq'}>
+                  <ChatBubbleIcon class="h-6 w-6 shrink-0" />
                   FAQ
                 </MenuItem>
               </li>
               <li>
-                <MenuItem href="#" active={false}>
-                  <InfoCircleIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600 dark:group-hover:text-white" />
+                <MenuItem href="/about" active={props.activePage === '/about'}>
+                  <InfoCircleIcon class="h-6 w-6 shrink-0" />
                   About
                 </MenuItem>
               </li>

@@ -7,9 +7,11 @@ import Sidebar from '~/components/Sidebar';
 
 interface Props {
   meta?: HeadMetaProps;
+  /** Page pathname (Can be used to force an active element in the sidebar menu). */
+  pathname?: string;
 }
 
-const { meta } = Astro.props;
+const { meta, pathname = Astro.url.pathname } = Astro.props;
 ---
 
 <html lang="en" class="h-full">
@@ -35,7 +37,7 @@ const { meta } = Astro.props;
 
   <body class="h-full bg-white dark:bg-gray-900">
     <div>
-      <Sidebar client:load />
+      <Sidebar client:load activePage={pathname} />
 
       <div class="lg:pl-72">
         <slot />

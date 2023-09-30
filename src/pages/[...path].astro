@@ -23,6 +23,7 @@ const { path } = Astro.params;
     description: site.description,
     keywords: site.keywords as unknown as string[],
   }}
+  pathname="/"
 >
   <DashboardApp url={path ?? '/'} client:load />
 </Layout>
