@@ -24,6 +24,7 @@ const canonicalURL = new URL(path ?? Astro.url.pathname, Astro.site);
 {keywords && <meta name="keywords" content={keywords.join(', ')} />}
 <link rel="canonical" href={canonicalURL} />
 <meta name="generator" content={Astro.generator} />
+<link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website" />

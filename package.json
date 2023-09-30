@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.2.0",
+    "@astrojs/sitemap": "^3.0.0",
     "@astrojs/solid-js": "^3.0.1",
     "@astrojs/tailwind": "^5.0.0",
     "@solidjs/router": "^0.8.3",
