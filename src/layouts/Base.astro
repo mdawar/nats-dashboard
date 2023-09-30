@@ -15,7 +15,9 @@ const { meta, pathname = Astro.url.pathname } = Astro.props;
 ---
 
 <html lang="en" class="h-full">
-  <HeadMeta {...meta}>
+  <head>
+    <HeadMeta {...meta} />
+
     <!-- Site Theme -->
     <script is:inline>
       try {
@@ -33,7 +35,7 @@ const { meta, pathname = Astro.url.pathname } = Astro.props;
 
     <!-- Font -->
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-  </HeadMeta>
+  </head>
 
   <body class="h-full bg-white dark:bg-gray-900">
     <div>

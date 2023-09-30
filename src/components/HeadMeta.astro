@@ -39,5 +39,3 @@ const canonicalURL = new URL(path ?? Astro.url.pathname, Astro.site);
 <meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 {description && <meta property="twitter:description" content={description} />}
-
-<slot />
