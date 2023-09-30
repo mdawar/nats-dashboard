@@ -9,3 +9,4 @@
 !tsconfig.json
 !package*.json
 !Caddyfile
+!scripts

@@ -96,6 +96,14 @@ By default the data is fetched using the [Fetch API](https://developer.mozilla.o
 
 For NATS servers `< v2.9.22` there's an option to use [JSONP](https://en.wikipedia.org/wiki/JSONP) requests that fetch the data by injecting a `<script>` tag that executes and calls a JavaScript function that receives the data.
 
+## Service Worker
+
+The service worker is generated after the site build, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox/) precache manifest is injected by the `scripts/workbox.mjs` script.
+
+The service worker is registered only in production mode by the script `src/register-sw.ts` that's imported by the base layout at `src/layouts/Base.astro`.
+
+To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
+
 ## Alternatives
 
 - [nats-top](https://github.com/nats-io/nats-top): A top-like tool for monitoring NATS servers.
