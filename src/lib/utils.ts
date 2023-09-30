@@ -361,3 +361,10 @@ export function formatDate(dateString: string, timeZone?: string): string {
     timeZone,
   });
 }
+
+/**
+ * Remove the extension from a path string.
+ */
+export function removeExt(path: string): string {
+  return path.replace(/\.[^/.]+$/, '');
+}

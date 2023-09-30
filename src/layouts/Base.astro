@@ -1,5 +1,7 @@
 ---
 import '~/styles/global.css';
+
+import { removeExt } from '~/lib/utils';
 import HeadMeta, {
   type Props as HeadMetaProps,
 } from '~/components/HeadMeta.astro';
@@ -11,7 +13,7 @@ interface Props {
   pathname?: string;
 }
 
-const { meta, pathname = Astro.url.pathname } = Astro.props;
+const { meta, pathname = removeExt(Astro.url.pathname) } = Astro.props;
 ---
 
 <html lang="en" class="h-full">

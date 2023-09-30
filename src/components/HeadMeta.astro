@@ -1,5 +1,6 @@
 ---
 import { site } from '~/config';
+import { removeExt } from '~/lib/utils';
 
 export interface Props {
   title?: string;
@@ -12,7 +13,7 @@ export interface Props {
 const { title: pageTitle, description, keywords, path } = Astro.props;
 
 const title = pageTitle ? `${pageTitle} - ${site.title}` : site.title;
-const canonicalURL = new URL(path ?? Astro.url.pathname, Astro.site);
+const canonicalURL = new URL(path ?? removeExt(Astro.url.pathname), Astro.site);
 ---
 
 <meta charset="utf-8" />
