@@ -1,0 +1,25 @@
+---
+import Layout from '~/layouts/Base.astro';
+import MenuToggle from '~/components/MenuToggle';
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout
+  meta={{
+    title: frontmatter.title,
+    description: frontmatter.description,
+    keywords: frontmatter.keywords,
+  }}
+>
+  <div
+    class="lg:hidden sticky top-0 z-40 flex h-16 shrink-0 items-center px-6 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-white/5"
+  >
+    <MenuToggle client:load />
+  </div>
+  <div
+    class="px-4 py-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white prose max-w-none dark:prose-invert"
+  >
+    <slot />
+  </div>
+</Layout>

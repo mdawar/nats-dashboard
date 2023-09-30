@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 import formsPlugin from '@tailwindcss/forms';
+import typographyPlugin from '@tailwindcss/typography';
 
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -12,5 +13,5 @@ export default {
       },
     },
   },
-  plugins: [formsPlugin],
+  plugins: [formsPlugin, typographyPlugin],
 } satisfies Config;

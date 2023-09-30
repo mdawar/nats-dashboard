@@ -20,6 +20,7 @@
     "@astrojs/solid-js": "^3.0.1",
     "@astrojs/tailwind": "^5.0.0",
     "@solidjs/router": "^0.8.3",
+    "@tailwindcss/typography": "^0.5.10",
     "@tanstack/solid-query": "^5.0.0-rc.1",
     "astro": "^3.2.0",
     "date-fns": "^2.30.0",
