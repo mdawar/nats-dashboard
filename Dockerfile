@@ -1,7 +1,8 @@
 FROM node:20.8 AS build
 WORKDIR /app
-COPY . .
+COPY package*.json ./
 RUN npm i
+COPY . .
 RUN npm run build
 
 FROM caddy:2-alpine AS main
