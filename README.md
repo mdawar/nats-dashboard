@@ -98,11 +98,18 @@ For NATS servers `< v2.9.22` there's an option to use [JSONP](https://en.wikiped
 
 ## Service Worker
 
-The service worker is generated after the site build, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox/) precache manifest is injected by the `scripts/workbox.mjs` script.
+The service worker is generated after the site is built, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox/) precache manifest is injected by the `scripts/workbox.mjs` script.
 
 The service worker is registered only in production mode by the script `src/register-sw.ts` that's imported by the base layout at `src/layouts/Base.astro`.
 
 To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
+
+#### Generate the Service Worker
+
+```sh
+# This is automatically run after the build script.
+npm run generateSW
+```
 
 ## Alternatives
 
@@ -118,3 +125,4 @@ To test locally, use `make preview` to build the Docker container and run a Cadd
 - [Tailwind UI](https://tailwindui.com/): Tailwind CSS components
 - [Heroicons](https://heroicons.com/): SVG Icons
 - [CNCF Artwork](https://github.com/cncf/artwork): NATS logo
+- [Workbox](https://developer.chrome.com/docs/workbox/): Service worker libraries and tooling
