@@ -22,6 +22,9 @@ export type Endpoint =
   | 'jsz' // JetStream information.
   | 'healthz'; // Server health.
 
+/** Endpoints that return the server date in their responses. */
+export type EndpointWithDate = Exclude<Endpoint, 'healthz'>;
+
 /** NATS server monitoring endpoint options. */
 export type EndpointOptions = {
   varz: undefined; // No options.

@@ -1,25 +1,5 @@
-import type {
-  Endpoint,
-  EndpointOptions,
-  EndpointResponse,
-  MonitoringResponse,
-} from '~/types';
+import type { Endpoint, EndpointOptions, EndpointResponse } from '~/types';
 import { jsonp } from '~/lib/jsonp';
-
-/** NATS server information response. */
-export interface InfoResponse<T extends Endpoint> {
-  /** Fetch request round trip time in milliseconds. */
-  rtt: number;
-  /** API Response. */
-  current: EndpointResponse[T];
-  /** Previous API response. */
-  previous: EndpointResponse[T] | undefined;
-}
-
-export type PartialInfoResponse<T extends Endpoint> = Partial<InfoResponse<T>>;
-
-// TODO: temporary
-const cache = new Map<string, MonitoringResponse>();
 
 interface FetchInfoOptions<T extends Endpoint> {
   /** NATS monitoring server URL. */
@@ -35,13 +15,13 @@ interface FetchInfoOptions<T extends Endpoint> {
 }
 
 /** Fetch monitoring information for a NATS server by type. */
-export async function fetchInfo<T extends Endpoint>({
+export function fetchInfo<T extends Endpoint>({
   url: baseURL,
   endpoint,
   args,
   jsonp = false,
   signal,
-}: FetchInfoOptions<T>): Promise<PartialInfoResponse<T>> {
+}: FetchInfoOptions<T>): Promise<EndpointResponse[T]> {
   const url = new URL(endpoint, baseURL);
 
   if (args) {
@@ -49,22 +29,10 @@ export async function fetchInfo<T extends Endpoint>({
     url.search = params.toString();
   }
 
-  const start = performance.now();
-  const current = await fetchData<EndpointResponse[T]>(url.href, {
+  return fetchData<EndpointResponse[T]>(url.href, {
     jsonp,
     signal,
   });
-  const end = performance.now();
-
-  const response = {
-    rtt: end - start,
-    current,
-    previous: cache.get(url.href) as EndpointResponse[T],
-  };
-
-  cache.set(url.href, current);
-
-  return response;
 }
 
 interface FetchDataOptions {

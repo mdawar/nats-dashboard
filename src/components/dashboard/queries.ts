@@ -2,8 +2,17 @@ import { createMemo } from 'solid-js';
 import { createQuery, useQueryClient } from '@tanstack/solid-query';
 
 import type { ConnzOptions, JszOptions } from '~/types';
-import { fetchInfo, type InfoResponse } from '~/lib/info';
-import { formatVarz, formatConnz, formatJsz } from '~/lib/format';
+import { fetchInfo } from '~/lib/info';
+import { getPrevQueryResponse, newestQueryData } from '~/lib/query-utils';
+import {
+  formatVarz,
+  formatConnz,
+  formatJsz,
+  type APIResponses,
+  type FormattedVarz,
+  type FormattedConnz,
+  type FormattedJsz,
+} from '~/lib/format';
 import { useStore } from '~/components/context/store';
 import { useSettings } from '~/components/context/settings';
 
@@ -11,16 +20,25 @@ import { useSettings } from '~/components/context/settings';
 export function useVarz() {
   const [store] = useStore();
   const [settings] = useSettings();
+  const queryClient = useQueryClient();
 
-  return createQuery(() => ({
+  return createQuery<APIResponses<'varz'>, Error, FormattedVarz>(() => ({
     queryKey: [store.url, 'varz'],
-    queryFn: ({ signal }) => {
-      return fetchInfo({
+    queryFn: async ({ queryKey, signal }) => {
+      const current = await fetchInfo({
         url: store.url,
         endpoint: 'varz',
         jsonp: settings.jsonp,
         signal,
       });
+
+      const previous = getPrevQueryResponse<'varz'>({
+        client: queryClient,
+        queryKey,
+        exact: false,
+      });
+
+      return { current, previous };
     },
     select: formatVarz, // Fromat the data for display.
     enabled: store.active,
@@ -43,16 +61,25 @@ export function useConnz(options?: () => ConnzOptions) {
 
   const optsMemo = createMemo(() => options?.());
 
-  return createQuery(() => ({
+  return createQuery<APIResponses<'connz'>, Error, FormattedConnz>(() => ({
     queryKey: [store.url, 'connz', optsMemo()],
-    queryFn: ({ signal }) => {
-      return fetchInfo({
+    queryFn: async ({ signal }) => {
+      const current = await fetchInfo({
         url: store.url,
         endpoint: 'connz',
         args: optsMemo(),
         jsonp: settings.jsonp,
         signal,
       });
+
+      const previous = getPrevQueryResponse<'connz'>({
+        client: queryClient,
+        // Use a partial query key to retrieve any previous data, regardless of the options.
+        queryKey: [store.url, 'connz'],
+        exact: false,
+      });
+
+      return { current, previous };
     },
     select: formatConnz, // Fromat the data for display.
     enabled: store.active,
@@ -65,13 +92,13 @@ export function useConnz(options?: () => ConnzOptions) {
     // Set the initial data from a previous query to keep the same state
     // when changing the fetch settings.
     initialData: () => {
-      const data = queryClient.getQueriesData<Partial<InfoResponse<'connz'>>>({
+      const data = queryClient.getQueriesData<APIResponses<'connz'>>({
         queryKey: [store.url, 'connz'],
         exact: false,
       });
 
       // Return the last query's data or undefined for no initial data.
-      return data[data.length - 1]?.[1] as Partial<InfoResponse<'connz'>>;
+      return newestQueryData(data) as APIResponses<'connz'>;
     },
   }));
 }
@@ -86,16 +113,19 @@ export function useJsz(options?: () => JszOptions) {
 
   const optsMemo = createMemo(() => options?.());
 
-  return createQuery(() => ({
+  return createQuery<APIResponses<'jsz'>, Error, FormattedJsz>(() => ({
     queryKey: [store.url, 'jsz', optsMemo()],
-    queryFn: ({ signal }) => {
-      return fetchInfo({
+    queryFn: async ({ signal }) => {
+      const current = await fetchInfo({
         url: store.url,
         endpoint: 'jsz',
         args: optsMemo(),
         jsonp: settings.jsonp,
         signal,
       });
+
+      // We don't need the previous data (No calculations are made).
+      return { current };
     },
     select: formatJsz, // Fromat the data for display.
     enabled: store.active,
@@ -109,13 +139,13 @@ export function useJsz(options?: () => JszOptions) {
     // when changing the fetch settings.
     initialData: () => {
       // Returns found queries as arrays of [queryKey, data].
-      const data = queryClient.getQueriesData<Partial<InfoResponse<'jsz'>>>({
+      const data = queryClient.getQueriesData<APIResponses<'jsz'>>({
         queryKey: [store.url, 'jsz'],
         exact: false, // We want a partial queryKey match.
       });
 
       // Return the last query's data or undefined for no initial data.
-      return data[data.length - 1]?.[1] as Partial<InfoResponse<'jsz'>>;
+      return newestQueryData(data) as APIResponses<'jsz'>;
     },
   }));
 }

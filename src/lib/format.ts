@@ -1,5 +1,6 @@
-import type { PartialInfoResponse } from '~/lib/info';
 import type {
+  Endpoint,
+  EndpointResponse,
   Varz,
   Connz,
   ConnInfo,
@@ -29,6 +30,18 @@ import {
   type AbbreviatedNumber,
   type Duration,
 } from '~/lib/utils';
+
+/**
+ * Current and previous responses.
+ *
+ * Used for the messages and data rates calculations.
+ */
+export interface APIResponses<T extends Endpoint> {
+  /** Current API Response. */
+  current: EndpointResponse[T];
+  /** Previous API response. */
+  previous?: EndpointResponse[T] | undefined;
+}
 
 /** Formatted server information.
  *
@@ -94,7 +107,7 @@ export interface FormattedServerInfo {
 }
 
 /** Format the server information for display. */
-export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
+export function formatVarz(varz: APIResponses<'varz'>): FormattedVarz {
   const { current, previous } = varz;
 
   const rates = calculateRates({
@@ -137,7 +150,7 @@ export function formatVarz(varz: PartialInfoResponse<'varz'>): FormattedVarz {
  *
  * Includes the original connections information with a formatted connections array.
  */
-interface FormattedConnz extends Partial<Connz> {
+export interface FormattedConnz extends Partial<Connz> {
   /** List of connections to the server. */
   connections: ClientConnection[];
 }
@@ -209,9 +222,7 @@ type ConnectionsMap = Record<number, ConnInfo>;
 const activityWindow = 60;
 
 /** Format the connections data for display. */
-export function formatConnz(
-  connz: PartialInfoResponse<'connz'>
-): FormattedConnz {
+export function formatConnz(connz: APIResponses<'connz'>): FormattedConnz {
   const { current, previous } = connz;
 
   /** Map of the previous connections by CID. */
@@ -308,7 +319,7 @@ export interface FormattedJsz extends Partial<Jsz> {
 }
 
 /** Format the JetStream data for display. */
-export function formatJsz(jsz: PartialInfoResponse<'jsz'>): FormattedJsz {
+export function formatJsz(jsz: APIResponses<'jsz'>): FormattedJsz {
   const { current } = jsz;
   return {
     ...current,
