@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     // Generate an HTML file for each page.
     format: 'file',
-    // Directory name of the Astro generated assets (JS and CSS)
+    // Directory name of the Astro generated assets (JS and CSS).
     assets: 'app',
   },
   integrations: [
@@ -30,7 +30,7 @@ export default defineConfig({
         insertThemeColorMeta: true,
         insertAppleTouchLinks: true,
       },
-      icon: 'src/assets/nats-icon-black.svg', // TODO: change
+      icon: 'src/assets/nats-icon-black.png',
       name: 'NATS Dashboard',
       short_name: 'NATS Dashboard',
       start_url: '/',
