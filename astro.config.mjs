@@ -4,10 +4,9 @@ import solid from '@astrojs/solid-js';
 import sitemap from '@astrojs/sitemap';
 import webmanifest from 'astro-webmanifest';
 
-import manifestOptions from './webmanifest.mjs';
+import manifestOptions from './config/webmanifest.mjs';
 
 // https://astro.build/config
-// test
 export default defineConfig({
   site: process.env.SITE_DOMAIN,
   output: 'static',
