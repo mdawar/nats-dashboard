@@ -4,6 +4,8 @@ import solid from '@astrojs/solid-js';
 import sitemap from '@astrojs/sitemap';
 import webmanifest from 'astro-webmanifest';
 
+import manifestOptions from './webmanifest.mjs';
+
 // https://astro.build/config
 // test
 export default defineConfig({
@@ -23,23 +25,6 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     sitemap(),
-    webmanifest({
-      config: {
-        outfile: 'manifest.webmanifest',
-        createFavicon: true,
-        insertFaviconLinks: true,
-        insertManifestLink: true,
-        insertThemeColorMeta: true,
-        insertAppleTouchLinks: true,
-      },
-      icon: 'src/assets/nats-icon-black.png',
-      name: 'NATS Dashboard',
-      short_name: 'NATS Dashboard',
-      description: 'A dashboard for monitoring a NATS server.',
-      start_url: '/',
-      background_color: '#ffffff',
-      theme_color: '#0284c7',
-      display: 'standalone',
-    }),
+    webmanifest(manifestOptions),
   ],
 });
