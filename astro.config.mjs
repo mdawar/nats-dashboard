@@ -35,6 +35,7 @@ export default defineConfig({
       icon: 'src/assets/nats-icon-black.png',
       name: 'NATS Dashboard',
       short_name: 'NATS Dashboard',
+      description: 'A dashboard for monitoring a NATS server.',
       start_url: '/',
       background_color: '#ffffff',
       theme_color: '#0284c7',
