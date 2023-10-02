@@ -13,7 +13,7 @@ async function registerServiceWorker() {
           if (worker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               const ok = confirm(
-                'New version available! Do you want to reload and update?'
+                'New version available! Do you want to reload to update?'
               );
 
               if (ok) {
@@ -26,6 +26,8 @@ async function registerServiceWorker() {
     } catch (error) {
       console.error(`Service worker registration failed with ${error}`);
     }
+  } else {
+    console.warn('Service workers are not supported.');
   }
 }
 
