@@ -20,6 +20,10 @@ if (warnings.length > 0) {
   );
 }
 
-console.log(
-  `Injected a manifest which will precache ${count} files, totaling ${size} bytes.`
-);
+if (count > 0) {
+  console.log(
+    `Injected a manifest which will precache ${count} files, totaling ${size} bytes.`
+  );
+} else {
+  console.log('No files to precache.');
+}
