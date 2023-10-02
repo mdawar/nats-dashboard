@@ -10,10 +10,20 @@ export interface Props {
   path?: string;
 }
 
-const { title: pageTitle, description, keywords, path } = Astro.props;
+const {
+  title: pageTitle,
+  description,
+  keywords,
+  path = removeExt(Astro.url.pathname),
+} = Astro.props;
 
 const title = pageTitle ? `${pageTitle} - ${site.title}` : site.title;
-const canonicalURL = new URL(path ?? removeExt(Astro.url.pathname), Astro.site);
+
+// Use the defined site name in the Astro config file or the URL but only in dev mode.
+const siteURL = Astro.site ?? (import.meta.env.DEV ? Astro.url : undefined);
+const canonicalURL = siteURL && new URL(path, siteURL);
+// The sitemap is not generated if the site config is not set.
+const hasSitemap = !!Astro.site;
 ---
 
 <meta charset="utf-8" />
@@ -23,13 +33,13 @@ const canonicalURL = new URL(path ?? removeExt(Astro.url.pathname), Astro.site);
 <meta name="title" content={title} />
 {description && <meta name="description" content={description} />}
 {keywords && <meta name="keywords" content={keywords.join(', ')} />}
-<link rel="canonical" href={canonicalURL} />
+{canonicalURL && <link rel="canonical" href={canonicalURL} />}
 <meta name="generator" content={Astro.generator} />
-<link rel="sitemap" href="/sitemap-index.xml" />
+{hasSitemap && <link rel="sitemap" href="/sitemap-index.xml" />}
 
 <!-- Open Graph Meta Tags -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={canonicalURL} />
+{canonicalURL && <meta property="og:url" content={canonicalURL} />}
 <meta property="og:title" content={title} />
 {description && <meta property="og:description" content={description} />}
 <meta property="og:site_name" content={site.title} />
@@ -37,6 +47,6 @@ const canonicalURL = new URL(path ?? removeExt(Astro.url.pathname), Astro.site);
 
 <!-- Twitter Meta Tags -->
 <meta property="twitter:card" content="summary" />
-<meta property="twitter:url" content={canonicalURL} />
+{canonicalURL && <meta property="twitter:url" content={canonicalURL} />}
 <meta property="twitter:title" content={title} />
 {description && <meta property="twitter:description" content={description} />}

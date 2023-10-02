@@ -1,4 +1,5 @@
 FROM node:20.8 AS build
+ARG SITE_DOMAIN
 WORKDIR /app
 COPY package*.json ./
 RUN npm i

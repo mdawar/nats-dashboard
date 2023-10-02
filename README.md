@@ -59,27 +59,46 @@ npm run test:watch
 npm run build
 ```
 
+To build a sitemap and to have proper URL meta tags, the `SITE_DOMAIN` environment variable must be set.
+
+```sh
+# The SITE_DOMAIN env variable sets the Astro.site config.
+SITE_DOMAIN=https://example.com npm run build
+```
+
 #### Build Docker Image
+
+Build using Docker compose:
 
 ```sh
 make build
 # Or
 docker compose build
-# Or
+```
+
+The `SITE_DOMAIN` environment variable will be passed as a build argument if set.
+
+Or using the Docker CLI:
+
+```sh
 docker build -t nats-dashboard .
+# The site domain can be passed as a build arg.
+docker build -t nats-dashboard --build-arg SITE_DOMAIN=https://example.com .
 ```
 
 ## Build and Preview
 
 Build the Docker image and run the server on http://localhost:8000 with a NATS server running on port `4222`.
 
-This is useful for testing **SSG**.
+This is useful for testing **SSG** and the **PWA** config (eg: service worker).
 
 ```sh
 make preview
 # Or
 docker compose build && docker compose up
 ```
+
+The `SITE_DOMAIN` environment variable will be passed as a build argument if set.
 
 Cleanup:
 

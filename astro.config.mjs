@@ -5,11 +5,13 @@ import sitemap from '@astrojs/sitemap';
 import webmanifest from 'astro-webmanifest';
 
 // https://astro.build/config
+// test
 export default defineConfig({
-  site: 'http://localhost:4321', // TODO: change
+  site: process.env.SITE_DOMAIN,
   output: 'static',
   build: {
     // Generate an HTML file for each page.
+    // Astro.url.pathname will include the .html extension in this case.
     format: 'file',
     // Directory name of the Astro generated assets (JS and CSS).
     assets: 'app',
