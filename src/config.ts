@@ -1,4 +1,4 @@
-import type { SecondaryMenuItemProps } from '~/components/Sidebar';
+import type { SecondaryMenuItemProps } from '~/components/Menu';
 
 export const site = {
   title: 'NATS Dashboard',
