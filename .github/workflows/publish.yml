@@ -38,3 +38,4 @@ jobs:
           projectName: nats-dashboard
           directory: dist
           branch: main
+          wranglerVersion: '3'
