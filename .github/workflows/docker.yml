@@ -1,0 +1,24 @@
+name: Build Docker Image
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: docker build . -t ${{ vars.DOCKERHUB_USER }}/nats-dashboard:latest -t ${{ vars.DOCKERHUB_USER }}/nats-dashboard:${{ github.ref_name }}
+
+      - name: Push Image to Docker Hub
+        run: |
+          docker login -u ${{ vars.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+          docker push ${{ vars.DOCKERHUB_USER }}/rq-exporter:latest
+          docker push ${{ vars.DOCKERHUB_USER }}/rq-exporter:${{ github.ref_name }
