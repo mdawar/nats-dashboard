@@ -10,3 +10,4 @@
 !package*.json
 !config
 !scripts
+!README.md
