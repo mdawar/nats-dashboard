@@ -22,7 +22,7 @@ interface ConnzSettings {
     state: ConnState;
     /** Connection sorting option (Default: cid). */
     sort: ConnzSortOpt;
-    /** Number of connections to return (Default: 100). */
+    /** Number of connections to return (Default: 50). */
     limit: number;
     /** Include subscriptions info. */
     subs: SubsOption;
@@ -77,7 +77,7 @@ const defaultSettings: SettingsState = {
     query: {
       state: 'open',
       sort: 'cid',
-      limit: 100,
+      limit: 50,
       subs: false,
       auth: false,
     },
