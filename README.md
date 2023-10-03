@@ -4,9 +4,11 @@ A web dashboard to display live [NATS server](https://nats.io/) monitoring metri
 
 ## About
 
-This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it uses a similar way to fetch the monitoring stats of a [NATS server](https://nats.io/) but in the browser instead of the CLI.
+This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it fetches and displays the monitoring stats of a [NATS server](https://nats.io/) but in the browser instead of the CLI.
 
 Since this is a static web app, it **can be deployed anywhere** and can also **run locally** on your machine.
+
+This is also a **PWA** (Progressive Web App) so it's installable and usable offline, but of course you need access to the NATS server, for example you can monitor a local NATS server while being offline.
 
 There's **no backend** involved, the requests are made directly from the browser, so you can monitor a **local NATS server** (http://localhost:8222) even when the app is not running locally.
 
@@ -111,9 +113,11 @@ docker compose down -v
 
 ## Data Fetching
 
-By default the data is fetched using the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) since NATS server started supporting [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) since [v2.9.22](https://github.com/nats-io/nats-server/releases/tag/v2.9.22).
+By default the data is fetched using the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) since NATS server started supporting [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) in [v2.9.22](https://github.com/nats-io/nats-server/releases/tag/v2.9.22).
 
 For NATS servers `< v2.9.22` there's an option to use [JSONP](https://en.wikipedia.org/wiki/JSONP) requests that fetch the data by injecting a `<script>` tag that executes and calls a JavaScript function that receives the data.
+
+This option must be explicitly enabled in the app settings.
 
 ## Service Worker
 
