@@ -20,5 +20,5 @@ jobs:
       - name: Push Image to Docker Hub
         run: |
           docker login -u ${{ vars.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-          docker push ${{ vars.DOCKERHUB_USER }}/rq-exporter:latest
-          docker push ${{ vars.DOCKERHUB_USER }}/rq-exporter:${{ github.ref_name }}
+          docker push ${{ vars.DOCKERHUB_USER }}/nats-dashboard:latest
+          docker push ${{ vars.DOCKERHUB_USER }}/nats-dashboard:${{ github.ref_name }}
