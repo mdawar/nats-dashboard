@@ -14,6 +14,17 @@ There's **no backend** involved, the requests are made directly from the browser
 
 There's **no data retention**, so no historical stats can be displayed, you will only be able to view the live server stats, if you need this feature you should use a Prometheus exporter with Grafana and set an appropriate data retention policy.
 
+## Using the App
+
+The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com/): https://nats-dashboard.pages.dev
+
+A Docker image is also available on Docker Hub:
+
+```sh
+# Publish the app on port 8000.
+docker run --rm -it -p 8000:80 mdawar/nats-dashboard
+```
+
 ## Development
 
 #### Requirements
