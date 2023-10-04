@@ -1,10 +1,10 @@
 # NATS Web Dashboard
 
-A web dashboard to display live [NATS server](https://nats.io/) monitoring metrics.
+A web dashboard to display live [NATS server](https://nats.io) monitoring metrics.
 
 ## About
 
-This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it fetches and displays the monitoring stats of a [NATS server](https://nats.io/) but in the browser instead of the CLI.
+This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it fetches and displays the monitoring stats of a [NATS server](https://nats.io) but in the browser instead of the CLI.
 
 Since this is a static web app, it **can be deployed anywhere** and can also **run locally** on your machine.
 
@@ -16,14 +16,19 @@ There's **no data retention**, so no historical stats can be displayed, you will
 
 ## Using the App
 
-The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com/): https://nats-dashboard.pages.dev
+The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com):
 
-A Docker image is also available on Docker Hub:
+https://nats-dashboard.pages.dev
+
+It's a **PWA** and can be installed on your device (Desktop or mobile).
+
+A Docker image is available on Docker Hub:
 
 ```sh
-# Publish the app on port 8000.
 docker run --rm -it -p 8000:80 mdawar/nats-dashboard
 ```
+
+The image uses [Caddy](https://caddyserver.com) as the server and exposes port `80`, in the example above we map the port to `8000` on `localhost`.
 
 ## Development
 
@@ -132,7 +137,7 @@ This option must be explicitly enabled in the app settings.
 
 ## Service Worker
 
-The service worker is generated after the site is built, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox/) precache manifest is injected by the `scripts/workbox.mjs` script.
+The service worker is generated after the site is built, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox) precache manifest is injected by the `scripts/workbox.mjs` script.
 
 The service worker is registered only in production mode by the script `src/register-sw.ts` that's imported by the base layout at `src/layouts/Base.astro`.
 
