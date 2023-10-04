@@ -108,7 +108,7 @@ function MobileSidebar(props: MenuProps) {
 
 function DesktopSidebar(props: MenuProps) {
   return (
-    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+    <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
       <Menu {...props} />
     </div>
   );

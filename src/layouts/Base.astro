@@ -43,7 +43,7 @@ const { meta, pathname = removeExt(Astro.url.pathname) } = Astro.props;
     <div>
       <Sidebar client:load activePage={pathname} />
 
-      <div class="lg:pl-72">
+      <div class="lg:pl-64">
         <slot />
       </div>
     </div>
