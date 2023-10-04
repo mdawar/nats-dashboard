@@ -2,6 +2,8 @@
 
 A web dashboard to display live [NATS server](https://nats.io) monitoring metrics.
 
+[Live demo](https://nats-dashboard.pages.dev/?url=https%3A%2F%2Fdemo.nats.io%3A8222) monitoring the demo NATS server at https://demo.nats.io:8222.
+
 ## About
 
 This is a **static web app** that was inspired by [nats-top](https://github.com/nats-io/nats-top), it fetches and displays the monitoring stats of a [NATS server](https://nats.io) but in the browser instead of the CLI.
@@ -16,19 +18,23 @@ There's **no data retention**, so no historical stats can be displayed, you will
 
 ## Using the App
 
-The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com):
+#### PWA
+
+The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com) at:
 
 https://nats-dashboard.pages.dev
 
-It's a **PWA** and can be installed on your device (Desktop or mobile).
+The app can be installed on your device for offline use (Desktop or mobile).
 
-A Docker image is available on Docker Hub:
+#### Docker Image
 
 ```sh
 docker run --rm -it -p 8000:80 mdawar/nats-dashboard
 ```
 
-The image uses [Caddy](https://caddyserver.com) as the server and exposes port `80`, in the example above we map the port to `8000` on `localhost`.
+The image uses [Caddy server](https://caddyserver.com) and exposes port `80`.
+
+In the example above we map the image port `80` to port `8000` on `localhost`.
 
 ## Development
 
