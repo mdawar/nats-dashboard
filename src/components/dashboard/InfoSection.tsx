@@ -21,13 +21,19 @@ export function DetailList(props: ParentProps) {
 interface DetailItemProps {
   name: string;
   value: string | undefined;
+  class?: string;
 }
 
 export function DetailItem(props: DetailItemProps) {
   if (!props.value) return null;
 
   return (
-    <p class="text-xs leading-6 text-gray-500 dark:text-gray-400">
+    <p
+      class="text-xs leading-6 text-gray-500 dark:text-gray-400"
+      classList={{
+        [props.class!]: !!props.class,
+      }}
+    >
       <span class="font-semibold text-gray-900 dark:text-white">
         {props.name}
       </span>
