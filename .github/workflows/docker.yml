@@ -25,9 +25,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags:
-            - ${{ vars.DOCKERHUB_USER }}/nats-dashboard:latest
-            - ${{ vars.DOCKERHUB_USER }}/nats-dashboard:${{ github.ref_name }}
+          tags: ${{ vars.DOCKERHUB_USER }}/nats-dashboard:latest,${{ vars.DOCKERHUB_USER }}/nats-dashboard:${{ github.ref_name }}
 
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
