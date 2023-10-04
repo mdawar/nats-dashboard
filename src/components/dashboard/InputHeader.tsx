@@ -3,6 +3,7 @@ import { useSearchParams } from '@solidjs/router';
 
 import { useStore } from '~/components/context/store';
 import MenuToggle from '~/components/MenuToggle';
+import { notify } from '~/components/Notifications';
 import Button from '~/components/Button';
 import Modal from '~/components/Modal';
 import {
@@ -32,9 +33,17 @@ export default function InputHeader() {
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
 
-    // TODO: show an error if there's no URL
     if (store.url.trim() !== '') {
       storeActions.toggleActive();
+    } else {
+      notify({
+        title: 'Server URL Required',
+        message: 'Set the NATS server URL to start monitoring.',
+        icon: 'warning',
+        timeout: 5000,
+      });
+
+      document.getElementById('nats-url')?.focus();
     }
   };
 
