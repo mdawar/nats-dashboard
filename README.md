@@ -2,7 +2,7 @@
 
 A web dashboard to display live [NATS server](https://nats.io) monitoring metrics.
 
-[Live demo](https://nats-dashboard.pages.dev/?url=https%3A%2F%2Fdemo.nats.io%3A8222) monitoring the demo NATS server at https://demo.nats.io:8222.
+[Live demo](https://natsdashboard.com/?url=https%3A%2F%2Fdemo.nats.io%3A8222) monitoring the demo NATS server at https://demo.nats.io:8222.
 
 ## About
 
@@ -22,7 +22,7 @@ There's **no data retention**, so no historical stats can be displayed, you will
 
 The app is deployed on [Cloudflare Pages](https://pages.cloudflare.com) at:
 
-https://nats-dashboard.pages.dev
+https://natsdashboard.com
 
 The app can be installed on your device for offline use (Desktop or mobile).
 
