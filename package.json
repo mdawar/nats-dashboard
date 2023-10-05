@@ -1,6 +1,6 @@
 {
   "name": "nats-dashboard",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "NATS Web Dashboard",
   "author": "Pierre Mdawar <pierre@mdawar.dev>",
   "license": "MIT",
