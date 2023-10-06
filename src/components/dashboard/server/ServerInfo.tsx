@@ -37,23 +37,32 @@ export default function ServerInfo(props: Props) {
             >
               {props.varz.data?.server_name}
             </span>
-            <span class="text-gray-600 hidden sm:inline">/</span>
-            <span
-              class="font-semibold text-gray-900 dark:text-white hidden sm:inline"
-              title="Uptime"
+            <Show
+              when={props.varz.data?.server_name !== props.varz.data?.server_id}
             >
-              {props.varz.data?.info.uptime}
-            </span>
+              <span class="text-gray-600 hidden lg:inline">/</span>
+              <span
+                class="font-semibold text-gray-900 dark:text-white hidden lg:inline break-all truncate"
+                title="Server ID"
+              >
+                {props.varz.data?.server_id}
+              </span>
+            </Show>
           </h1>
         </div>
 
         <DetailList>
-          <DetailItem
-            name="Uptime"
-            value={props.varz.data?.info.uptime}
-            class="sm:hidden"
-          />
-          <DetailItem name="Server ID" value={props.varz.data?.server_id} />
+          <Show
+            when={props.varz.data?.server_name !== props.varz.data?.server_id}
+          >
+            <DetailItem
+              name="Server ID"
+              value={props.varz.data?.server_id}
+              class="lg:hidden"
+            />
+          </Show>
+
+          <DetailItem name="Uptime" value={props.varz.data?.info.uptime} />
 
           <Show when={props.details}>
             <ServerDetails varz={props.varz} />
