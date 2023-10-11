@@ -149,6 +149,13 @@ The service worker is registered only in production mode by the script `src/regi
 
 To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
 
+#### Generate the Service Worker
+
+```sh
+# This is automatically run after the build script.
+npm run generateSW
+```
+
 ## GitHub Actions Requirements
 
 #### Repository Variables
@@ -175,13 +182,6 @@ To test locally, use `make preview` to build the Docker container and run a Cadd
   - Zone > Cache Purge > Purge
 
 - Docker Hub [token](https://hub.docker.com/settings/security) with **Read, write, delete** scope.
-
-#### Generate the Service Worker
-
-```sh
-# This is automatically run after the build script.
-npm run generateSW
-```
 
 ## Alternatives
 
