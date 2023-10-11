@@ -25,6 +25,7 @@
     "@solidjs/router": "^0.8.3",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/solid-query": "^5.0.0-rc.8",
+    "@tanstack/solid-query-devtools": "^5.0.0-rc.10",
     "astro": "^3.2.4",
     "date-fns": "^2.30.0",
     "solid-js": "^1.8.1",
