@@ -149,6 +149,33 @@ The service worker is registered only in production mode by the script `src/regi
 
 To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
 
+## GitHub Actions Requirements
+
+#### Repository Variables
+
+| Variable Name    | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| `DOCKERHUB_USER` | Required to push the Docker image to Docker Hub.               |
+| `SITE_DOMAIN`    | Needed to generate a sitemap and the URL meta tags (Optional). |
+
+#### Repository Secrets
+
+| Secret Name             | Description                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| `CLOUDFLARE_ACCOUNT_ID` | Required for uploading the assets to Cloudflare Pages.       |
+| `CLOUDFLARE_ZONE_ID`    | Required for purging the zone cache.                         |
+| `CLOUDFLARE_API_TOKEN`  | Required for Clouflare Pages and for purging the zone cache. |
+| `DOCKERHUB_TOKEN`       | Required to push the Docker image to Docker Hub.             |
+
+#### Required Permissions
+
+- Cloudflare [API Token](https://dash.cloudflare.com/profile/api-tokens) with the following permissions:
+
+  - Account > Cloudflare Pages > Edit
+  - Zone > Cache Purge > Purge
+
+- Docker Hub [token](https://hub.docker.com/settings/security) with **Read, write, delete** scope.
+
 #### Generate the Service Worker
 
 ```sh
