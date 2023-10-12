@@ -209,6 +209,7 @@ interface ConsumerConfig {
   /** []time.Duration */
   backoff?: number[];
   filter_subject?: string;
+  filter_subjects?: string[];
   replay_policy: ReplayPolicy;
   /** Bits per sec. */
   rate_limit_bps?: number;

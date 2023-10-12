@@ -75,6 +75,7 @@ export default function ConsumerDetails(props: Props) {
                   'Durable Name': c().config?.durable_name,
                   Replicas: c().config?.num_replicas,
                   'Filter Subject': c().config?.filter_subject,
+                  'Filter Subjects': c().config?.filter_subjects?.join(', '),
                   'Deliver Group': c().config?.deliver_group,
                   'Deliver Subject': c().config?.deliver_subject,
                   'Deliver Policy': c().info.config.deliverPolicy,
