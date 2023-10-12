@@ -162,7 +162,7 @@ export default function StreamsList(props: Props) {
           <SlideOver
             title="Stream Info"
             onClose={() => setSelectedName(undefined)}
-            size="lg"
+            size="xl"
           >
             <StreamDetails stream={stream()} />
           </SlideOver>
