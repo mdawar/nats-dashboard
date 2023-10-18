@@ -53,7 +53,7 @@ export default function ConnectionItem(props: Props) {
   };
 
   return (
-    <ListItem class="relative flex items-center space-x-4">
+    <ListItem class="relative flex flex-col sm:flex-row md:items-center gap-4">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <Indicator color={indicator()} />
@@ -339,19 +339,21 @@ export default function ConnectionItem(props: Props) {
         </div>
       </div>
 
-      <div
-        class="rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset"
-        classList={{
-          [langColor[langName]!]: true,
-        }}
-      >
-        {lang} {props.connection.version}
-      </div>
+      <div class="flex items-center justify-between gap-2">
+        <div
+          class="rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset"
+          classList={{
+            [langColor[langName]!]: true,
+          }}
+        >
+          {lang} {props.connection.version}
+        </div>
 
-      <ChevronRightIcon
-        aria-hidden="true"
-        class="h-5 w-5 flex-none text-gray-500 dark:text-gray-400"
-      />
+        <ChevronRightIcon
+          aria-hidden="true"
+          class="h-5 w-5 flex-none text-gray-500 dark:text-gray-400"
+        />
+      </div>
     </ListItem>
   );
 }
