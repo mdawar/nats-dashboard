@@ -1,4 +1,4 @@
-import { onMount, createSignal, createEffect, Show } from 'solid-js';
+import { onMount, createSignal, createEffect, Show, For } from 'solid-js';
 import { useSearchParams } from '@solidjs/router';
 
 import { useStore } from '~/components/context/store';
@@ -13,6 +13,7 @@ import {
   Cog6ToothIcon,
 } from '~/components/icons';
 import AppSettings from '~/components/dashboard/AppSettings';
+import { serversList } from '~/config';
 
 export default function InputHeader() {
   const [store, storeActions] = useStore();
@@ -77,9 +78,9 @@ export default function InputHeader() {
             }}
           />
           <datalist id="url-list">
-            <option value="http://localhost:8222" />
-            <option value="https://localhost:8222" />
-            <option value="https://demo.nats.io:8222" />
+            <For each={serversList}>
+              {(server) => <option value={server.url} />}
+            </For>
           </datalist>
         </form>
 

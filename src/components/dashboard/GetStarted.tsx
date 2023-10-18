@@ -1,6 +1,9 @@
+import { For } from 'solid-js';
+
 import { useStore } from '~/components/context/store';
 import { ServerIcon, PlusIcon } from '~/components/icons';
 import Button from '~/components/Button';
+import { serversList } from '~/config';
 
 export default function GetStarted() {
   const [_, actions] = useStore();
@@ -15,27 +18,20 @@ export default function GetStarted() {
         Get started by monitoring a new NATS server.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
-        <Button
-          color="secondary"
-          onClick={() => {
-            actions.setURL('http://localhost:8222');
-            actions.setActive(true);
-          }}
-        >
-          <PlusIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          localhost
-        </Button>
-
-        <Button
-          color="secondary"
-          onClick={() => {
-            actions.setURL('https://demo.nats.io:8222');
-            actions.setActive(true);
-          }}
-        >
-          <PlusIcon class="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-          demo.nats.io
-        </Button>
+        <For each={serversList}>
+          {(server) => (
+            <Button
+              color="secondary"
+              onClick={() => {
+                actions.setURL(server.url);
+                actions.setActive(true);
+              }}
+            >
+              <PlusIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
+              {server.name}
+            </Button>
+          )}
+        </For>
       </div>
     </div>
   );
