@@ -28,6 +28,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ${{ vars.DOCKERHUB_USER }}/nats-dashboard:latest,${{ vars.DOCKERHUB_USER }}/nats-dashboard:${{ github.ref_name }}
 
       - name: Docker Hub Description
