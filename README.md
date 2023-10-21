@@ -145,7 +145,7 @@ This option must be explicitly enabled in the app settings.
 
 The service worker is generated after the site is built, it's available at `src/sw.ts`, it's built by `vite` using the script `scripts/build-sw.mjs` and then the [Workbox](https://developer.chrome.com/docs/workbox) precache manifest is injected by the `scripts/workbox.mjs` script.
 
-The service worker is registered only in production mode by the script `src/register-sw.ts` that's imported by the base layout at `src/layouts/Base.astro`.
+The service worker is registered only in production mode by the script `src/sw-register.ts` that's imported by the base layout at `src/layouts/Base.astro`.
 
 To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
 
