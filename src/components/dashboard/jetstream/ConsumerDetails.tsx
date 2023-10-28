@@ -84,7 +84,7 @@ export default function ConsumerDetails(props: Props) {
                   'Max Deliver': c().info.config.maxDeliver,
                   'Max Waiting': c().info.config.maxWaiting?.str,
                   'Ack. Wait': c().info.config.ackWait,
-                  'Max Ack. Pending': c().info.config.maxAckPending?.str,
+                  'Max Ack. Pending': c().info.config.maxAckPending,
                   Backoff: c().info.config.backoff?.join(', '),
                 }}
               />

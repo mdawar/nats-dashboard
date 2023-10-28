@@ -493,8 +493,8 @@ export function formatStreamConfig(
         config.max_msg_size === -1
           ? 'Unlimited'
           : config.max_msg_size !== undefined
-          ? formatBytes(config.max_msg_size).str
-          : undefined,
+            ? formatBytes(config.max_msg_size).str
+            : undefined,
       duplicateWindow: config.duplicate_window
         ? durationFromNs(config.duplicate_window).str
         : undefined,
@@ -525,7 +525,7 @@ interface FormattedConsumer {
     maxDeliver: string | undefined;
     maxWaiting: AbbreviatedNumber | undefined;
     ackWait: string | undefined;
-    maxAckPending: AbbreviatedNumber | undefined;
+    maxAckPending: string | undefined;
     backoff: string[] | undefined;
   };
   delivered: {
@@ -597,7 +597,9 @@ export function formatConsumerInfo(
             : undefined,
         maxAckPending:
           consumer.config?.max_ack_pending !== undefined
-            ? abbreviateNum(consumer.config?.max_ack_pending)
+            ? consumer.config?.max_ack_pending === -1
+              ? 'Unlimited'
+              : abbreviateNum(consumer.config?.max_ack_pending).str
             : undefined,
         backoff: consumer.config?.backoff?.map((d) => durationFromNs(d).str),
       },
