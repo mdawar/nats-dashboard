@@ -28,10 +28,10 @@ jobs:
 
       # Build without the sitemap and any references to website.
       - name: Build release files
-        run: npm run build -- --outDir build
+        run: npm run build
 
       - name: Create zip file
-        run: zip -r build.zip ./build
+        run: zip -r build.zip ./dist
 
       - name: Upload release zip file
         uses: softprops/action-gh-release@v1
