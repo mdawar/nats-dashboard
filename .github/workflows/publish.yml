@@ -1,4 +1,4 @@
-name: Publish to Cloudflare Pages
+name: Build and Publish
 
 on:
   release:
@@ -11,7 +11,7 @@ jobs:
     permissions:
       contents: write
       deployments: write
-    name: Publish to Cloudflare Pages
+    name: Build and Publish
     steps:
       - name: Checkout
         uses: actions/checkout@v4
