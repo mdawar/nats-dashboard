@@ -31,6 +31,15 @@ jobs:
         env:
           SITE_DOMAIN: ${{ vars.SITE_DOMAIN }}
 
+      - name: Create zip file
+        run: zip -r build.zip ./dist
+
+      - name: Upload release zip file
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: build.zip
+
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
