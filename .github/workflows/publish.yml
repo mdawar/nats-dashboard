@@ -26,19 +26,23 @@ jobs:
       - name: Run Tests
         run: npm test
 
-      - name: Build
-        run: npm run build
-        env:
-          SITE_DOMAIN: ${{ vars.SITE_DOMAIN }}
+      # Build without the sitemap and any references to website.
+      - name: Build release files
+        run: npm run build -- --outDir build
 
       - name: Create zip file
-        run: zip -r build.zip ./dist
+        run: zip -r build.zip ./build
 
       - name: Upload release zip file
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
           files: build.zip
+
+      - name: Build production site
+        run: npm run build
+        env:
+          SITE_DOMAIN: ${{ vars.SITE_DOMAIN }}
 
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
