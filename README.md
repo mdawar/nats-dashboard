@@ -36,6 +36,24 @@ The image uses [Caddy server](https://caddyserver.com) and exposes port `80`.
 
 In the example above we map the image port `80` to port `8000` on `localhost`.
 
+#### Build Files
+
+The build files are available on the releases page in a `build.zip` file.
+
+You can serve the app locally using any HTTP server.
+
+Serving using Python's HTTP server:
+
+```sh
+cd ./dist && python -m http.server
+```
+
+Serving using Caddy server:
+
+```sh
+docker run --rm -it -p 8000:80 -v ./dist:/usr/share/caddy caddy
+```
+
 ## Development
 
 #### Requirements
