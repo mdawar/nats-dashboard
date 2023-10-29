@@ -68,7 +68,7 @@ export default function InputHeader() {
             id="nats-url"
             class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 dark:bg-transparent dark:text-white dark:placeholder:text-gray-500 focus:ring-0 sm:text-sm disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-400"
             disabled={store.active}
-            placeholder="Server URL"
+            placeholder="Enter a NATS monitoring server URL"
             type="url"
             spellcheck={false}
             list="url-list"
