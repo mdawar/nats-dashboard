@@ -1,4 +1,5 @@
-import { Router, Routes, Route } from '@solidjs/router';
+import { type ParentProps } from 'solid-js';
+import { Router, Route } from '@solidjs/router';
 
 import Providers from '~/components/dashboard/Providers';
 import Notifications from '~/components/Notifications';
@@ -23,20 +24,24 @@ export default function App(props: AppProps) {
     <Providers>
       <Notifications />
 
-      <Router url={props.url}>
-        <InputHeader />
-
-        <main>
-          <Navigation />
-
-          <Routes>
-            <Route path="/" component={Overview} />
-            <Route path="/info" component={Info} />
-            <Route path="/connections" component={Connections} />
-            <Route path="/jetstream" component={JetStream} />
-          </Routes>
-        </main>
+      <Router root={Root} url={props.url} explicitLinks={true}>
+        <Route path="/" component={Overview} />
+        <Route path="/info" component={Info} />
+        <Route path="/connections" component={Connections} />
+        <Route path="/jetstream" component={JetStream} />
       </Router>
     </Providers>
+  );
+}
+
+function Root(props: ParentProps) {
+  return (
+    <>
+      <InputHeader />
+      <main>
+        <Navigation />
+        {props.children}
+      </main>
+    </>
   );
 }
