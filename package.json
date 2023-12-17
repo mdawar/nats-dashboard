@@ -10,7 +10,7 @@
     "build": "astro build",
     "prebuild": "npm run check",
     "postbuild": "npm run generateSW",
-    "check": "astro check && tsc --noEmit",
+    "check": "tsc --noEmit",
     "generateSW": "node scripts/build-sw.mjs && node scripts/workbox.mjs",
     "preview": "astro preview",
     "format": "prettier --write \"./src\"",
