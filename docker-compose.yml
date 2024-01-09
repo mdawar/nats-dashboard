@@ -6,8 +6,9 @@ services:
       dockerfile: Dockerfile
       target: main
       args:
-        # Pass the env variable as a build arg.
+        # Pass the env variables as build args.
         - SITE_DOMAIN
+        - PUBLIC_SERVERS_LIST
     ports:
       - target: 80
         published: 8000
