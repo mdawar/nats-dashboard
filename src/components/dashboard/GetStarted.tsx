@@ -28,7 +28,7 @@ export default function GetStarted() {
               }}
             >
               <PlusIcon class="-ml-0.5 h-5 w-5" aria-hidden="true" />
-              {server.name}
+              {server.name ?? server.url}
             </Button>
           )}
         </For>

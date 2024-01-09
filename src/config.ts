@@ -10,7 +10,15 @@ export const site = {
   ],
 } as const;
 
-export const serversList: { name: string; url: string }[] = [
+export interface Server {
+  /** Optional server display name. */
+  name?: string;
+  /** NATS monitoring server URL. */
+  url: string;
+}
+
+/** NATS monitoring servers default list. */
+export const defaultServersList: Server[] = [
   {
     name: 'localhost',
     url: 'http://localhost:8222',
@@ -20,6 +28,18 @@ export const serversList: { name: string; url: string }[] = [
     url: 'https://demo.nats.io:8222',
   },
 ];
+
+/** Comma separated list of server URLs. */
+const SERVERS_LIST: string = import.meta.env.PUBLIC_SERVERS_LIST ?? '';
+
+const customServersList: Server[] = SERVERS_LIST.split(',')
+  .filter(Boolean)
+  .map((url: string) => ({ url }));
+
+/** NATS monitoring servers list. */
+export const serversList = customServersList.length
+  ? customServersList
+  : defaultServersList;
 
 export const externalLinks: SecondaryMenuItemProps[] = [
   {

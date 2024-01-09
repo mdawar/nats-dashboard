@@ -101,6 +101,13 @@ npm run test:watch
 npm run build
 ```
 
+The `PUBLIC_SERVERS_LIST` environment variable can be used to set a custom servers list (Used for quick access).
+
+```sh
+# Provide a comma separated list of servers.
+PUBLIC_SERVERS_LIST="http://localhost:8222,https://demo.nats.io:8222" npm run build
+```
+
 To build a sitemap and to have proper URL meta tags, the `SITE_DOMAIN` environment variable must be set.
 
 ```sh
@@ -118,7 +125,7 @@ make build
 docker compose build
 ```
 
-The `SITE_DOMAIN` environment variable will be passed as a build argument if set.
+The environment variables `PUBLIC_SERVERS_LIST` and `SITE_DOMAIN` will be passed as build arguments if set.
 
 Or using the Docker CLI:
 
@@ -140,7 +147,7 @@ make preview
 docker compose build && docker compose up
 ```
 
-The `SITE_DOMAIN` environment variable will be passed as a build argument if set.
+The environment variables `PUBLIC_SERVERS_LIST` and `SITE_DOMAIN` will be passed as build arguments if set.
 
 Cleanup:
 
