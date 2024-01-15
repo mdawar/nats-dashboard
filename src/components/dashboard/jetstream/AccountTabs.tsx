@@ -1,4 +1,4 @@
-import { mergeProps, For, Show } from 'solid-js';
+import { mergeProps, createMemo, For, Show } from 'solid-js';
 
 import type { AccountDetail } from '~/types';
 
@@ -13,6 +13,11 @@ interface Props {
 
 export default function AccountTabs(props: Props) {
   props = mergeProps({ numStreams: true } satisfies Partial<Props>, props);
+
+  const accounts = createMemo(() =>
+    // Sort alphabetically by the account ID.
+    props.accounts.sort((a, b) => a.id.localeCompare(b.id))
+  );
 
   return (
     <div>
@@ -29,7 +34,7 @@ export default function AccountTabs(props: Props) {
           class="block w-full rounded-md border-gray-300 mt-2 py-2 pl-3 pr-10 text-base focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm dark:bg-white/5 dark:text-white dark:border-none dark:ring-1 dark:ring-inset dark:ring-white/10 dark:focus:ring-2 [&_*]:text-black"
           onChange={(e) => props.onChange(e.target.value)}
         >
-          <For each={props.accounts}>
+          <For each={accounts()}>
             {(acc) => (
               <option selected={props.active === acc.id} value={acc.id}>
                 {acc.name}
@@ -48,7 +53,7 @@ export default function AccountTabs(props: Props) {
             <span class="text-gray-900 dark:text-white flex whitespace-nowrap py-6 px-1 text-sm font-medium">
               Account
             </span>
-            <For each={props.accounts}>
+            <For each={accounts()}>
               {(acc) => (
                 <a
                   href="#"
