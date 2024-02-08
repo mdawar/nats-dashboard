@@ -16,7 +16,7 @@ export default function AccountTabs(props: Props) {
 
   const accounts = createMemo(() =>
     // Sort alphabetically by the account ID.
-    props.accounts.sort((a, b) => a.id.localeCompare(b.id))
+    [...props.accounts].sort((a, b) => a.id.localeCompare(b.id))
   );
 
   return (
