@@ -22,6 +22,12 @@ export function fetchInfo<T extends Endpoint>({
   jsonp = false,
   signal,
 }: FetchInfoOptions<T>): Promise<EndpointResponse[T]> {
+  // Default to the http scheme.
+  if (!baseURL.includes('://')) {
+    baseURL = `http://${baseURL}`;
+  }
+
+  // Throws TypeError for invalid URLs.
   const url = new URL(endpoint, baseURL);
 
   if (args) {

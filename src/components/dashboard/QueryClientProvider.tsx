@@ -28,13 +28,13 @@ export default function QueryClientProvider(props: ParentProps) {
 
         if (!title || !message) {
           if (error instanceof FetchError) {
-            title ??= 'Fetch Error';
+            title ??= 'Fetch error';
             message ??= 'Cannot fetch the data from the server.';
           } else if (error instanceof TimeoutError) {
             title ??= 'Timed out';
             message ??= 'Fetching the data took too long.';
           } else {
-            title ??= 'Unexpected out';
+            title ??= 'Unexpected error';
             message ??= 'The was an unexpected error while fetching the data.';
           }
         }
