@@ -1,0 +1,12 @@
+{
+  "serversList": [
+    {
+      "name": "localhost",
+      "url": "http://localhost:8222"
+    },
+    {
+      "name": "demo.nats.io",
+      "url": "https://demo.nats.io:8222"
+    }
+  ]
+}

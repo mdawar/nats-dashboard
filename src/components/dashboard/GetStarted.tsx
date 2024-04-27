@@ -1,11 +1,12 @@
 import { For } from 'solid-js';
 
+import { useConfig } from '~/components/context/config';
 import { useStore } from '~/components/context/store';
 import { ServerIcon, PlusIcon } from '~/components/icons';
 import Button from '~/components/Button';
-import { serversList } from '~/config';
 
 export default function GetStarted() {
+  const config = useConfig();
   const [_, actions] = useStore();
 
   return (
@@ -18,7 +19,7 @@ export default function GetStarted() {
         Get started by monitoring a new NATS server.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
-        <For each={serversList}>
+        <For each={config().serversList}>
           {(server) => (
             <Button
               color="secondary"

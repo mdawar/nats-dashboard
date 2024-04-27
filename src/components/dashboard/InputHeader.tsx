@@ -1,6 +1,7 @@
 import { onMount, createSignal, createEffect, Show, For } from 'solid-js';
 import { useSearchParams } from '@solidjs/router';
 
+import { useConfig } from '~/components/context/config';
 import { useStore } from '~/components/context/store';
 import MenuToggle from '~/components/MenuToggle';
 import { notify } from '~/components/Notifications';
@@ -13,9 +14,9 @@ import {
   Cog6ToothIcon,
 } from '~/components/icons';
 import AppSettings from '~/components/dashboard/AppSettings';
-import { serversList } from '~/config';
 
 export default function InputHeader() {
+  const config = useConfig();
   const [store, storeActions] = useStore();
   const [showSettings, setShowSettings] = createSignal(false);
   const [params, setParams] = useSearchParams();
@@ -78,7 +79,7 @@ export default function InputHeader() {
             }}
           />
           <datalist id="url-list">
-            <For each={serversList}>
+            <For each={config().serversList}>
               {(server) => <option value={server.url} />}
             </For>
           </datalist>

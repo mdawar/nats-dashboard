@@ -1,6 +1,5 @@
 FROM node:21.5 AS build
 ARG SITE_DOMAIN
-ARG PUBLIC_SERVERS_LIST
 WORKDIR /app
 COPY package*.json ./
 RUN npm i

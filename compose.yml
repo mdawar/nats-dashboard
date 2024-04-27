@@ -8,7 +8,6 @@ services:
       args:
         # Pass the env variables as build args.
         - SITE_DOMAIN
-        - PUBLIC_SERVERS_LIST
     ports:
       - target: 80
         published: 8000

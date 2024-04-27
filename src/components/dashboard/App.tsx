@@ -1,10 +1,8 @@
-import { type ParentProps } from 'solid-js';
 import { Router, Route } from '@solidjs/router';
 
 import Providers from '~/components/dashboard/Providers';
 import Notifications from '~/components/Notifications';
-import InputHeader from '~/components/dashboard/InputHeader';
-import Navigation from '~/components/dashboard/Navigation';
+import Root from '~/components/dashboard/Root';
 import Overview from '~/components/dashboard/pages/Overview';
 import Info from '~/components/dashboard/pages/Info';
 import Connections from '~/components/dashboard/pages/Connections';
@@ -31,17 +29,5 @@ export default function App(props: AppProps) {
         <Route path="/jetstream" component={JetStream} />
       </Router>
     </Providers>
-  );
-}
-
-function Root(props: ParentProps) {
-  return (
-    <>
-      <InputHeader />
-      <main>
-        <Navigation />
-        {props.children}
-      </main>
-    </>
   );
 }
