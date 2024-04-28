@@ -1,0 +1,7 @@
+{
+  "server": {
+    "name": "Internal Server",
+    "url": "http://localhost:8000/proxy/"
+  },
+  "hideServerInput": true
+}

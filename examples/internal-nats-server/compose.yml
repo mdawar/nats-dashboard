@@ -1,0 +1,17 @@
+services:
+  # Internal NATS server.
+  server:
+    image: nats:2.10
+    command: -n internal-server -m 8222 -js
+
+  # NATS dashboard instance running on the same private network.
+  dashboard:
+    image: mdawar/nats-dashboard
+    environment:
+      REVERSE_PROXY_UPSTREAM: 'server:8222'
+    volumes:
+      - ./config.json:/srv/config.json
+    ports:
+      - target: 80
+        published: 8000
+        protocol: tcp
