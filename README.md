@@ -36,6 +36,8 @@ The image uses [Caddy server](https://caddyserver.com) and exposes port `80`.
 
 In the example above we map the image port `80` to port `8000` on `localhost`.
 
+**Note**: You can use a custom server configuration (`Caddyfile`) and mount it at `/etc/caddy/Caddyfile`.
+
 #### Build Files
 
 The build files are available on the releases page in a `build.zip` file.
