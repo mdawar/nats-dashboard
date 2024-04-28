@@ -14,14 +14,21 @@ export interface Server {
 }
 
 export interface Config {
-  /** Default NATS server URL. */
-  url: string;
-  /** Default NATS server list. */
+  /** Default NATS server. */
+  server?: Server;
+  /**
+   * Hide the server URL input.
+   *
+   * Disables the query params.
+   * Useful for instances monitoring a single NATS server.
+   */
+  hideServerInput: boolean;
+  /** Default NATS servers list. */
   serversList: Server[];
 }
 
 const defaultConfig = {
-  url: '',
+  hideServerInput: false,
   serversList: [
     {
       name: 'localhost',

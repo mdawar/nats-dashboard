@@ -11,10 +11,12 @@ export default function Root(props: ParentProps) {
   const config = useConfig();
   const [_, storeActions] = useStore();
 
-  // Server URL set in the config file.
   createEffect(() => {
-    if (config().url) {
-      storeActions.setURL(config().url);
+    // Server URL set in the config file.
+    const url = config().server?.url;
+
+    if (url) {
+      storeActions.setURL(url);
       storeActions.setActive(true);
     }
   });
