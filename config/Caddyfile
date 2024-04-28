@@ -1,6 +1,14 @@
 :80 {
 	root * /srv
 	encode gzip
+
+	handle_path /proxy/* {
+		reverse_proxy {$REVERSE_PROXY_UPSTREAM} {
+			# Required for HTTPS upstreams.
+			header_up Host {upstream_hostport}
+		}
+	}
+
 	file_server
 	try_files {path}.html
 }
