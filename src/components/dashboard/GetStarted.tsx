@@ -19,7 +19,7 @@ export default function GetStarted() {
         Get started by monitoring a new NATS server.
       </p>
       <div class="flex flex-col sm:flex-row justify-center gap-6 mt-6">
-        <For each={config().serversList}>
+        <For each={config().servers}>
           {(server) => (
             <Button
               color="secondary"

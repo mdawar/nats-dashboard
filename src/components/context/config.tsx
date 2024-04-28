@@ -16,6 +16,8 @@ export interface Server {
 export interface Config {
   /** Default NATS server. */
   server?: Server;
+  /** Default NATS servers list. */
+  servers: Server[];
   /**
    * Hide the server URL input.
    *
@@ -23,13 +25,11 @@ export interface Config {
    * Useful for instances monitoring a single NATS server.
    */
   hideServerInput: boolean;
-  /** Default NATS servers list. */
-  serversList: Server[];
 }
 
 const defaultConfig = {
   hideServerInput: false,
-  serversList: [
+  servers: [
     {
       name: 'localhost',
       url: 'http://localhost:8222',

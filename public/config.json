@@ -1,5 +1,5 @@
 {
-  "serversList": [
+  "servers": [
     {
       "name": "localhost",
       "url": "http://localhost:8222"
