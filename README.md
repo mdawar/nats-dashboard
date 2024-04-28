@@ -214,8 +214,12 @@ npm start
 
 ```sh
 # Start a local NATS server using Docker compose
+just server
+# Or
 make server
 # Remove containers and volumes
+just clean
+# Or
 make clean
 ```
 
@@ -250,6 +254,8 @@ SITE_DOMAIN=https://example.com npm run build
 Build using Docker compose:
 
 ```sh
+just build
+# Or
 make build
 # Or
 docker compose build
@@ -272,6 +278,8 @@ Build the Docker image and run the server on http://localhost:8000 with a NATS s
 This is useful for testing **SSG** and the **PWA** config (eg: service worker).
 
 ```sh
+just preview
+# Or
 make preview
 # Or
 docker compose build && docker compose up
@@ -283,6 +291,8 @@ Cleanup:
 
 ```sh
 # Remove containers and volumes
+just clean
+# Or
 make clean
 # Or
 docker compose down -v
@@ -302,7 +312,7 @@ The service worker is generated after the site is built, it's available at `src/
 
 The service worker is registered only in production mode by the script `src/sw-register.ts` that's imported by the base layout at `src/layouts/Base.astro`.
 
-To test locally, use `make preview` to build the Docker container and run a Caddy server similar to a production environment.
+To test locally, use `just preview` to build the Docker container and run a Caddy server similar to a production environment.
 
 #### Generate the Service Worker
 
