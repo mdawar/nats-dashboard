@@ -54,6 +54,141 @@ Serving using Caddy server:
 docker run --rm -it -p 8000:80 -v ./dist:/usr/share/caddy caddy
 ```
 
+## Configuration
+
+The app uses a runtime JSON config file served at `/config.json`.
+
+You can run the Docker image and mount the `config.json` file at `/srv/config.json`.
+
+#### Configuration Options
+
+| Name              | Type       | Description                                 |
+| ----------------- | ---------- | ------------------------------------------- |
+| `server`          | `Server`   | Default NATS server to monitor.             |
+| `servers`         | `Server[]` | List of NATS servers to suggest in the app. |
+| `hideServerInput` | `boolean`  | Hide the server URL input.                  |
+
+The `Server` type definition:
+
+```ts
+interface Server {
+  /** Server display name (Optional). */
+  name?: string;
+  /** Server URL. */
+  url: string;
+}
+```
+
+#### Example Config File
+
+```json
+{
+  "server": {
+    "name": "My NATS Server",
+    "url": "http://nats:8222"
+  },
+  "servers": [
+    {
+      "name": "localhost",
+      "url": "http://localhost:8222"
+    },
+    {
+      "name": "demo.nats.io",
+      "url": "https://demo.nats.io:8222"
+    }
+  ],
+  "hideServerInput": false
+}
+```
+
+#### Single Server Config Example
+
+This configuration is suitable for monitoring a single NATS server.
+
+```json
+{
+  "server": {
+    "name": "My NATS Server",
+    "url": "http://nats:8222"
+  },
+  "hideServerInput": true
+}
+```
+
+## Internal NATS Servers
+
+The app can monitor NATS servers accessible to the user only, so any NATS servers accessible on your network can be monitored.
+
+To monitor NATS servers on a private network, you can run your own instance of the app using the Docker image and configure a reverse proxy to the NATS monitoring server.
+
+Example Docker compose configuration:
+
+```yml
+services:
+  # Internal NATS server.
+  server:
+    image: nats:2.10
+    command: -n internal-server -m 8222 -js
+
+  # NATS dashboard instance running on the same private network.
+  dashboard:
+    image: mdawar/nats-dashboard
+    environment:
+      # The NATS monitoring server will be proxied on /proxy/* on the frontend.
+      # See: config/Caddyfile for the reverse proxy configuration.
+      REVERSE_PROXY_UPSTREAM: 'server:8222'
+    volumes:
+      # Optional config file.
+      - ./config.json:/srv/config.json
+    ports:
+      - target: 80
+        published: 8000
+        protocol: tcp
+```
+
+Now when using the app you can monitor this private NATS server using the path `/proxy/` on the same domain.
+
+This is an example `config.json` file to set the default URL and disable the URL input:
+
+```json
+{
+  "server": {
+    "name": "Internal Server",
+    "url": "https://natsdashboard.example.com/proxy/"
+  },
+  "hideServerInput": true
+}
+```
+
+Replace the server `url` with the actual NATS dashboard URL.
+
+**Warning**: Your NATS monitoring server will be exposed to the public, you will have to make sure that you secure your NATS dashboard instance.
+
+## Limitations
+
+#### Mixed Content
+
+> An HTTPS page that includes content fetched using cleartext HTTP is called a mixed content page.
+
+If the app is served over `HTTPS` you won't be able to monitor NATS servers served over `HTTP` (Most browsers block mixed content).
+
+This is the case when using the app hosted on https://natsdashboard.com.
+
+**Note**: This does not affect NATS servers running on `localhost`.
+
+**Solutions**:
+
+1. Serve the NATS monitoring server over `HTTPS`.
+2. Reverse proxy the monitoring server on `localhost` (Browsers allow locally delivered mixed content).
+
+For example:
+
+```sh
+# Reverse proxy a NATS monitoring server on localhost:8222.
+# Now http://localhost:8222 can be used to monitor the server without it being blocked by the browser.
+docker run --rm -it --net host caddy caddy reverse-proxy --from http://localhost:8222 --to http://example.com:8222
+```
+
 ## Development
 
 #### Requirements
