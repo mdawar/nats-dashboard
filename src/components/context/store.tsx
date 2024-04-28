@@ -1,24 +1,28 @@
 import { createStore } from 'solid-js/store';
 import { createContext, useContext, type ParentProps } from 'solid-js';
 
+import type { Server } from '~/components/context/config';
+
 interface StoreState {
-  url: string;
+  server: Server;
   active: boolean;
 }
 
 interface StoreActions {
   setActive(active: boolean): void;
   toggleActive(): void;
+  setServer(server: Server): void;
   setURL(url: string): void;
 }
 
 const defaultStore: StoreState = {
-  url: '',
+  server: { url: '' },
   active: false,
 };
 
 const defaultActions: StoreActions = {
   setActive() {},
+  setServer() {},
   setURL() {},
   toggleActive() {},
 };
@@ -45,8 +49,12 @@ export function StoreProvider(props: ParentProps<Props>) {
       setState('active', (a) => !a);
     },
 
+    setServer(server: Server) {
+      setState('server', server);
+    },
+
     setURL(url: string) {
-      setState('url', url);
+      setState('server', 'url', url);
     },
   };
 

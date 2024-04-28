@@ -18,7 +18,7 @@ export default function InputHeader() {
   const toggleMonitor = async (e: Event) => {
     e.preventDefault();
 
-    if (store.url.trim() !== '') {
+    if (store.server.url.trim() !== '') {
       storeActions.toggleActive();
     } else {
       notify({
@@ -43,7 +43,7 @@ export default function InputHeader() {
       ></div>
 
       <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <Show when={config().server?.name}>
+        <Show when={store.server.name}>
           {(name) => (
             <p class="flex items-center text-sm font-semibold text-gray-900 dark:text-white">
               {name()}

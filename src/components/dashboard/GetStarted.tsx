@@ -24,7 +24,7 @@ export default function GetStarted() {
             <Button
               color="secondary"
               onClick={() => {
-                actions.setURL(server.url);
+                actions.setServer(server);
                 actions.setActive(true);
               }}
             >

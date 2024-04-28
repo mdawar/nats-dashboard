@@ -12,11 +12,9 @@ export default function Root(props: ParentProps) {
   const [_, storeActions] = useStore();
 
   createEffect(() => {
-    // Server URL set in the config file.
-    const url = config().server?.url;
-
-    if (url) {
-      storeActions.setURL(url);
+    // Default server set in the config file.
+    if (config().server) {
+      storeActions.setServer(config().server!);
       storeActions.setActive(true);
     }
   });

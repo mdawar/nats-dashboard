@@ -23,10 +23,10 @@ export function useVarz() {
   const queryClient = useQueryClient();
 
   return createQuery<APIResponses<'varz'>, Error, FormattedVarz>(() => ({
-    queryKey: [store.url, 'varz'],
+    queryKey: [store.server.url, 'varz'],
     queryFn: async ({ queryKey, signal }) => {
       const current = await fetchInfo({
-        url: store.url,
+        url: store.server.url,
         endpoint: 'varz',
         jsonp: settings.jsonp,
         signal,
@@ -62,10 +62,10 @@ export function useConnz(options?: () => ConnzOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery<APIResponses<'connz'>, Error, FormattedConnz>(() => ({
-    queryKey: [store.url, 'connz', optsMemo()],
+    queryKey: [store.server.url, 'connz', optsMemo()],
     queryFn: async ({ signal }) => {
       const current = await fetchInfo({
-        url: store.url,
+        url: store.server.url,
         endpoint: 'connz',
         args: optsMemo(),
         jsonp: settings.jsonp,
@@ -75,7 +75,7 @@ export function useConnz(options?: () => ConnzOptions) {
       const previous = getPrevQueryResponse<'connz'>({
         client: queryClient,
         // Use a partial query key to retrieve any previous data, regardless of the options.
-        queryKey: [store.url, 'connz'],
+        queryKey: [store.server.url, 'connz'],
         exact: false,
       });
 
@@ -93,7 +93,7 @@ export function useConnz(options?: () => ConnzOptions) {
     // when changing the fetch settings.
     initialData: () => {
       const data = queryClient.getQueriesData<APIResponses<'connz'>>({
-        queryKey: [store.url, 'connz'],
+        queryKey: [store.server.url, 'connz'],
         exact: false,
       });
 
@@ -114,10 +114,10 @@ export function useJsz(options?: () => JszOptions) {
   const optsMemo = createMemo(() => options?.());
 
   return createQuery<APIResponses<'jsz'>, Error, FormattedJsz>(() => ({
-    queryKey: [store.url, 'jsz', optsMemo()],
+    queryKey: [store.server.url, 'jsz', optsMemo()],
     queryFn: async ({ signal }) => {
       const current = await fetchInfo({
-        url: store.url,
+        url: store.server.url,
         endpoint: 'jsz',
         args: optsMemo(),
         jsonp: settings.jsonp,
@@ -140,7 +140,7 @@ export function useJsz(options?: () => JszOptions) {
     initialData: () => {
       // Returns found queries as arrays of [queryKey, data].
       const data = queryClient.getQueriesData<APIResponses<'jsz'>>({
-        queryKey: [store.url, 'jsz'],
+        queryKey: [store.server.url, 'jsz'],
         exact: false, // We want a partial queryKey match.
       });
 

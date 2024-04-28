@@ -31,7 +31,7 @@ export default function ServerForm(props: Props) {
   });
 
   createEffect(() => {
-    setParams({ url: store.url });
+    setParams({ url: store.server.url });
   });
 
   return (
@@ -48,7 +48,7 @@ export default function ServerForm(props: Props) {
         type="url"
         spellcheck={false}
         list="url-list"
-        value={store.url}
+        value={store.server.url}
         onInput={(e) => {
           storeActions.setURL(e.target.value);
         }}
