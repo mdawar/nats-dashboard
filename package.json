@@ -18,33 +18,33 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@astrojs/check": "^0.5.4",
-    "@astrojs/sitemap": "^3.0.5",
-    "@astrojs/solid-js": "^3.0.2",
+    "@astrojs/check": "^0.5.10",
+    "@astrojs/sitemap": "^3.1.4",
+    "@astrojs/solid-js": "^4.1.0",
     "@astrojs/tailwind": "^5.1.0",
     "@solidjs/router": "^0.13.2",
-    "@tailwindcss/typography": "^0.5.10",
-    "@tanstack/solid-query": "^5.20.5",
-    "@tanstack/solid-query-devtools": "^5.20.5",
-    "astro": "^4.3.6",
+    "@tailwindcss/typography": "^0.5.13",
+    "@tanstack/solid-query": "^5.32.0",
+    "@tanstack/solid-query-devtools": "^5.32.0",
+    "astro": "^4.7.0",
     "date-fns": "^2.30.0",
-    "solid-js": "^1.8.7",
+    "solid-js": "^1.8.17",
     "solid-transition-group": "^0.2.3",
-    "tailwindcss": "^3.4.1"
+    "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
     "astro-webmanifest": "^1.0.0",
     "prettier": "^3.2.5",
     "prettier-plugin-astro": "^0.13.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.1",
-    "vitest": "^1.2.2",
-    "workbox-build": "^7.0.0",
-    "workbox-core": "^7.0.0",
-    "workbox-precaching": "^7.0.0",
-    "workbox-recipes": "^7.0.0",
-    "workbox-routing": "^7.0.0",
-    "workbox-strategies": "^7.0.0"
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10",
+    "vitest": "^1.5.2",
+    "workbox-build": "^7.1.0",
+    "workbox-core": "^7.1.0",
+    "workbox-precaching": "^7.1.0",
+    "workbox-recipes": "^7.1.0",
+    "workbox-routing": "^7.1.0",
+    "workbox-strategies": "^7.1.0"
   }
 }

@@ -25,5 +25,5 @@ const { path } = Astro.params;
   }}
   pathname="/"
 >
-  <DashboardApp url={path ?? '/'} client:load />
+  <DashboardApp url={path ?? '/'} client:only="solid-js" />
 </Layout>
