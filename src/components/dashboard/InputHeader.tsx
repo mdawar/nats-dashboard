@@ -51,7 +51,7 @@ export default function InputHeader() {
           )}
         </Show>
         <Show when={!config().hideServerInput}>
-          <ServerForm onSubmit={toggleMonitor} />
+          <ServerForm onSubmit={toggleMonitor} servers={config().servers} />
         </Show>
 
         <div class="flex items-center gap-x-4 lg:gap-x-6 ml-auto">
