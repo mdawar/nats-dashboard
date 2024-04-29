@@ -53,7 +53,7 @@ export default function ConnectionItem(props: Props) {
   };
 
   return (
-    <ListItem class="relative flex flex-col sm:flex-row md:items-center gap-4">
+    <ListItem class="relative flex flex-col md:flex-row md:items-center gap-6">
       <div class="min-w-0 flex-auto">
         <div class="flex items-center gap-x-3">
           <Indicator color={indicator()} />
