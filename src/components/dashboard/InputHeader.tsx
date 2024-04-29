@@ -45,7 +45,15 @@ export default function InputHeader() {
       <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <Show when={store.server.name}>
           {(name) => (
-            <p class="flex items-center text-sm font-semibold text-gray-900 dark:text-white">
+            <p
+              class="items-center text-sm font-semibold text-gray-900 dark:text-white"
+              classList={{
+                // Hide the server name on small screens.
+                'hidden sm:flex': !config().hideServerInput,
+                // Always show the server name if the URL input is hidden.
+                flex: config().hideServerInput,
+              }}
+            >
               {name()}
             </p>
           )}
