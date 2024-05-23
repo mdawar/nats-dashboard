@@ -1,0 +1,21 @@
+services:
+  server:
+    image: nats:2.10
+    command: -n internal-server -m 8222 -js
+
+  dashboard:
+    image: mdawar/nats-dashboard
+    # See the Caddyfile for how these env vars are used.
+    environment:
+      # Make the internal server available at /proxy on the dashboard.
+      REVERSE_PROXY_UPSTREAM: 'server:8222'
+      NATS_SERVER_NAME: 'Local NATS Server'
+      # Use the reverse proxy URL to monitor the internal NATS server.
+      NATS_SERVER_URL: 'http://localhost:8000/proxy/'
+    volumes:
+      # Replace the container's server config.
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - target: 80
+        published: 8000
+        protocol: tcp

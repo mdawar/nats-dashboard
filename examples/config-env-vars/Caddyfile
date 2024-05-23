@@ -1,0 +1,28 @@
+:80 {
+	root * /srv
+	encode gzip
+
+	handle_path /proxy/* {
+		reverse_proxy {$REVERSE_PROXY_UPSTREAM} {
+			# Required for HTTPS upstreams.
+			header_up Host {upstream_hostport}
+		}
+	}
+
+	# Provide the app config from environment variables.
+	handle /config.json {
+		header Content-Type application/json
+		respond <<JSON
+			{
+				"server": {
+					"name": "{$NATS_SERVER_NAME}",
+					"url": "{$NATS_SERVER_URL}"
+				},
+				"hideServerInput": true
+			}
+			JSON 200
+	}
+
+	file_server
+	try_files {path}.html
+}
